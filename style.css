@@ -1,0 +1,231 @@
+
+/** Colours for specific lines taken from http://www.tfl.gov.uk/assets/downloads/corporate/tfl-colour-standard-issue03.pdf **/
+.bakerloo h3, .line_bakerloo #lucos_navbar, .interchanges .bakerloo { color:#FFF!important; background-color:#996633!important; }
+.central h3, .line_central #lucos_navbar, .interchanges .central { color:#FFF!important; background-color:#CC3333!important; }
+.circle h3, .line_circle #lucos_navbar, .interchanges .circle { color:#113B92!important; background-color:#FFCC00!important; }
+.district h3, .line_district #lucos_navbar, .interchanges .district { color:#FFF!important; background-color:#006633!important; }
+.hammersmithcity h3, .line_hammersmithcity #lucos_navbar, .interchanges .hammersmithcity { color:#113B92!important; background-color:#CC9999!important; }
+.jubilee h3, .line_jubilee #lucos_navbar, .interchanges .jubilee { color:#FFF!important; background-color:#868F98!important; }
+.metropolitan h3, .line_metropolitan #lucos_navbar, .interchanges .metropolitan { color:#FFF!important; background-color:#660066!important; }
+.northern h3, .line_northern #lucos_navbar, .interchanges .northern { color:#FFF!important; background-color:#000000!important; }
+.piccadilly h3, .line_piccadilly #lucos_navbar, .interchanges .piccadilly { color:#FFF!important; background-color:#000099!important; }
+.victoria h3, .line_victoria #lucos_navbar, .interchanges .victoria { color:#FFF!important; background-color:#0099CC!important; }
+.waterloocity h3, .line_waterloocity #lucos_navbar, .interchanges .waterloocity { color:#113B92!important; background-color:#66CCCC!important; }
+.overground h3, .line_overground #lucos_navbar, .interchanges .overground { color:#FFF!important; background-color:#FF6600!important; }
+.dlr h3, .line_dlr #lucos_navbar, .interchanges .dlr { color:#FFF!important; background-color:#009999!important; }
+
+/** These colours used on TFL website and API are wrong **/
+/*.bakerloo h3, .line_bakerloo #lucos_navbar { color:#FFF!important; background-color:#AE6118!important; }
+.central h3, .line_central #lucos_navbar { color:#FFF!important; background-color:#E41F1F!important; }
+.circle h3, .line_circle #lucos_navbar { color:#113B92!important; background-color:#F8D42D!important; }
+.district h3, .line_district #lucos_navbar { color:#FFF!important; background-color:#00A575!important; }
+.hammersmithcity h3, .line_hammersmithcity #lucos_navbar { color:#113B92!important; background-color:#E899A8!important; }
+.jubilee h3, .line_jubilee #lucos_navbar { color:#FFF!important; background-color:#8F989E!important; }
+.metropolitan h3, .line_metropolitan #lucos_navbar { color:#FFF!important; background-color:#893267!important; }
+.northern h3, .line_northern #lucos_navbar { color:#FFF!important; background-color:#000000!important; }
+.piccadilly h3, .line_piccadilly #lucos_navbar { color:#FFF!important; background-color:#0450A1!important; }
+.victoria h3, .line_victoria #lucos_navbar { color:#FFF!important; background-color:#009FE0!important; }
+.waterloocity h3, .line_waterloocity #lucos_navbar { color:#113B92!important; background-color:#70C3CE!important; }
+.overground h3, .line_overground #lucos_navbar { color:#FFF!important; background-color:#F86C00!important; }
+.dlr h3, .line_dlr #lucos_navbar { color:#FFF!important; background-color:#00BBB4!important; }*/
+
+
+/** Colours for comibinations of lines **/
+.district_hammersmithcity h3 { color:#113B92; text-shadow: #FFF 0 0 5px; -webkit-background-size: 50px 50px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #006633), color-stop(.25, #CC9999), color-stop(.5, #CC9999), color-stop(.5, #006633), color-stop(.75, #006633), color-stop(.75, #CC9999), to(#CC9999));
+background: -webkit-repeating-linear-gradient(45deg, #006633 25px, #CC9999 25px, #CC9999 25px, #006633 25px, #006633 25px, #CC9999 25px, #CC9999 25px); 
+
+}
+.circle_district h3 { color:#113B92; text-shadow: #FFF 0 0 5px; -webkit-background-size: 50px 50px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #006633), color-stop(.25, #FFCC00), color-stop(.5, #FFCC00), color-stop(.5, #006633), color-stop(.75, #006633), color-stop(.75, #FFCC00), to(#FFCC00)); }
+.hammersmithcity_metropolitan h3 { color:#113B92; text-shadow: #FFF 0 0 5px; -webkit-background-size: 50px 50px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #660066), color-stop(.25, #CC9999), color-stop(.5, #CC9999), color-stop(.5, #660066), color-stop(.75, #660066), color-stop(.75, #CC9999), to(#CC9999)); }
+.circle_hammersmithcity h3 { color:#113B92; text-shadow: #FFF 0 0 5px; -webkit-background-size: 50px 50px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #CC9999), color-stop(.25, #FFCC00), color-stop(.5, #FFCC00), color-stop(.5, #CC9999), color-stop(.75, #CC9999), color-stop(.75, #FFCC00), to(#FFCC00)); }
+.metropolitan_piccadilly h3 { color:#FFF; -webkit-background-size: 50px 50px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #660066), color-stop(.25, #000099), color-stop(.5, #000099), color-stop(.5, #660066), color-stop(.75, #660066), color-stop(.75, #000099), to(#000099)); }
+.jubilee_metropolitan h3 { color:#FFF; -webkit-background-size: 50px 50px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #660066), color-stop(.25, #8F989E), color-stop(.5, #8F989E), color-stop(.5, #660066), color-stop(.75, #660066), color-stop(.75, #8F989E), to(#8F989E)); }
+.district_piccadilly h3 { color:#FFF; -webkit-background-size: 50px 50px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #006633), color-stop(.25, #000099), color-stop(.5, #000099), color-stop(.5, #006633), color-stop(.75, #006633), color-stop(.75, #000099), to(#000099)); }
+.circle_hammersmithcity_metropolitan h3 { color:#113B92; text-shadow: #FFF 0 0 5px; -webkit-background-size: 50px 50px;
+background: -webkit-gradient(linear, 0 0, 100% 100%, 
+	color-stop(.15, #660066),
+	color-stop(.15, #CC9999),
+	color-stop(.35, #CC9999),
+	color-stop(.35, #FFCC00), 
+	color-stop(.5, #FFCC00), 
+	color-stop(.5, #660066), 
+	color-stop(.65, #660066), 
+	color-stop(.65, #CC9999),
+	color-stop(.85, #CC9999),
+	color-stop(.85, #FFCC00), 
+	to(#FFCC00)); 
+}
+/* In real life no station serves all three of these lines, but TFL's data isn't real life */
+.circle_district_hammersmithcity h3 { color:#113B92; text-shadow: #FFF 0 0 5px; -webkit-background-size: 50px 50px;
+background: -webkit-gradient(linear, 0 0, 100% 100%, 
+	color-stop(.15, #CC9999),
+	color-stop(.15, #FFCC00),
+	color-stop(.35, #FFCC00),
+	color-stop(.35, #006633), 
+	color-stop(.5, #006633), 
+	color-stop(.5, #CC9999), 
+	color-stop(.65, #CC9999), 
+	color-stop(.65, #FFCC00),
+	color-stop(.85, #FFCC00),
+	color-stop(.85, #006633), 
+	to(#006633)); 
+}
+.district_hammersmithcity_metropolitan h3 { color:#113B92; text-shadow: #FFF 0 0 5px; -webkit-background-size: 50px 50px;
+background: -webkit-gradient(linear, 0 0, 100% 100%, 
+	color-stop(.15, #660066),
+	color-stop(.15, #CC9999),
+	color-stop(.35, #CC9999),
+	color-stop(.35, #006633), 
+	color-stop(.5, #006633), 
+	color-stop(.5, #660066), 
+	color-stop(.65, #660066), 
+	color-stop(.65, #CC9999),
+	color-stop(.85, #CC9999),
+	color-stop(.85, #006633), 
+	to(#006633)); 
+}
+
+/** General **/
+body { background: #ccf; margin: 0; min-height: 100%; position: absolute; width: 100%; padding-bottom: 2em; box-sizing: border-box; }
+.line a, a.line { text-decoration: none; }
+.line h3 { text-decoration: none; text-align: center; padding: 0.1em; clear: both; }
+.line .status {font-weight: bold; }
+.line .status, .line .details { margin: 0 2em; }
+.stationlines { overflow: hidden; }
+.stationlines .line { width: 400px; float:left; clear: both; }
+.stationlines .line h3 { margin: 3px; }
+#footer { background: #999; color: #fff; position: absolute; bottom: 0; left: 0; right: 0; padding: 0 1em; }
+.nofooter #footer { display: none; }
+#content { margin: 1em; }
+
+/* buttons */
+.innertext { display: block; }
+.line h3, .platform_name, .overview { border-radius: 1em; overflow: hidden; }
+.innertext, .overview { background-image: -webkit-gradient(linear, 0 100%, 0 0, color-stop(0, transparent), color-stop(0.15, transparent), color-stop(0.9, rgba(255, 255, 255, 0.4))); }
+.line h3:active .innertext, .overview:active { background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(0, transparent), color-stop(0.15, transparent), color-stop(0.9, rgba(255, 255, 255, 0.4))); }
+
+/* fonts (as used by TFL) */
+body{
+  	font-family:Verdana, Arial, Helvetica, sans-serif;
+}
+h1, h2, h3{
+  	font-family: Arial, Helvetica, sans-serif;
+}
+
+/** Error pages **/
+.errorscreen { color: #502; font-size: 2em; text-align: center; }
+.errorscreen div:before { content: "Error: "; color: red }
+
+/** Home Page **/
+.overview { display: inline; padding: 0.2em 0.5em; margin: 0.5em 0; cursor: help; background-color: #ccc; font-weight: bold; float: left; }
+
+.maplink { font-size: 30px; color: #ccc; font-weight: bold; background: url('/maps/img/icon') no-repeat center; float: right; width: 100px; text-align: center; padding: 35px 0; text-shadow: 0 0 10px black; text-decoration: none; margin-right: 100px; }
+.maplink:hover { text-shadow: 0 0 30px black; }
+
+/** Line Pages **/
+.station {
+	list-style-image: url('/img/roundel-tube');
+	font-size: 2.5em;
+	zoom: 0.8;
+}
+.station a {
+	color: inherit;
+	text-decoration: none;
+}
+.station a:hover {
+	text-decoration: underline;
+}
+
+/** Station Pages **/
+.platform_name .innertext {
+	padding: 0 10px;
+}
+.unused .platform_name .innertext{
+	background: transparent;
+	color: #AAA;
+}
+.departure_board { background: black; width: 100%; border: solid 6px #444; border-radius: 1em; margin: 0 auto;
+				background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(.0, transparent), color-stop(.0, rgba(255,255,255,0.2)), color-stop(.1, rgba(255,255,255,0.2)), color-stop(.1, transparent), color-stop(.5, transparent), color-stop(.5, rgba(255,255,255,0.2)), color-stop(.6, rgba(255,255,255,0.2)), color-stop(.6, transparent));
+				-webkit-background-size: 8px;
+				-moz-background-size: 8px;
+				font-family: led, monospace;
+	}
+.departure_board tr {
+				background-image: -webkit-gradient(linear, 0 0, 100% 0, color-stop(.0, transparent), color-stop(.0, rgba(255,255,255,0.2)), color-stop(.1, rgba(255,255,255,0.2)), color-stop(.1, transparent), color-stop(.5, transparent), color-stop(.5, rgba(255,255,255,0.2)), color-stop(.6, rgba(255,255,255,0.2)), color-stop(.6, transparent));
+				-webkit-background-size: 8px;
+				-moz-background-size: 8px;
+	}
+.departure_board a { text-decoration: none; padding: 0 1em; display: block; color: #FFC600; line-height: 20px; }
+.departure_board .ghost a { 
+				opacity: 0.4;
+				pointer-events: none;
+				cursor: default; }
+.departure_board .departtime { float: right }
+@font-face
+{
+	font-family: led;
+	src: url('/fonts/led');
+}
+@media (min-width: 750px) {
+	.departure_board { width: 700px; }
+	.platform_name { width: 700px; margin: 1.5em auto 0.5em; }
+}
+
+/** Train pages see http://www.tfl.gov.uk/assets/downloads/corporate/tfl-line-diagram-standard-issue03.pdf **/
+.journey { position: absolute; margin: 10px 0; }
+.journey .journeyname { width: 1ex; position: absolute; left: 31px; margin: 0; top: 0.7ex; bottom: 0.9ex; box-sizing: border-box; }
+.journey .journeyname .linename, .journey .continues .destination { display: none; }
+.journey .continues { width: 4ex; overflow: hidden; height: 4ex; position: relative; padding: 0; margin-left: -2.5ex; }
+.journey .continues:after { content: " "; display: block; height: 3ex; width: 3ex; border: solid 1ex; border-top: none; border-left: none; -webkit-transform: rotate(45deg); bottom: 1ex; position: absolute; }
+
+/* List of stops */
+.route { margin: 0; list-style-type: none; }
+
+/* Normal stops */
+.route > .stop { color: #000099; margin: 3ex 0; font-weight: 550; margin-left: 1.6ex; }
+.route > .stop a { text-decoration: none; color: inherit; }
+.route > .stop:before { content: ' '; height: 0; width: 0.66ex; display: block; border-top: solid 0.66ex; float: left; margin-right: 1ex; margin-top: 0.8ex; position: relative;}
+.route > .stop:not(.interchange):before { margin-left: -1.6ex;}
+
+/* Interchanges */
+.route > .stop.interchange { overflow: hidden; }
+.route > .stop.interchange:before { height: 2ex; width: 2ex; background: white; border: solid 0.5ex black!important; border-radius: 1.5ex; margin-left: -3.5ex; position: absolute; margin-top: -0.5ex; }
+
+/* Terminuses */
+.route > .stop:not(.interchange):first-child, .route > .stop:not(.interchange):last-child { margin-top: 0; margin-bottom: 0; }
+.route > .stop:first-child { margin-top: 0; }
+.route > .stop:last-child { margin-bottom: 0; height: 1.2em;}
+.route > .stop:not(.interchange):first-child:before, .route > .stop:not(.interchange):last-child:before { width: 2.32ex; margin-left: -3.26ex; }
+
+.bakerloo .route > .stop:before, .bakerloo .continues:after { border-color:#996633; }
+.central .route > .stop:before, .central .continues:after { border-color:#CC3333; }
+.circle .route > .stop:before, .circle .continues:after { border-color:#FFCC00; }
+.district .route > .stop:before, .district .continues:after { border-color:#006633; }
+.hammersmithcity .route > .stop:before, .hammersmithcity .continues:after { border-color:#CC9999; }
+.jubilee .route > .stop:before, .jubilee .continues:after{ border-color:#868F98; }
+.metropolitan .route > .stop:before, .metropolitan .continues:after { border-color:#660066; }
+.northern .route > .stop:before, .northern .continues:after { border-color:#000000; }
+.piccadilly .route > .stop:before, .piccadilly .continues:after { border-color:#000099; }
+.victoria .route > .stop:before, .victoria .continues:after { border-color:#0099CC; }
+.waterloocity .route > .stop:before, .waterloocity .continues:after { border-color:#66CCCC; }
+.overground .route > .stop:before, .overground .continues:after { border-color:#FF6600; }
+.dlr .route > .stop:before, .dlr .continues:after { border-color:#009999; }
+
+.stop > .symbol { height: 1em; margin: 0 1ex; }
+
+.interchanges { width: 10ex; font-weight: bold; text-align: center; list-style-type: none; float: right; margin: 0 2ex; padding: 0; }
+.interchanges > li { font-size: 0.5em; line-height: 3ex; border: solid 1px; color: black; background: white; min-height: 1em; padding: 0 1ex; }
+.interchanges > .tube { border: none; }
+.interchanges .symbol { height: 1em; margin: 0.5ex; float: left; }
+.route > .stop:last-child .interchanges { position: absolute; right: 0; } /* In case it overflows its containing box */
+
+/** Navigation **/
+.nav { font-weight: bold; padding: 5px; font-size: 1em; color: #555; border-radius: 10px; display: block; text-decoration: none; margin-bottom: 5px; }
+.nav:hover { text-decoration: underline overline; }
+
+/** Maps **/
+#maplist { list-style-type: none; }
+#maplist > li {  }
+#maplist a { text-decoration: none; color: inherit; }
+#maplist a:hover { font-weight: bold; }
+

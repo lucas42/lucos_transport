@@ -1,0 +1,21 @@
+Bugs
+* Chesham station missing from PredictionDetailed method.
+* District / Circle Line stations between Paddington Circle and Notting Hill Gate missing from PredictionDetailed method.
+* Hammersmith & City / Circle Line station between Paddington H & C and Ladbroke Grove missing from PredictionDetailed method.
+* Hammersmith & City / Circle Line stations between Latimer Road and Goldhawk Road missing from PredictionDetailed and PredictionSummary methods.
+* Barking station appears in Metropolitan line PredictionSummary method.
+* District line trains between Tower Hill and Gloucester Road also appear in Hammersmith & City and Circle feeds.
+* Piccadilly line trains showing on District line platforms between Hammersmith and Acton Town.
+* Some trains report a setNo of 0 in the API despite having a number on the front of the train in real life.
+* Some trains report a Destination which is just the name of a line, rather than an actual station.
+
+Documentation issues
+* It isn't clear whether setNo is unique to the network as a whole or just to a specific line or rolling stock.
+* It isn't clear what TripNo actually means - seems to imply that it's unique for each route, but these IDs appear to change over time.
+
+Feature requests
+* Don't round secondsTo in PredictionSummary to nearest 30 seconds.  At the moment to get precise data for all lines one has to query PredictionDetailed for every station individually.
+* Split up Circle and H & C lines for PredictionSummary and PredictionDetailed methods.
+* Use same line identifiers across all API methods (Currently LineStatus uses different IDs than.PredictionSummary and PredictionDetailed).
+* Include DLR and Overground data for all API methods, not just LineStatus.
+* A public bug tracker for the APIs.

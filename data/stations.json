@@ -1,0 +1,59 @@
+{
+	"WMS": {
+		"landmarks": [
+			"Palace of Westminster",
+			"Westminster Abbey",
+			"Westminster Cathedral"
+		]
+	},
+	"WDN": {
+		"landmarks": [
+			"That Tennis Place"
+		]
+	},
+	"SBC": {
+		"landmarks": [
+			"Westfield"
+		]
+	},
+	"TCR": {
+		"landmarks": [
+			"Pub Standards",
+		]
+	},
+	"STB": {
+		"landmarks": [
+		]
+	},
+	"SWK": {
+		"landmarks": [
+		]
+	},
+	"COV": {
+		"landmarks": [
+		]
+	},
+	"ARC": {
+		"landmarks": [
+		]
+	},
+	"HIG": {
+		"landmarks": [
+		]
+	},
+	"LON": {
+		"landmarks": [
+			"Borough Market"
+		]
+	},
+	"CTN": {
+		"landmarks": [
+			"Camden Markets"
+		]
+	},
+	"LBG": {
+		"landmarks": [
+			"Portabello Market"
+		]
+	}
+}

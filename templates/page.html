@@ -1,0 +1,20 @@
+<html manifest="/travel.manifest">
+<head>
+	<title>LucOS Travel</title>
+	<script type='text/javascript' src='http://l42.eu/bootloader'></script>
+	<meta name="viewport" content="initial-scale=1.0" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<link rel="apple-touch-icon" href="/img/icon"/>
+</head>
+<body{{#cssClass}} class='{{cssClass}}'{{/cssClass}}>
+
+	<div id='content'>
+		{{#parent}}
+			<a href="{{link}}" class='nav'>&lt; Back to {{name}}</a>
+		{{/parent}}
+		
+		{{{content}}}
+	</div>
+	<footer id='footer'></footer>
+</body>
+</html>

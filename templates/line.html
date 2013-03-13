@@ -1,0 +1,12 @@
+<a href="/tube/" class="nav">&lt;- Back to all lines</a>
+
+	<ul>
+	{{#stations}}
+		<li class="station">
+			<a href="{{link}}">{{name}}</a>
+		</li>
+	{{/stations}}
+	{{^stations}}
+		<li class="station nostation">Sorry, data for this line is unavailable</li>
+	{{/stations}}
+	</ul>

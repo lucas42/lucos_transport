@@ -1,0 +1,22 @@
+{{^connected}}<a href="/tube/" class="nav">&lt;- Back to all lines</a>{{/connected}}
+
+	<!--<div class='stationlines'>
+		{{#lines}}
+				<a href="{{link}}" class="line {{cssClass}}"><h3>{{name}}</h3></a>
+		{{/lines}}
+	</div>-->
+	{{#platforms}}
+		<div class="platform {{cssClass}}">
+			<h3 class='platform_name'><span class='innertext'>{{name}}</span></h3>
+			<table class='departure_board'>
+			<tbody>
+				{{#trains}}
+					<tr class="train{{#ghost}} ghost{{/ghost}}" data-line="{{line}}" data-route="{{route}}">
+						<td><a href="{{link}}">{{Destination}}</a></td>
+						<td><a href="{{link}}" class='departtime' data-timestamp='{{timestamp}}'>{{#now}}now{{/now}}{{^now}}{{SecondsTo}} seconds{{/now}}</a></td>
+					</tr>
+				{{/trains}}
+			</tbody>
+			</table>
+		</div>
+	{{/platforms}}

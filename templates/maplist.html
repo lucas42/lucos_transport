@@ -1,0 +1,11 @@
+
+{{> header}}
+<a href="/" class="nav">&lt;- Back to travel</a>
+<ul id="maplist">
+	{{#maps}}
+		<li><a href="/maps/{{path}}">{{name}}</a></li>
+	{{/maps}}
+		<li><a href="http://stations.aeracode.org/">3D Station Maps (not available offline)</a></li>
+</ul>
+
+{{> footer}}

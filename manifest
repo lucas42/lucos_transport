@@ -1,0 +1,24 @@
+CACHE MANIFEST
+# Version: 19
+NETWORK:
+/resources
+/data
+http://auth.l42.eu/whoami
+CACHE:
+#/favicon.ico
+http://l42.eu/bootloader
+http://l42.eu/logo.png
+http://l42.eu/cog.png
+/fonts/led
+/maps/
+/maps/img/icon
+/maps/img/becks-201112
+/maps/img/CartoMetroLondon.v2.5
+#/maps/img/nationalrail-201212
+/img/roundel-tube
+/img/icon
+/tube/fallback
+/tube/
+FALLBACK:
+/tube/ /tube/fallback
+/maps/ /maps/

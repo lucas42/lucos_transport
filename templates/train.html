@@ -1,0 +1,37 @@
+<a href="{{linelink}}" class="nav">&lt;- Back to {{linename}} Line</a>
+
+
+	<div id='train' data-line="{{line}}" data-destination="{{destination}}" data-nextstation="{{nextstation}}" data-nexttime="{{nexttime}}" data-nextstationcode="{{nextstationcode}}" class="{{cssClass}}">
+		<div class='destination'>Destination: {{destination}}</div>
+		<!--<div class='location'>Current Location: {{location}}</div>-->
+		<div class='journey'>
+			<h3 class='journeyname'><span class='linename'>{{line}} Line</span></h3>
+			<ul class='route'>
+			{{#stops}}
+				<li class="stop{{#isinterchange}} interchange{{/isinterchange}}">
+					{{#isinterchange}}
+						<ul class='interchanges'>
+						{{#interchanges}}
+							{{^ignore}}
+							<li class="{{type}} {{cssClass}}">
+								{{#symbol}}
+									<img src="{{symbol}}" alt="{{type}}" class="symbol" />
+								{{/symbol}}
+								{{title}}
+							</li>
+							{{/ignore}}
+						{{/interchanges}}
+						</ul>
+					{{/isinterchange}}
+					<a href="{{link}}" class='stoptime' data-timestamp='{{timestamp}}'>{{secondsTo}} seconds</a><a href="{{link}}"> &gt; {{#station}}{{name}}{{/station}} {{#platform}}{{name}}{{/platform}}</a>
+					{{#symbols}}
+						<img src="{{src}}" alt="{{alt}}" title="{{alt}}" class="symbol" />
+					{{/symbols}}
+				</li>
+			{{/stops}}
+			{{#continues}}
+				<li class='continues'><span class='destination'>Continues to {{destination}}</span></li>
+			{{/continues}}
+			</ul>
+		</div>
+	</div>
