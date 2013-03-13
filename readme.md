@@ -2,8 +2,10 @@
 A web app for keeping track of public transport, particularly on forms of transport where data connections are highly variable.
 
 ## Dependancies
-https://github.com/defunkt/mustache
-https://github.com/lucas42/lucos_core
+* ruby
+* [mustache (ruby implementation)](https://github.com/defunkt/mustache)
+* [mustache (js implementation)](http://github.com/janl/mustache.js) - currently bundled as a static file in the project
+* [lucos core](https://github.com/lucas42/lucos_core)
 
 ## Forms of transport currently supported:
 * London Underground
