@@ -17,10 +17,12 @@ class Network
 				@lines << Line.new(self, code, name)
 			}
 		end
+		Thread.new {
+			@lines << DLRLine.new(self, 'L', 'DLR')
+		}
 		update
 	end
 	def force_update
-		puts 'get linestatus'
 		statuses = {}
 		begin
 			response = Net::HTTP.get_response(URI.parse('http://cloud.tfl.gov.uk/TrackerNet/LineStatus'))
@@ -45,7 +47,7 @@ class Network
 			}
 		}
 		@statuses = statuses
-		@info[:status] = @statuses
+		update_info
 	end
 	def update_info
 		info = {
@@ -54,6 +56,7 @@ class Network
 			:destinations => {},
 			:lines => {},
 			:status => @statuses,
+			:expires => @expires,
 		}
 		@lines.each() { |line|
 			begin
@@ -70,7 +73,7 @@ class Network
 				}
 				info[:destinations].update(lineinfo[:destinations])
 				info[:lines].update(lineinfo[:lines])
-				if (info[:expires].nil? or  lineinfo[:expires] < info[:expires])
+				if (info[:expires].nil? or (!lineinfo[:expires].nil? and lineinfo[:expires] < info[:expires]))
 					info[:expires] = lineinfo[:expires]
 				end
 			rescue Exception => e

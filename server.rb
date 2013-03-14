@@ -11,8 +11,10 @@ require 'time'
 # classes
 require 'classes/network'
 require 'classes/line'
+require 'classes/dlrline'
 require 'classes/pseudoline'
 require 'classes/station'
+require 'classes/dlrstation'
 
 # controllers
 require 'controllers/wrapper'
@@ -67,7 +69,6 @@ tube = Network.new({
 		'W' => 'Waterloo & City',
 	}, {
 		'I' => 'Circle',
-		'L' => 'DLR',
 		'O' => 'Overground',
 	})
 
