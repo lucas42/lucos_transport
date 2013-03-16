@@ -16,7 +16,7 @@ class DLRLine < Line
 			puts 'Error parsing ' + @name +' line'
 			return
 		end
-		@expires = Time.now + 10*60
+		@expires = Time.now + 60
 		@validtime = Time.parse(response['Date'])
 		stations = {}
 		info = {
