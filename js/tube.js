@@ -226,12 +226,13 @@ function _renderStation(stationcode, connectedstation) {
 		platforms: [],
 		connected: !!connectedstation
 	};
+	var platforms = {};
 	for (code in station.p) {
-		renderdata.platforms[code] = {
-				name: station.p[code]+(connectedstation ? " ("+station.n+")":""),
-				trains: [],
-				classes: {},
-				used: false
+		platforms[code] = {
+			name: station.p[code]+(connectedstation ? " ("+station.n+")":""),
+			trains: [],
+			classes: {},
+			used: false
 		};
 	}
 	renderdata.lines = [];
@@ -247,8 +248,9 @@ function _renderStation(stationcode, connectedstation) {
 		if (tubedata.stops[ii].s != stationcode) continue;
 		secondsTo = tubedata.stops[ii].i - Math.round(lucos.getTime()/1000);
 		traindata = {};
-		renderdata.platforms[tubedata.stops[ii].p].used = true;
-		renderdata.platforms[tubedata.stops[ii].p].classes[tubedata.stops[ii].l] = tubedata.lines[tubedata.stops[ii].l].replace(/[ &]/g, '').toLowerCase();
+		
+		platforms[tubedata.stops[ii].p].used = true;
+		platforms[tubedata.stops[ii].p].classes[tubedata.stops[ii].l] = tubedata.lines[tubedata.stops[ii].l].replace(/[ &]/g, '').toLowerCase();
 		
 		if (secondsTo <= 0) traindata.now = true;
 		traindata.SecondsTo = secondsTo;
@@ -258,23 +260,23 @@ function _renderStation(stationcode, connectedstation) {
 		traindata.Destination = tubedata.destinations[tubedata.stops[ii].d];
 		traindata.line = tubedata.lines[tubedata.stops[ii].l];
 		traindata.route = tubedata.stops[ii].r;
-		renderdata.platforms[tubedata.stops[ii].p].trains.push(traindata);
+		platforms[tubedata.stops[ii].p].trains.push(traindata);
 	}
 	
 	// Join all the lines which use the platform together to make the CSS class
-	for (ii=0, ll=renderdata.platforms.length; ii<ll; ii++) {
-		if (!renderdata.platforms[ii]) continue; // Some platforms have non sequential platform numbers
+	for (ii in platforms) {
 		classes = [];
-		for (code in renderdata.platforms[ii].classes) {
-			classes.push(renderdata.platforms[ii].classes[code]);
+		for (code in platforms[ii].classes) {
+			classes.push(platforms[ii].classes[code]);
 		}
 		classes.sort();
 		cssClass = classes.join('_');
-		if (!cssClass) cssClass = renderdata.platforms[ii].used?'used':'unused';
-		renderdata.platforms[ii].cssClass = cssClass;
-		renderdata.platforms[ii].trains.sort(function (a, b) {
+		if (!cssClass) cssClass = platforms[ii].used?'used':'unused';
+		platforms[ii].cssClass = cssClass;
+		platforms[ii].trains.sort(function (a, b) {
 			return a.SecondsTo - b.SecondsTo;
 		});
+		renderdata.platforms.push(platforms[ii]);
 	}
 	output = lucos.render('station', renderdata)
 	if (!connectedstation) {

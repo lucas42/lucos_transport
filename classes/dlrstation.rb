@@ -30,48 +30,60 @@ class DLRStation < LineStation
 			return info
 		end
 		station.elements.each("div") { |platform|
-			platformleft = platform.elements["*[@id = 'platformleft']/img"].attributes['src'][/\d+/]
-			platformright = platform.elements["*[@id = 'platformright']/img"].attributes['src'][/\d+/]
+			platformleft = platform.elements["*[@id = 'platformleft']/img"].attributes['src'][/\d+[^lr]?/]
+			platformright = platform.elements["*[@id = 'platformright']/img"].attributes['src'][/\d+[^lr]?/]
 			if (platformleft == platformright)
 				platformName = "Platform " + platformleft
+				platformNum = platformleft
 			else
 				platformName = "Platforms " + platformleft + " & " + platformright
+				platformNum = platformleft + " & " + platformright
 			end
-			platformNum = platformleft.to_i
 			info[:platforms][platformNum] = platformName
 			
-			if (false)
-			platform.elements.each('T') { |stop|
-				begin
-					time = @validtime.to_i + stop.attributes['SecondsTo'].to_i
-					pseudoline = @line
-					if (!(stop.attributes['Destination'].index('Circle').nil?) and stop.attributes['Destination'] != 'Circle and Hammersmith & City')
-						pseudoline = @network.get_line('I')
-					end
-					if (@line != pseudoline)
-						pseudoline.add_station(@station, self)
-					end
-					@network.set_station(pseudoline, @station, self)
-					info[:lines] << pseudoline.get_code
-					
-					info[:destinations][stop.attributes['DestCode'].to_i] = stop.attributes['Destination']
-					info[:stops] << {
-						:t => stop.attributes['SetNo'].to_i,	# Train number
-						:d => stop.attributes['DestCode'].to_i,	# Destination number
-						:r => stop.attributes['TripNo'].to_i,	# Route number
-						:s => station.attributes['Code'],		# Station code
-						:p => platformNum,						# Platform number
-						:l => pseudoline.get_code,				# Line code
-						:i => time,								# Departure time (unix timestamp)
-					}
-					rescue Exception => e
-					puts e
-					puts e.backtrace
-				end
-				
-			}
+			
+			platformtime = Time.parse(platform.elements["*[@id = 'platformmiddle']/div[@id = 'time']"].text)
+			@validtime = platformtime
+			
+			firsttrain = platform.elements["*[@id = 'platformmiddle']/div[@id = 'line1']"].text
+			firsttrain.strip!
+			if (firsttrain != "")
+				info[:stops] << get_stop(platformNum, platformtime, firsttrain)
 			end
+			
+			followingtrains = platform.elements["*[@id = 'platformmiddle']/div[@id = 'line23']/p"].text
+			followingtrains.strip!
+			followingtrains.split(/\s*[\n\r]+\s*/).each() { |train|
+				info[:stops] << get_stop(platformNum, platformtime, train)
+			}
+		}
+		info[:stops].each() { |stop|
+			info[:destinations][stop[:d]] = stop[:d]
 		}
 		info
+	end
+	
+	private
+	def get_stop(platformNum, time, datastr)
+		data = datastr.match(/^(?:\d+\s*)?(.+?)(?:\s+(\d+)\s+mins?)?$/i)
+		destination = data[1]
+		if (data[2].nil?)
+			secsto = 0
+		else
+			secsto = data[2].to_i * 60
+		end
+		timestamp = time.to_i + secsto
+		
+		# Make the destination title case for consistency (First trains are usually already title case, but following trains are uppercase)
+		destination.gsub(/\b('?[a-z])/) { $1.capitalize }
+		{
+			:t => 0,			# Train number
+			:d => destination,			# Destination number
+			:r => nil,			# Route number
+			:s => @station,		# Station code
+			:p => platformNum,	# Platform number
+			:l => 'L',			# Line code
+			:i => timestamp,			# Departure time (unix timestamp)
+		}
 	end
 end

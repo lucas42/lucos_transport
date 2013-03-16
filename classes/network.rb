@@ -67,7 +67,9 @@ class Network
 				end
 				info[:stops].concat(lineinfo[:stops])
 				info[:stations].update(lineinfo[:stations]) { |key, st1, st2|
-					st1[:p].update(st2[:p])
+					p1 = st1[:p]
+					p2 = st2[:p]
+					p1.update(p2)
 					st1[:l] = st1[:l].concat(st2[:l]).sort.uniq
 					st1
 				}

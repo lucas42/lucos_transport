@@ -10,7 +10,7 @@ class PseudoLine < Line
 	def force_update
 		@info = {
 			:stops => @stops,
-			:stations => {},
+			:stations => @stations,
 			:destinations => {},
 			:lines => { @code => @name },
 		}
