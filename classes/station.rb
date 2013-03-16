@@ -16,6 +16,9 @@ class LineStation
 			puts 'Error fetching ' + @station + ' station'
 			return
 		end
+		if (response.code != '200')
+			raise "Error response ("+response.code+") for LU station "+@station
+		end
 		
 			@data = Document.new(response.body)
 			if (@data.nil? or @data.elements['ROOT/S'].nil?)

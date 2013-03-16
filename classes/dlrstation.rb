@@ -7,6 +7,9 @@ class DLRStation < LineStation
 			puts 'Error fetching ' + @station + ' station'
 			return
 		end
+		if (response.code != '200')
+			raise "Error response ("+response.code+") for DLR station "+@station
+		end
 		
 		@data = Document.new(response.body)
 		if (@data.nil? or @data.elements["ttBoxset/[@id = 'ttbox']"].nil?)
