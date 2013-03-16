@@ -9,6 +9,7 @@ A web app for keeping track of public transport, particularly on forms of transp
 
 ## Forms of transport currently supported:
 * London Underground
+* Docklands Light Railway
 
 ## Running
 The web server is designed to be run within lucos_services, but can be run standalone by running server.rb with ruby.  It currently runs on port 8009.
