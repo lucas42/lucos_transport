@@ -37,6 +37,7 @@ Mustache.template_extension = 'html'
 Resource.new('lucosjs', 'js', '../core/lucos.js')
 Resource.new('mustache', 'js', 'js/mustache.js', true)
 Resource.new('tubejs', 'js', 'js/tube.js')
+Resource.new('linejs', 'js', 'js/line.js')
 #Resource.new('speakClient', 'js', 'js/speakClient.js', true)
 #Resource.new('speakGenerator', 'js', 'js/speakGenerator.js', true)
 Resource.new('tubespeakjs', 'js', 'js/tubespeak.js')

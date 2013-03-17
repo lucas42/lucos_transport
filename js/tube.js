@@ -1,5 +1,5 @@
 "use strict"
-var content, tubedata, datatimeout, timestimeout, lucos = window.lucos;
+var content, tubedata, datatimeout, timestimeout, lucos = require('lucosjs');
 lucos.waitFor('ready', function _tubeloader() {
 	if (lucos.nav.enable('/tube/', _controller)) {
 		_updateTimes();
@@ -105,6 +105,7 @@ function setDataTimeout(time) {
 }
 
 function _gotData(data, expires, fetched) {
+	lucos.send("newtubedata", data);
 	tubedata = data;
 	setDataTimeout(expires);
 	if (lucos.detect.isDev() && console) console.log(data);
@@ -113,11 +114,13 @@ function _gotData(data, expires, fetched) {
 	_updateFooter(fetched, expires);
 }
 
+var currentView = null;
 function _controller(path) {
-	var parts = path.split('/'), line, renderdata = {}, code, station, ii, ll, jj, jl, m, traindata, secondsTo, cssClass, classes, linedata;
-	_setCurrentLine(null);
+	var parts = path.split('/'), renderdata = {}, linecode, station, ii, ll, jj, jl, m, traindata, secondsTo, cssClass, classes, linedata;
+	require('linejs').setCurrent(null);
 	if (lucos.nav.isPreload()) return;
 	if (!content) throw "No content div found";
+	if (currentView) currentView.teardown();
 	try {
 		if (parts[1] != 'tube') throw "Not a tube url.";
 		document.body.removeClass("nofooter");
@@ -127,13 +130,14 @@ function _controller(path) {
 			content.innerHTML = _renderStation(parts[2]);
 		} else if (m = parts[2].match(/^([A-Z])(\d+)$/)) {
 			content.innerHTML = _renderTrain(m[1], m[2]);
-		} else if (line = _getLineId(parts[2])){
+		} else if (linecode = _getLineId(parts[2])){
 			
 			// If the line name isn't quite right, correct it
-			if (tubedata.lines[line] != parts[2]) {
-				lucos.nav.replace(encodeURIComponent(tubedata.lines[line]));
+			if (tubedata.lines[linecode] != parts[2]) {
+				debugger;
+				lucos.nav.replace(encodeURIComponent(tubedata.lines[linecode]));
 			}
-			content.innerHTML = _renderLine(line);
+			currentView = new (require('linejs').construct)(linecode, content);
 		} else {
 			lucos.nav.replace('');
 		}
@@ -153,12 +157,6 @@ function _getLineId(name) {
 		if (tubedata.lines[i].toUpperCase() == name) return i;
 	}
 	return null;
-}
-function _setCurrentLine(code) {
-	var cssClass = window.document.body.getAttribute('class') || '';
-	cssClass = cssClass.replace(/ *line_[A-Z]+ */ig, ' ');
-	if (code && code in tubedata.lines) cssClass += ' line_'+tubedata.lines[code].replace(/[ &]/g, '').toLowerCase();
-	window.document.body.setAttribute('class', cssClass);
 }
 var Routes = (function _routes() {
 	var routelines;
@@ -196,27 +194,6 @@ function _renderNetwork() {
 	lucos.addNavBar("Tube");
 	return lucos.render('lines', renderdata);
 	
-}
-function _renderLine(line) {
-	var code;
-	var renderdata = {
-		name: tubedata.lines[line],
-		cssClass: tubedata.lines[line].replace(/[ &]/g, ''),
-		stations: []
-	};
-	for (code in tubedata.stations) {
-		if (tubedata.stations[code].l.indexOf(line) == -1) continue;
-		renderdata.stations.push({
-			name: tubedata.stations[code].n || "Unknown",
-			link: '/tube/'+code
-		});
-	}
-	renderdata.stations.sort(function (a, b) {
-		return a.name > b.name ? 1 : -1;
-	});
-	_setCurrentLine(line);
-	lucos.addNavBar(renderdata.name+" Line Stations");
-	return lucos.render('line', renderdata);
 }
 function _renderStation(stationcode, connectedstation) {
 	var code, ii, ll, secondsTo, traindata, classes, cssClass, output, interchangeset;
@@ -423,7 +400,7 @@ function _renderTrain(linecode, setno) {
 		}
 	}
 	
-	_setCurrentLine(linecode);
+	require('linejs').setCurrent(renderdata.linename);
 	lucos.addNavBar(renderdata.linename+" Line Train "+renderdata.set);
 	if (!renderdata.stops.length) throw "Can't find "+renderdata.linename+" line train "+renderdata.set;
 	return lucos.render('train', renderdata);

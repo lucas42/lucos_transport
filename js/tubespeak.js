@@ -1,14 +1,8 @@
 "use strict"
-window.lucos.waitFor('ready', function _tubespeakloader() {
+var lucos = require('lucosjs');
+lucos.waitFor('ready', function _tubespeakloader() {
 
-// Don't use for now.
-return;
 	var lines, ii, ll, train, states, status, overview, overviewNode, maxstate = {lines: 0, name: 'nError'}, gotline;
-	if (
-lucos.detect.isLite()) return;
-	
-	// HACK: Do one speak to make sure everything is loaded (and because the first calls seems to trigger an error)
-	speak('');
 	
 	lines = document.querySelectorAll('.line');
 	ll=lines.length;
@@ -70,6 +64,7 @@ lucos.detect.isLite()) return;
 			speak(overview);
 		}, false);
 		document.body.insertBefore(overviewNode, document.body.firstChild);
+		document.body.insertBefore(lucos.speech.getButton(), document.body.firstChild);
 	}
 	
 	train = document.querySelector("#train");
@@ -119,6 +114,6 @@ lucos.detect.isLite()) return;
 });
 
 function speak(text) {
-	lucos.speak(text);
+	lucos.speech.send(text);
 	console.log("SPEAK:",text);
 }
