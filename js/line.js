@@ -35,10 +35,9 @@ var line = function (linecode, element) {
 		require('lucosjs').addNavBar(name+" Line Stations");
 		element.innerHTML = require('lucosjs').render('line', renderdata);
 	}
-	require('lucosjs').waitFor('newtubedata', updateData);
-	require('lucosjs').listen('newtubedata', updateData);
+	require('lucosjs').pubsub.listenExisting('newtubedata', updateData);
 	function teardown() {
-		require('lucosjs').unlisten('newtubedata', updateData);
+		require('lucosjs').pubsub.unlisten('newtubedata', updateData);
 	}
 	this.teardown = teardown;
 };

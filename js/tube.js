@@ -2,6 +2,7 @@
 var content, tubedata, datatimeout, timestimeout, lucos = require('lucosjs');
 lucos.waitFor('ready', function _tubeloader() {
 	if (lucos.nav.enable('/tube/', _controller)) {
+			  
 		_updateTimes();
 		content = document.getElementById('content');
 		if (content) content.innerHTML = lucos.render('splashscreen', "Fetching tube data");
@@ -20,10 +21,11 @@ lucos.waitFor('ready', function _tubeloader() {
 function _updateTimes() {
 	if (timestimeout) window.clearTimeout(timestimeout);
 	var as, i, l, secondsTo, text, minsTo, parent;
+	lucos.send("updateTimes");
 	if (content && content.getElementsByTagName) {
 		as = content.getElementsByTagName('a');
 		for (i=0, l=as.length; i<l; i++) {
-			if (!as[i].getAttribute('class') || !as[i].getAttribute('class').match(/departtime|stoptime/)) continue;
+			if (!as[i].getAttribute('class') || !as[i].getAttribute('class').match(/departtime/)) continue;
 			secondsTo = as[i].getAttribute('data-timestamp') - Math.round(lucos.getTime()/1000);
 			if (secondsTo < -30) {
 				text = 'delete';
@@ -59,6 +61,7 @@ function _updateTimes() {
  * Get data from localstorage falling back to a network request
  */
 function _loadData() {
+	lucos.waitFor('newtubedata', function () {lucos.nav.refresh(); });
 	try {
 		if (!localStorage.getItem('tubedata')) throw "data not in storage";
 		_gotData(JSON.parse(localStorage.getItem('tubedata')), new Date(parseInt(localStorage.getItem('tubedataexpires'))), new Date(parseInt(localStorage.getItem('tubedatafetched'))));
@@ -105,12 +108,12 @@ function setDataTimeout(time) {
 }
 
 function _gotData(data, expires, fetched) {
-	lucos.send("newtubedata", data);
 	tubedata = data;
+	lucos.send("newtubedata", data);
 	setDataTimeout(expires);
 	if (lucos.detect.isDev() && console) console.log(data);
 	Routes.calculate();
-	lucos.nav.refresh();
+	//lucos.nav.refresh();
 	_updateFooter(fetched, expires);
 }
 
@@ -129,12 +132,11 @@ function _controller(path) {
 		} else if (typeof tubedata.stations[parts[2]] == 'object') {
 			content.innerHTML = _renderStation(parts[2]);
 		} else if (m = parts[2].match(/^([A-Z])(\d+)$/)) {
-			content.innerHTML = _renderTrain(m[1], m[2]);
+			currentView = new (require('trainjs').construct)(m[1], m[2], content);
 		} else if (linecode = _getLineId(parts[2])){
 			
 			// If the line name isn't quite right, correct it
 			if (tubedata.lines[linecode] != parts[2]) {
-				debugger;
 				lucos.nav.replace(encodeURIComponent(tubedata.lines[linecode]));
 			}
 			currentView = new (require('linejs').construct)(linecode, content);
@@ -258,7 +260,7 @@ function _renderStation(stationcode, connectedstation) {
 	output = lucos.render('station', renderdata)
 	if (!connectedstation) {
 		lucos.addNavBar(station.n);
-		interchangeset = _getInterchanges(stationcode);
+		interchangeset = require('stopjs').getInterchanges(stationcode);
 		for (ii=0, ll=interchangeset.length; ii<ll; ii++) {
 			if (interchangeset[ii].type == 'tube' && interchangeset[ii].code) {
 				output += _renderStation(interchangeset[ii].code, true);
@@ -268,160 +270,6 @@ function _renderStation(stationcode, connectedstation) {
 	
 	return output;
 	
-}
-function _renderTrain(linecode, setno) {
-	var ii, li, secondsTo, station, jj, jl, kk, kl, interchanges, externalinterchanges, symbols, totaltime;
-	document.body.addClass("nofooter");
-	var renderdata = {
-		stops: [],
-		linename: tubedata.lines[linecode],
-		linelink: '/tube/'+encodeURIComponent(tubedata.lines[linecode]),
-		set: setno,
-		cssClass: tubedata.lines[linecode].replace(/[ &]/g, '')
-	};
-	
-	stopLoop: for (ii=0, li=tubedata.stops.length; ii<li; ii++) {
-		if (tubedata.stops[ii].l != linecode || tubedata.stops[ii].t != setno) continue;
-		secondsTo = tubedata.stops[ii].i - Math.round(lucos.getTime()/1000);
-		station = tubedata.stations[tubedata.stops[ii].s];
-		
-		// Check for other platforms in this station and merge them
-		for (jj=0, jl=renderdata.stops.length; jj<jl; jj++) {
-				if (renderdata.stops[jj].station.code == tubedata.stops[ii].s) {
-					if (!renderdata.stops[jj].platcount) renderdata.stops[jj].platcount = 1;
-					totaltime = renderdata.stops[jj].secondsTo * renderdata.stops[jj].platcount;
-					totaltime += secondsTo;
-					renderdata.stops[jj].platcount++;
-					renderdata.stops[jj].secondsTo = totaltime / renderdata.stops[jj].platcount;
-					delete renderdata.stops[jj].platform;
-					continue stopLoop;
-				}
-		}
-		
-		
-		interchanges = [];
-		symbols = [];
-		for (jj=0, jl=station.l.length; jj<jl; jj++) {
-			if (station.l[jj] == linecode) continue;
-			interchanges.push(
-				{
-					title: tubedata.lines[station.l[jj]],
-					type: "tube",
-					cssClass: tubedata.lines[station.l[jj]].replace(/[ &]/g, '')
-				}
-			);
-		}
-		externalinterchanges = _getInterchanges(tubedata.stops[ii].s);
-		for (jj=0, jl=externalinterchanges.length; jj<jl; jj++) {
-			if (externalinterchanges[jj].type == 'tube' && externalinterchanges[jj].code) {
-				for (kk=0, kl=tubedata.stations[externalinterchanges[jj].code].l.length; kk<kl; kk++) {
-					interchanges.push(
-						{
-							title: tubedata.lines[tubedata.stations[externalinterchanges[jj].code].l[kk]],
-							type: "tube",
-							cssClass: tubedata.lines[tubedata.stations[externalinterchanges[jj].code].l[kk]].replace(/[ &]/g, '')
-						}
-					);
-				}
-			} else if (externalinterchanges[jj].name == station.n && (externalinterchanges[jj].type in lucos.bootdata.symbols)) {
-				symbols.push(
-					{
-						alt: externalinterchanges[jj].type,
-						src: lucos.bootdata.symbols[externalinterchanges[jj].type],
-					}
-				);
-			} else {
-				interchanges.push(
-					{
-						title: externalinterchanges[jj].name,
-						type: externalinterchanges[jj].type,
-						cssClass: '', // set empty class to prevent inheriting from line's cssClass
-						symbol: lucos.bootdata.symbols[externalinterchanges[jj].type],
-					}
-				);
-			}
-		}
-		interchanges.sort(function _sortfunc(a, b) {
-			if (a.type != b.type) {
-				if (a.type == 'tube') return 1;
-				if (b.type == 'tube') return -1;
-				return a.type > b.type;
-			} else {
-				return a.title > b.title;
-			}
-		});
-		renderdata.stops.push({
-			secondsTo: secondsTo,
-			timestamp: tubedata.stops[ii].i,
-			station: {name: station.n, code: tubedata.stops[ii].s},
-			platform: {name: station.p[tubedata.stops[ii].p]},
-			link: '/tube/'+tubedata.stops[ii].s,
-			symbols: symbols,
-			interchanges: interchanges,
-			isinterchange: interchanges.length > 0
-		});
-		renderdata.linecode = tubedata.stops[ii].l;
-		renderdata.destination = tubedata.destinations[tubedata.stops[ii].d];
-		renderdata.location = tubedata.stops[ii].c;
-	}
-	renderdata.stops.sort(function (a, b) {
-		return a.timestamp - b.timestamp;
-	});
-	
-	if (renderdata.stops.length) {
-		
-		// If the last station is not the destination, then display an arrow at the bottom of list
-		var laststation = renderdata.stops[renderdata.stops.length-1].station.name.replace(/\(.*\)/, '');
-		var destination = renderdata.destination.replace(/via .*/, '');
-		if (destination.indexOf(laststation) == -1 && laststation.indexOf(destination) == -1) renderdata.continues = true;
-	}
-	
-	// Interate through all the stops other than first and last to look for adjacent interchanges
-	// First and last stops won't have interchanges removed, which could lead to inconsistentcies as the first/last stop changes
-	for (ii=1, li=renderdata.stops.length-1; ii<li; ii++) {
-		for (jj=0, jl=renderdata.stops[ii].interchanges.length; jj<jl; jj++) {
-			var interchange_at_prev_station = false;
-			for (kk=0, kl=renderdata.stops[ii-1].interchanges.length; kk<kl; kk++) {
-				if (renderdata.stops[ii].interchanges[jj].type != renderdata.stops[ii-1].interchanges[kk].type) continue;
-				if (renderdata.stops[ii].interchanges[jj].title != renderdata.stops[ii-1].interchanges[kk].title) continue;
-				interchange_at_prev_station = true;
-			}
-			if (!interchange_at_prev_station) continue;
-			var interchange_at_next_station = false;
-			for (kk=0, kl=renderdata.stops[ii+1].interchanges.length; kk<kl; kk++) {
-				if (renderdata.stops[ii].interchanges[jj].type != renderdata.stops[ii+1].interchanges[kk].type) continue;
-				if (renderdata.stops[ii].interchanges[jj].title != renderdata.stops[ii+1].interchanges[kk].title) continue;
-				interchange_at_next_station = true;
-			}
-			if (!interchange_at_next_station) continue;
-			
-			// Add ignore flag rather than remove from array, as that would cause issues for the next stop
-			renderdata.stops[ii].interchanges[jj].ignore = true;
-		}
-	}
-	
-	require('linejs').setCurrent(renderdata.linename);
-	lucos.addNavBar(renderdata.linename+" Line Train "+renderdata.set);
-	if (!renderdata.stops.length) throw "Can't find "+renderdata.linename+" line train "+renderdata.set;
-	return lucos.render('train', renderdata);
-	
-}
-function _getInterchanges(stationcode) {
-	var set, output, jj, jl, ii, match, li = lucos.bootdata.interchanges.length;
-	for (ii=0; ii<li; ii++) {
-		set = lucos.bootdata.interchanges[ii];
-		match = false;
-		output = [];
-		for (jj=0, jl=set.length; jj<jl; jj++) {
-			if (set[jj].type == "tube" && set[jj].code == stationcode) {
-				match = true;
-			} else {
-				output.push(set[jj]);
-			}
-		}
-		if (match) return output;
-	}
-	return [];
 }
 function _updateFooter(fetched, expires) {
 	var footer=document.getElementById('footer');

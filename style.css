@@ -160,7 +160,7 @@ h1, h2, h3{
 				opacity: 0.4;
 				pointer-events: none;
 				cursor: default; }
-.departure_board .departtime { float: right }
+.departure_board .stoptime { float: right }
 @font-face
 {
 	font-family: led;
