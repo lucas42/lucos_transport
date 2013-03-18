@@ -166,15 +166,15 @@ function stop(linecode, setno, stationcode, platform) {
 		require('lucosjs').pubsub.unlisten('updateTimes', updateRelTime);
 	}
 	(function populateDOM() {
-		var timeNode, stationplatformNode;
-		element = document.createElement("li");
-		element.addClass("stop");
+		var timeNode, stationplatformNode, destinationNode, leftColNode, rightColNode;
 		timeNode = document.createElement("a");
 		timeNode.addClass("stoptime");
 		timeTextNode = document.createTextNode("loading...");
 		timeNode.appendChild(timeTextNode);
 	 
-		if (platform === undefined) {
+	 if (platform === undefined) {
+			element = document.createElement("li");
+			element.addClass("stop");
 			element.appendChild(timeNode);
 			interchangeNode = document.createElement("ul");
 			interchangeNode.addClass("interchanges");
@@ -187,8 +187,21 @@ function stop(linecode, setno, stationcode, platform) {
 			timeNode.setAttribute("href", "/tube/"+stationcode);
 			element.appendChild(stationplatformNode);
 		} else {
-
+			element = document.createElement("tr");
+			element.addClass("train");
+			destinationTextNode = document.createTextNode("loading...");
+			destinationNode = document.createElement("a");
+			destinationNode.appendChild(destinationTextNode);
+			leftColNode = document.createElement("td");
+			leftColNode.appendChild(destinationNode);
+			element.appendChild(leftColNode);
+			rightColNode = document.createElement("td");
+			rightColNode.appendChild(timeNode);
+			destinationNode.setAttribute("href", "/tube/"+linecode+setno);
+			timeNode.setAttribute("href", "/tube/"+linecode+setno);
+			element.appendChild(rightColNode);
 		}
+		if (setno === 0) element.addClass("ghost");
 	})();
 	require('lucosjs').pubsub.listenExisting('newtubedata', updateData);
 	require('lucosjs').pubsub.listen('updateTimes', updateRelTime);
@@ -221,3 +234,15 @@ function getExternalInterchanges(stationcode) {
 }
 
 exports.getInterchanges = getExternalInterchanges;
+
+var timestimeout;
+/**
+ * Keep all departure times update-to-date (once a second)
+ */
+function updateTimes() {
+	if (timestimeout) window.clearTimeout(timestimeout);
+	require("lucosjs").send("updateTimes");
+	timestimeout=setTimeout(updateTimes, 1000-(new Date(require("lucosjs").getTime())).getMilliseconds());
+}
+
+exports.updateTimes = updateTimes;

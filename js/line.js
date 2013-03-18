@@ -38,6 +38,7 @@ var line = function (linecode, element) {
 	require('lucosjs').pubsub.listenExisting('newtubedata', updateData);
 	function teardown() {
 		require('lucosjs').pubsub.unlisten('newtubedata', updateData);
+		setCurrent(null);
 	}
 	this.teardown = teardown;
 };

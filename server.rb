@@ -39,6 +39,7 @@ Resource.new('mustache', 'js', 'js/mustache.js', true)
 Resource.new('tubejs', 'js', 'js/tube.js')
 Resource.new('linejs', 'js', 'js/line.js')
 Resource.new('trainjs', 'js', 'js/train.js')
+Resource.new('stationjs', 'js', 'js/station.js')
 Resource.new('stopjs', 'js', 'js/stop.js')
 Resource.new('tubespeakjs', 'js', 'js/tubespeak.js')
 

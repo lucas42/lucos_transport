@@ -1,4 +1,4 @@
-{{^connected}}<a href="/tube/" class="nav">&lt;- Back to all lines</a>{{/connected}}
+{{^connected}}<a href="/tube/" class="nav">&lt;- All lines</a>{{/connected}}
 
 	<!--<div class='stationlines'>
 		{{#lines}}
@@ -6,7 +6,7 @@
 		{{/lines}}
 	</div>-->
 	{{#platforms}}
-		<div class="platform {{cssClass}}">
+		<div class="platform {{cssClass}}" data-platformid="{{id}}">
 			<h3 class='platform_name'><span class='innertext'>{{name}}</span></h3>
 			<table class='departure_board'>
 			<tbody>

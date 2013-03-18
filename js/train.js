@@ -14,7 +14,7 @@ function train(linecode, setno, element) {
 		// Iterate through the stops in the tube data which are applicable to this train.
 		for (ii=0, li=tubedata.stops.length; ii<li; ii++) {
 			if (tubedata.stops[ii].l != linecode || tubedata.stops[ii].t != setno) continue;
-			stopkey = tubedata.stops[ii].l + "_" + tubedata.stops[ii].t  + "_" + tubedata.stops[ii].s;
+			stopkey = tubedata.stops[ii].s;
 			
 			// If a stop isn't already in the stops list, then add it
 			if (!(stopkey in stops)) {
@@ -138,6 +138,7 @@ function train(linecode, setno, element) {
 			stops[stopkey].teardown();
 			delete stops[stopkey];
 		}
+		require('linejs').setCurrent(null);
 	}
 	this.teardown = teardown;
 	
