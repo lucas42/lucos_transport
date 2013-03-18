@@ -75,7 +75,7 @@ function station (stationcode, element, connectedstation) {
 				newCssClass = "unused";
 			}
 			if (newCssClass != platformCssClasses[platformkey]) {
-				platformDOMLists[platformkey].addClass(platformCssClasses[platformkey]);
+				platformDOMLists[platformkey].removeClass(platformCssClasses[platformkey]);
 				platformDOMLists[platformkey].addClass(newCssClass);
 				platformCssClasses[platformkey] = newCssClass;
 			}
