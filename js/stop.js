@@ -109,7 +109,7 @@ function stop(linecode, setno, stationcode, platform) {
 									  }
 									  );
 				}
-			} else if (externalinterchanges[ii].name == station.n && (externalinterchanges[ii].type in lucos.bootdata.symbols)) {
+			} else if (externalinterchanges[ii].name == station.n && (externalinterchanges[ii].type in require("lucosjs").bootdata.symbols)) {
 				symbols.push(
 							 {
 							 alt: externalinterchanges[ii].type,

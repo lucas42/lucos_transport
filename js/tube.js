@@ -7,6 +7,7 @@ lucos.waitFor('ready', function _tubeloader() {
 		content = document.getElementById('content');
 		if (content) content.innerHTML = lucos.render('splashscreen', "Fetching tube data");
 		_loadData();
+		initFooter();
 	}
 	if (lucos.nav.isPreload()) {
 		_fetchData(true, true);
@@ -71,9 +72,8 @@ function _gotData(data, expires, fetched) {
 	lucos.send("newtubedata", data);
 	setDataTimeout(expires);
 	if (lucos.detect.isDev() && console) console.log(data);
-	Routes.calculate();
-	//lucos.nav.refresh();
-	_updateFooter(fetched, expires);
+	lucos.send("dataupdate", {expires: expires, fetched: fetched});
+	//Routes.calculate();
 }
 
 var currentView = null;
@@ -86,7 +86,7 @@ function _controller(path) {
 		if (parts[1] != 'tube') throw "Not a tube url.";
 		document.body.removeClass("nofooter");
 		if (!parts[2]) {
-			content.innerHTML = _renderNetwork();
+			currentView = new (require('networkjs').construct)(content);
 		} else if (typeof tubedata.stations[parts[2]] == 'object') {
 			currentView = new (require('stationjs').construct)(parts[2], content);
 		} else if (m = parts[2].match(/^([A-Z])(\d+)$/)) {
@@ -133,30 +133,16 @@ var Routes = (function _routes() {
 		calculate: calculateRoutes
 	}
 })();
-function _renderNetwork() {
-	var code, linedata;
-	var renderdata = {
-		lines: []
-	};
-	for (code in tubedata.lines) {
-		linedata = {
-			name: tubedata.lines[code],
-			link: '/tube/'+encodeURIComponent(tubedata.lines[code]),
-			cssClass: tubedata.lines[code].replace(/[ &]/g, ''),
-		};
-		if (typeof tubedata.status[code] == 'object') {
-			linedata.status = tubedata.status[code].status;
-			linedata.details = tubedata.status[code].details;
-		}
-		renderdata.lines.push(linedata);
-	}
-	lucos.addNavBar("Tube");
-	return lucos.render('lines', renderdata);
-	
-}
-function _updateFooter(fetched, expires) {
-	var footer=document.getElementById('footer');
+
+function initFooter() {
+	var footer, text;
+	footer = document.getElementById('footer');
 	if (!footer) return;
-	var text = "Last updated: "+fetched+", expires: "+expires;
-	if (footer.innerText != text) footer.innerText = text;
-}
+	lucos.pubsub.listenExisting("dataupdate", function _updateFooter(metadata) {
+		var newtext = "Last updated: "+metadata.fetched+", expires: "+metadata.expires;
+		if (newtext != text) {
+			text = newtext;
+			footer.innerText = text;
+		}
+	});
+ }

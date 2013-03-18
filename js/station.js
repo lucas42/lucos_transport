@@ -7,7 +7,7 @@ function station (stationcode, element, connectedstation) {
 	function updateData(tubedata) {
 		var newname, newplatforms = [], platformkey, stopkey, stopsArray, prevstopel, classes, code, ii, li, newCssClass;
 		var station = tubedata.stations[stationcode];
-		
+		if (!station) throw "Can't find station "+stationcode;
 		newname = station.n;
 		for (code in station.p) {
 			newplatforms[code] = station.p[code]+(connectedstation ? " ("+newname+")":"");

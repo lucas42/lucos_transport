@@ -37,6 +37,7 @@ Mustache.template_extension = 'html'
 Resource.new('lucosjs', 'js', '../core/lucos.js')
 Resource.new('mustache', 'js', 'js/mustache.js', true)
 Resource.new('tubejs', 'js', 'js/tube.js')
+Resource.new('networkjs', 'js', 'js/network.js')
 Resource.new('linejs', 'js', 'js/line.js')
 Resource.new('trainjs', 'js', 'js/train.js')
 Resource.new('stationjs', 'js', 'js/station.js')
