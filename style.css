@@ -31,17 +31,17 @@
 
 
 /** Colours for comibinations of lines **/
-.district_hammersmithcity h3 { color:#113B92; text-shadow: #FFF 0 0 5px; -webkit-background-size: 50px 50px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #006633), color-stop(.25, #CC9999), color-stop(.5, #CC9999), color-stop(.5, #006633), color-stop(.75, #006633), color-stop(.75, #CC9999), to(#CC9999));
-background: -webkit-repeating-linear-gradient(45deg, #006633 25px, #CC9999 25px, #CC9999 25px, #006633 25px, #006633 25px, #CC9999 25px, #CC9999 25px); 
+.district_hammersmithcity h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #006633), color-stop(.25, #CC9999), color-stop(.5, #CC9999), color-stop(.5, #006633), color-stop(.75, #006633), color-stop(.75, #CC9999), to(#CC9999));
+background: -webkit-repeating-linear-gradient(45deg, #006633 25px, #CC9999 25px, #CC9999 25px, #006633 25px, #006633 25px, #CC9999 25px, #CC9999 25px);  background-size: 50px 50px;
 
 }
-.circle_district h3 { color:#113B92; text-shadow: #FFF 0 0 5px; -webkit-background-size: 50px 50px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #006633), color-stop(.25, #FFCC00), color-stop(.5, #FFCC00), color-stop(.5, #006633), color-stop(.75, #006633), color-stop(.75, #FFCC00), to(#FFCC00)); }
-.hammersmithcity_metropolitan h3 { color:#113B92; text-shadow: #FFF 0 0 5px; -webkit-background-size: 50px 50px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #660066), color-stop(.25, #CC9999), color-stop(.5, #CC9999), color-stop(.5, #660066), color-stop(.75, #660066), color-stop(.75, #CC9999), to(#CC9999)); }
-.circle_hammersmithcity h3 { color:#113B92; text-shadow: #FFF 0 0 5px; -webkit-background-size: 50px 50px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #CC9999), color-stop(.25, #FFCC00), color-stop(.5, #FFCC00), color-stop(.5, #CC9999), color-stop(.75, #CC9999), color-stop(.75, #FFCC00), to(#FFCC00)); }
-.metropolitan_piccadilly h3 { color:#FFF; -webkit-background-size: 50px 50px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #660066), color-stop(.25, #000099), color-stop(.5, #000099), color-stop(.5, #660066), color-stop(.75, #660066), color-stop(.75, #000099), to(#000099)); }
-.jubilee_metropolitan h3 { color:#FFF; -webkit-background-size: 50px 50px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #660066), color-stop(.25, #8F989E), color-stop(.5, #8F989E), color-stop(.5, #660066), color-stop(.75, #660066), color-stop(.75, #8F989E), to(#8F989E)); }
-.district_piccadilly h3 { color:#FFF; -webkit-background-size: 50px 50px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #006633), color-stop(.25, #000099), color-stop(.5, #000099), color-stop(.5, #006633), color-stop(.75, #006633), color-stop(.75, #000099), to(#000099)); }
-.circle_hammersmithcity_metropolitan h3 { color:#113B92; text-shadow: #FFF 0 0 5px; -webkit-background-size: 50px 50px;
+.circle_district h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #006633), color-stop(.25, #FFCC00), color-stop(.5, #FFCC00), color-stop(.5, #006633), color-stop(.75, #006633), color-stop(.75, #FFCC00), to(#FFCC00)); background-size: 50px 50px; }
+.hammersmithcity_metropolitan h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #660066), color-stop(.25, #CC9999), color-stop(.5, #CC9999), color-stop(.5, #660066), color-stop(.75, #660066), color-stop(.75, #CC9999), to(#CC9999)); background-size: 50px 50px; }
+.circle_hammersmithcity h3 { color:#113B92; text-shadow: #FFF 0 0 5px;background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #CC9999), color-stop(.25, #FFCC00), color-stop(.5, #FFCC00), color-stop(.5, #CC9999), color-stop(.75, #CC9999), color-stop(.75, #FFCC00), to(#FFCC00)); background-size: 50px 50px; }
+.metropolitan_piccadilly h3 { color:#FFF; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #660066), color-stop(.25, #000099), color-stop(.5, #000099), color-stop(.5, #660066), color-stop(.75, #660066), color-stop(.75, #000099), to(#000099)); background-size: 50px 50px; }
+.jubilee_metropolitan h3 { color:#FFF;background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #660066), color-stop(.25, #8F989E), color-stop(.5, #8F989E), color-stop(.5, #660066), color-stop(.75, #660066), color-stop(.75, #8F989E), to(#8F989E)); background-size: 50px 50px; }
+.district_piccadilly h3 { color:#FFF;background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #006633), color-stop(.25, #000099), color-stop(.5, #000099), color-stop(.5, #006633), color-stop(.75, #006633), color-stop(.75, #000099), to(#000099)); background-size: 50px 50px; }
+.circle_hammersmithcity_metropolitan h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background-size: 50px 50px;
 background: -webkit-gradient(linear, 0 0, 100% 100%, 
 	color-stop(.15, #660066),
 	color-stop(.15, #CC9999),
@@ -53,10 +53,10 @@ background: -webkit-gradient(linear, 0 0, 100% 100%,
 	color-stop(.65, #CC9999),
 	color-stop(.85, #CC9999),
 	color-stop(.85, #FFCC00), 
-	to(#FFCC00)); 
+	to(#FFCC00));  background-size: 50px 50px;
 }
 /* In real life no station serves all three of these lines, but TFL's data isn't real life */
-.circle_district_hammersmithcity h3 { color:#113B92; text-shadow: #FFF 0 0 5px; -webkit-background-size: 50px 50px;
+.circle_district_hammersmithcity h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background-size: 50px 50px;
 background: -webkit-gradient(linear, 0 0, 100% 100%, 
 	color-stop(.15, #CC9999),
 	color-stop(.15, #FFCC00),
@@ -68,9 +68,9 @@ background: -webkit-gradient(linear, 0 0, 100% 100%,
 	color-stop(.65, #FFCC00),
 	color-stop(.85, #FFCC00),
 	color-stop(.85, #006633), 
-	to(#006633)); 
+	to(#006633));  background-size: 50px 50px;
 }
-.district_hammersmithcity_metropolitan h3 { color:#113B92; text-shadow: #FFF 0 0 5px; -webkit-background-size: 50px 50px;
+.district_hammersmithcity_metropolitan h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background-size: 50px 50px;
 background: -webkit-gradient(linear, 0 0, 100% 100%, 
 	color-stop(.15, #660066),
 	color-stop(.15, #CC9999),
@@ -82,7 +82,7 @@ background: -webkit-gradient(linear, 0 0, 100% 100%,
 	color-stop(.65, #CC9999),
 	color-stop(.85, #CC9999),
 	color-stop(.85, #006633), 
-	to(#006633)); 
+	to(#006633));  background-size: 50px 50px;
 }
 
 /** General **/
@@ -146,14 +146,12 @@ h1, h2, h3{
 }
 .departure_board { background: black; width: 100%; border: solid 6px #444; border-radius: 1em; margin: 0 auto;
 				background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(.0, transparent), color-stop(.0, rgba(255,255,255,0.2)), color-stop(.1, rgba(255,255,255,0.2)), color-stop(.1, transparent), color-stop(.5, transparent), color-stop(.5, rgba(255,255,255,0.2)), color-stop(.6, rgba(255,255,255,0.2)), color-stop(.6, transparent));
-				-webkit-background-size: 8px;
-				-moz-background-size: 8px;
+				background-size: 8px 8px;
 				font-family: led, monospace;
 	}
 .departure_board tr {
 				background-image: -webkit-gradient(linear, 0 0, 100% 0, color-stop(.0, transparent), color-stop(.0, rgba(255,255,255,0.2)), color-stop(.1, rgba(255,255,255,0.2)), color-stop(.1, transparent), color-stop(.5, transparent), color-stop(.5, rgba(255,255,255,0.2)), color-stop(.6, rgba(255,255,255,0.2)), color-stop(.6, transparent));
-				-webkit-background-size: 8px;
-				-moz-background-size: 8px;
+				background-size: 8px 8px;
 	}
 .departure_board a { text-decoration: none; padding: 0 1em; display: block; color: #FFC600; line-height: 20px; }
 .departure_board .ghost a { 
