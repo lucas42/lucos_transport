@@ -65,17 +65,18 @@ function train(linecode, setno, element) {
 		if (stopsArray.length) {
 			
 			var laststationname = stopsArray[stopsArray.length-1].getStationName().replace(/\(.*\)/, '').replace(/[\+\&]/, "and");
-			var norm_destination = destination.replace(/via .*/, '').replace(/[\+\&]/, "and");
+			var norm_destination = destination.replace(/via .*/, '').replace(/[\+\&]/, "and").replace(" St ", " Street ");
 			if (norm_destination.indexOf(laststationname) == -1 && laststationname.indexOf(norm_destination) == -1) continues = true;
 		}
-		if (!continues && continuesNode) {
-			stopsDOMList.removeChild(continuesNode);
-			continuesNode = null;
-		}
-		if (continues && !continuesNode) {
+		
+		// Always remove the continues node and readd if necessary, as stops may have been added to end of list and continuesNode need to be last
+		if (continuesNode) stopsDOMList.removeChild(continuesNode);
+		if (continues) {
 			continuesNode = document.createElement('li');
 			continuesNode.addClass("continues");
 			stopsDOMList.appendChild(continuesNode);
+		} else {
+			continuesNode = null;
 		}
 		
 		// If the line changes name, then re-render everything (this seems unlikely to happen that often, but just in case)
