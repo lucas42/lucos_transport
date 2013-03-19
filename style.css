@@ -95,7 +95,6 @@ body { background: #ccf; margin: 0; min-height: 100%; position: absolute; width:
 .stationlines .line { width: 400px; float:left; clear: both; }
 .stationlines .line h3 { margin: 3px; }
 #footer { background: #999; color: #fff; position: absolute; bottom: 0; left: 0; right: 0; padding: 0 1em; }
-.nofooter #footer { display: none; }
 #content { margin: 1em; }
 
 /* buttons */
@@ -170,7 +169,7 @@ h1, h2, h3{
 }
 
 /** Train pages see http://www.tfl.gov.uk/assets/downloads/corporate/tfl-line-diagram-standard-issue03.pdf **/
-.journey { position: absolute; margin: 10px 0; }
+.journey { position: relative; margin: 10px 0; }
 .journey .journeyname { width: 1ex; position: absolute; left: 31px; margin: 0; top: 0.7ex; bottom: 0.9ex; box-sizing: border-box; }
 .journey .journeyname .linename, .journey .continues .destination { display: none; }
 .journey .continues { width: 4ex; overflow: hidden; height: 4ex; position: relative; padding: 0; margin-left: -2.5ex; }

@@ -84,7 +84,6 @@ function _controller(path) {
 	if (currentView) currentView.teardown();
 	try {
 		if (parts[1] != 'tube') throw "Not a tube url.";
-		document.body.removeClass("nofooter");
 		if (!parts[2]) {
 			currentView = new (require('networkjs').construct)(content);
 		} else if (typeof tubedata.stations[parts[2]] == 'object') {

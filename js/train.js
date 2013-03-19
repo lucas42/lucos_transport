@@ -87,7 +87,6 @@ function train(linecode, setno, element) {
 	
 	
 	function render() {
-		document.body.addClass("nofooter");
 		var renderdata = {
 			linename: linename,
 			linelink: '/tube/'+encodeURIComponent(linename),
