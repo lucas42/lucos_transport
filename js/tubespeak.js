@@ -126,21 +126,54 @@ function speak(text) {
 
 lucos.listen("stopApproaching", function _approaching(stop) {
 	if (stop.isTrain()) {
-		speak("The next stop is "+stop.getStationName()+".  Please mind the gap between the train and the platform.");
+		if (stop.getDestination() == "Out Of Service") {
+			 speak("This train is currentlyy out of service.");
+		} else {
+			speak("The next stop is "+fixStationName(stop.getStationName())+(stop.isTerminus()?", where this train terminates.  ":".  ")+getLandmarkAnnonucement(stop.getStationCode(), false));
+		}
 	} else if (stop.getPlatformName() != null) {
-		speak("The next train to arrive at "+stop.getPlatformName().replace(/.* - /, '')+" will be a "+stop.getLineName()+" line train to "+stop.getDestination());
+		speak("The next train to arrive at "+stop.getPlatformName().replace(/.* - /, '')+" will be a "+stop.getLineName()+" line train to "+fixStationName(stop.getDestination()));
 	} else {
 		console.log(stop);
 	}
 });
 lucos.listen("stopArrived", function _approaching(stop) {
 	if (stop.isTrain()) {
-		speak("This is "+stop.getStationName()+".  Please mind the gap when alighting from this train.");
+		 speak("This is "+fixStationName(stop.getStationName())+(stop.isTerminus()?", where this train terminates.  ":".  ")+getLandmarkAnnonucement(stop.getStationCode(), true));
 	} else if (stop.getPlatformName() != null) {
-		speak("The train at "+stop.getPlatformName().replace(/.* - /, '')+" is a "+stop.getLineName()+" line train to "+stop.getDestination());
+		speak("The train at "+stop.getPlatformName().replace(/.* - /, '')+" is a "+stop.getLineName()+" line train to "+fixStationName(stop.getDestination()));
 
 	} else {
 		console.log(stop);
-		speak("There is a "+stop.getLineName()+" line train to "+stop.getDestination()+" at this station");
+		speak("There is a "+stop.getLineName()+" line train to "+fixStationName(stop.getDestination())+" at this station");
 	}
 });
+
+/**
+ * Substitues certain strings used in Station Names with something more pronouncable
+ * @param name {String} The Name of a station, or a destination
+ */
+function fixStationName(name) {
+	return name
+	.replace("via T4 Loop", "Terminal 4")
+	.replace("123 + 5", "1, 2, 3 and 5")
+	.replace('via', 'viaa')
+	.replace("CX", "Charing Cross");
+}
+
+function getLandmarkAnnonucement(stationcode, atstation) {
+	var station, landmarks, ll, ii;
+	var station = lucos.bootdata.stations[stationcode] || {};
+	var landmarks = "";
+	if (station.landmarks) {
+		for (ii=0, ll=station.landmarks.length; ii<ll; ii++) {
+			if (ii==0) landmarks += (atstation) ? "Alight for " : "Alight here for ";
+			else if (ii == ll-1) landmarks += " and ";
+			else landmarks += ", ";
+			landmarks += station.landmarks[ii];
+		}
+		if (ll > 0) landmarks += ".  ";
+		
+	}
+	return landmarks;
+}

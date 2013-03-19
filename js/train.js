@@ -63,10 +63,7 @@ function train(linecode, setno, element) {
 		// If the last station is not the destination, then display an arrow at the bottom of list
 		continues = false;
 		if (stopsArray.length) {
-			
-			var laststationname = stopsArray[stopsArray.length-1].getStationName().replace(/\(.*\)/, '').replace(/[\+\&]/, "and");
-			var norm_destination = destination.replace(/via .*/, '').replace(/[\+\&]/, "and").replace(" St ", " Street ");
-			if (norm_destination.indexOf(laststationname) == -1 && laststationname.indexOf(norm_destination) == -1) continues = true;
+			continues = !(stopsArray[stopsArray.length-1].isTerminus());
 		}
 		
 		// Always remove the continues node and readd if necessary, as stops may have been added to end of list and continuesNode need to be last

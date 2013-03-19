@@ -167,6 +167,9 @@ function stop(linecode, setno, stationcode, platform) {
 	function getDestination() {
 		return destination;
 	}
+	function getStationCode() {
+		return stationcode;
+	}
 	function getStationName() {
 		return stationname;
 	}
@@ -178,6 +181,21 @@ function stop(linecode, setno, stationcode, platform) {
 	}
 	function isTrain() {
 		return (platform === undefined);
+	}
+	/**
+	 * Checks whether the current station matches the destination
+	 */
+	function isTerminus() {
+		var norm_stationname = stationname
+			.replace(/\(.*\)/, '')
+			.replace(/[\+\&]/, "and");
+		var norm_destination = destination
+			.replace(/via .*/, '')
+			.replace(/[\+\&]/, "and")
+			.replace(" St ", " Street ");
+		if (norm_destination.indexOf(norm_stationname) > -1) return true;
+		if (norm_stationname.indexOf(norm_destination) > -1) return true;
+		return false;
 	}
 	function teardown() {
 		if (element.parentNode) element.parentNode.removeChild(element);
@@ -229,10 +247,12 @@ function stop(linecode, setno, stationcode, platform) {
 	this.teardown = teardown;
 	this.getTime = getTime;
 	this.getDestination = getDestination;
+	this.getStationCode = getStationCode;
 	this.getStationName = getStationName;
 	this.getPlatformName = getPlatformName;
 	this.getLineName = getLineName;
 	this.isTrain = isTrain;
+	this.isTerminus = isTerminus;
 }
 
 exports.construct = stop;
