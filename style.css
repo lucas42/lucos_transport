@@ -226,3 +226,14 @@ h1, h2, h3{
 #maplist a { text-decoration: none; color: inherit; }
 #maplist a:hover { font-weight: bold; }
 
+/** Announcements **/
+.speechcontrol {
+	font-size: 1ex;
+	font-weight: bold;
+	margin: 0 2ex;
+}
+.speechcontrol iframe {
+	height: 4ex;
+	width: 20ex;
+	vertical-align: middle;
+}

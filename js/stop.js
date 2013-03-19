@@ -7,24 +7,27 @@
  * @param [platform] {String} The platform in the station where the stop will occur (optional - if undefined, an average of all possible platforms will be taken)
  */
 function stop(linecode, setno, stationcode, platform) {
-	var element, timeTextNode, abstime, reltime, stationname, stationplatformname, stationplatformTextNode, destination, destinationTextNode, interchangeNode;
+	var stop, element, timeTextNode, abstime, reltime, stationname, platformname, stationplatformname, linename, stationplatformTextNode, destination, destinationTextNode, interchangeNode;
 	function updateData(tubedata) {
-		var ii, li, totaltime = 0, platforms = 0, platformname, newstationplatformname, newdestination;
+		var ii, li, totaltime = 0, platforms = 0, newplatformname, newstationplatformname, newdestination;
 		stationname = tubedata.stations[stationcode].n;
+		linename = tubedata.lines[linecode];
 		
 		// Go through all the stops and look for matches
 		for (ii=0, li=tubedata.stops.length; ii<li; ii++) {
 			if (tubedata.stops[ii].l != linecode || tubedata.stops[ii].t != setno || tubedata.stops[ii].s != stationcode) continue;
 			if (platform != undefined && tubedata.stops[ii].p != platform) continue;
 			platforms++;
-			platformname = tubedata.stations[stationcode].p[tubedata.stops[ii].p];
+			newplatformname = tubedata.stations[stationcode].p[tubedata.stops[ii].p];
 			newdestination = tubedata.destinations[tubedata.stops[ii].d];
 			totaltime += tubedata.stops[ii].i;
 		}
-		if (platforms !== 1) platformname = null;
+		if (platforms !== 1) newplatformname = null;
 		
-		if (platformname == null) newstationplatformname = stationname;
-		else newstationplatformname = stationname + ' - ' + platformname;
+		if (newplatformname == null) newstationplatformname = stationname;
+		else newstationplatformname = stationname + ' - ' + newplatformname;
+		
+		platformname = newplatformname;
 		
 		if (newstationplatformname != stationplatformname) {
 			if (stationplatformTextNode) stationplatformTextNode.nodeValue = newstationplatformname;
@@ -36,10 +39,15 @@ function stop(linecode, setno, stationcode, platform) {
 			destination = newdestination;
 		}
 	
-		if (platforms < 1) abstime = null;
-		else abstime = totaltime / platforms;
-		updateRelTime();
-		updateInterchanges(tubedata);
+		// If no platforms matched, then remove this stop
+		if (platforms < 1) {
+			teardown();
+			
+		} else {
+			abstime = totaltime / platforms;
+			updateRelTime();
+			updateInterchanges(tubedata);
+		}
 	}
 	function updateRelTime() {
 		function getRelTime() {
@@ -56,7 +64,7 @@ function stop(linecode, setno, stationcode, platform) {
 			teardown();
 			return;
 		} else if (newreltime < -10) {
-			if (platform === undefined) text = 'passed it';
+			if (isTrain()) text = 'passed it';
 			else text = 'missed it';
 		} else if (newreltime < 1) {
 			text = 'now';
@@ -69,15 +77,17 @@ function stop(linecode, setno, stationcode, platform) {
 			else secondsTo = ':'+secondsTo;
 			text = minsTo+secondsTo+' mins';
 		}
-		timeTextNode.nodeValue = text;
-		
-		if (reltime >= 1 && newreltime < 1) {
-			require('lucosjs').send("stopArrived", this);
-		} else if (reltime >= 30 && newreltime < 30) {
-			require('lucosjs').send("stopApproaching", this);
+		if (reltime != newreltime) {
+			timeTextNode.nodeValue = text;
+			
+			if (reltime >= 1 && newreltime < 1) {
+				require('lucosjs').send("stopArrived", stop);
+			} else if (reltime >= 30 && newreltime < 30) {
+				require('lucosjs').send("stopApproaching", stop);
+			}
+			
+			reltime = newreltime;
 		}
-		
-		reltime = newreltime;
 	}
 	function updateInterchanges(tubedata) {
 		var interchanges = [], symbols = [], externalinterchanges, ii, il, jj, jl, interchange;
@@ -160,6 +170,15 @@ function stop(linecode, setno, stationcode, platform) {
 	function getStationName() {
 		return stationname;
 	}
+	function getPlatformName() {
+		return platformname;
+	}
+	function getLineName() {
+		return linename;
+	}
+	function isTrain() {
+		return (platform === undefined);
+	}
 	function teardown() {
 		if (element.parentNode) element.parentNode.removeChild(element);
 		require('lucosjs').pubsub.unlisten('newtubedata', updateData);
@@ -172,7 +191,7 @@ function stop(linecode, setno, stationcode, platform) {
 		timeTextNode = document.createTextNode("loading...");
 		timeNode.appendChild(timeTextNode);
 	 
-	 if (platform === undefined) {
+	 if (isTrain()) {
 			element = document.createElement("li");
 			element.addClass("stop");
 			element.appendChild(timeNode);
@@ -203,6 +222,7 @@ function stop(linecode, setno, stationcode, platform) {
 		}
 		if (setno === 0) element.addClass("ghost");
 	})();
+	stop = this;
 	require('lucosjs').pubsub.listenExisting('newtubedata', updateData);
 	require('lucosjs').pubsub.listen('updateTimes', updateRelTime);
 	this.getEl = getEl;
@@ -210,6 +230,9 @@ function stop(linecode, setno, stationcode, platform) {
 	this.getTime = getTime;
 	this.getDestination = getDestination;
 	this.getStationName = getStationName;
+	this.getPlatformName = getPlatformName;
+	this.getLineName = getLineName;
+	this.isTrain = isTrain;
 }
 
 exports.construct = stop;

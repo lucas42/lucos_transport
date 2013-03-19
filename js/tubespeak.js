@@ -1,7 +1,14 @@
 "use strict"
 var lucos = require('lucosjs');
 lucos.waitFor('ready', function _tubespeakloader() {
+			  var speechcontrol = document.createElement("div").addClass("speechcontrol");
+			  speechcontrol.appendChild(document.createTextNode("Announcements: "));
+			  speechcontrol.appendChild(lucos.speech.getButton());
+				document.body.insertBefore(speechcontrol, document.getElementById('footer'));
+			  });
 
+// This function is no longer used, but contains some logic for speech stuff still to be implemented
+function oldspeechstuff() {
 	var lines, ii, ll, train, states, status, overview, overviewNode, maxstate = {lines: 0, name: 'nError'}, gotline;
 	
 	lines = document.querySelectorAll('.line');
@@ -64,7 +71,6 @@ lucos.waitFor('ready', function _tubespeakloader() {
 			speak(overview);
 		}, false);
 		document.body.insertBefore(overviewNode, document.body.firstChild);
-		document.body.insertBefore(lucos.speech.getButton(), document.body.firstChild);
 	}
 	
 	train = document.querySelector("#train");
@@ -111,9 +117,30 @@ lucos.waitFor('ready', function _tubespeakloader() {
 		}, false);
 	}
 	
-});
+};
 
 function speak(text) {
 	lucos.speech.send(text);
 	console.log("SPEAK:",text);
 }
+
+lucos.listen("stopApproaching", function _approaching(stop) {
+	if (stop.isTrain()) {
+		speak("The next stop is "+stop.getStationName()+".  Please mind the gap between the train and the platform.");
+	} else if (stop.getPlatformName() != null) {
+		speak("The next train to arrive at "+stop.getPlatformName().replace(/.* - /, '')+" will be a "+stop.getLineName()+" line train to "+stop.getDestination());
+	} else {
+		console.log(stop);
+	}
+});
+lucos.listen("stopArrived", function _approaching(stop) {
+	if (stop.isTrain()) {
+		speak("This is "+stop.getStationName()+".  Please mind the gap when alighting from this train.");
+	} else if (stop.getPlatformName() != null) {
+		speak("The train at "+stop.getPlatformName().replace(/.* - /, '')+" is a "+stop.getLineName()+" line train to "+stop.getDestination());
+
+	} else {
+		console.log(stop);
+		speak("There is a "+stop.getLineName()+" line train to "+stop.getDestination()+" at this station");
+	}
+});
