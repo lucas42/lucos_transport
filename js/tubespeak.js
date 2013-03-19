@@ -149,6 +149,55 @@ lucos.listen("stopArrived", function _approaching(stop) {
 	}
 });
 
+require('lucosjs').pubsub.listenExisting('networkStatusChanged', networkStats);
+										 
+function networkStats (network){
+	var lines, ii, ll, states, status, overview, maxstate, gotline;
+	lines = network.getLines();
+	ll=lines.length;
+	if (ll < 1) return;
+	// Organise lines based on state
+	states = {};
+	for (ii=0;  ii<ll; ii++){
+		status = lines[ii].status;
+		if (!(status in states)) {
+			states[status] = [];
+		}
+		states[status].push(lines[ii]);
+	}
+	
+	// Work out which state is the most common, and don't read out all the lines in this state
+	maxstate = {lines: 0, name: 'nError'};
+	for (status in states) {
+		if (states[status].length > maxstate.lines) {
+			maxstate = {lines: states[status].length, name: status}
+		}
+	}
+	overview = "";
+	gotline = false;
+	for (status in states) {
+		if (status == maxstate.name) continue;
+		overview += "There "+((status[status.length-1] == 's')?"are ":"is a ")+status+" on the ";
+		ll=states[status].length;
+		for (ii=0;  ii<ll; ii++) {
+			if (ii > 0) {
+				if (ii == ll-1) overview += " and ";
+				else overview += ", ";
+			}
+			if (states[status][ii].name == "Overground" && ll == 1) overview += "London ";
+			overview += states[status][ii].name;
+		}
+		if (ll == 1 && (states[status][0].name == "DLR" || states[status][0].name == "Overground" )) {
+			overview += ".  ";
+		} else {
+			gotline = true;
+			overview += (ll > 1) ? " lines.  " : " line.  ";
+		}
+	}
+	overview += "There "+((maxstate.name[maxstate.name.length-1] == 's')?"are ":"is a ")+maxstate.name+" on all "+((gotline)?"other ":"")+"London Underground lines.  ";
+	speak(overview);
+}
+
 /**
  * Substitues certain strings used in Station Names with something more pronouncable
  * @param name {String} The Name of a station, or a destination
