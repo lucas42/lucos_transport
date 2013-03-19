@@ -1,5 +1,6 @@
-var network = function (element) {
+var network = function (networkid) {
 	var lines = null;
+	var network = this;
 	
 	function updateData(tubedata) {
 		var newlines = [], linedata;
@@ -17,19 +18,39 @@ var network = function (element) {
 		}
 		if (!lines || JSON.stringify(lines) != JSON.stringify(newlines)) {
 			lines = newlines;
-			render();
+			require('lucosjs').send('networkStatusChanged', network);
 		}
 	}
 	
-	function render() {
-		element.innerHTML = require('lucosjs').render('lines', {lines: lines});
-		require('lucosjs').addNavBar("Tube");
+	function getId() {
+		return networkid;
+	}
+	function getLines() {
+		return lines;
 	}
 	require('lucosjs').pubsub.listenExisting('newtubedata', updateData);
 	function teardown() {
 		require('lucosjs').pubsub.unlisten('newtubedata', updateData);
 	}
 	this.teardown = teardown;
+	this.getId = getId;
+	this.getLines = getLines;
 };
 
 exports.construct = network;
+
+var networkView = function (networkid, element) {
+	
+	function render(network) {
+		if (network.getId() != networkid) return;
+		element.innerHTML = require('lucosjs').render('lines', {lines: network.getLines()});
+		require('lucosjs').addNavBar("Tube");
+	}
+	require('lucosjs').pubsub.listenExisting('networkStatusChanged', render);
+	function teardown() {
+		require('lucosjs').pubsub.unlisten('networkStatusChanged', render);
+	}
+	this.teardown = teardown;
+}
+
+exports.view = networkView;

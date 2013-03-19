@@ -1,11 +1,12 @@
 "use strict"
-var content, tubedata, datatimeout, lucos = require('lucosjs');
+var content, tubedata, datatimeout, network, lucos = require('lucosjs');
 lucos.waitFor('ready', function _tubeloader() {
 	if (lucos.nav.enable('/tube/', _controller)) {
 			  
 		require("stopjs").updateTimes();
 		content = document.getElementById('content');
 		if (content) content.innerHTML = lucos.render('splashscreen', "Fetching tube data");
+		network = new (require("networkjs").construct)("LUL");
 		_loadData();
 		initFooter();
 	}
@@ -85,7 +86,7 @@ function _controller(path) {
 	try {
 		if (parts[1] != 'tube') throw "Not a tube url.";
 		if (!parts[2]) {
-			currentView = new (require('networkjs').construct)(content);
+			currentView = new (require('networkjs').view)(network.getId(), content);
 		} else if (typeof tubedata.stations[parts[2]] == 'object') {
 			currentView = new (require('stationjs').construct)(parts[2], content);
 		} else if (m = parts[2].match(/^([A-Z])(\d+)$/)) {
