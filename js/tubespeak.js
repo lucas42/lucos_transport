@@ -131,7 +131,7 @@ lucos.listen("stopApproaching", function _approaching(stop) {
 		if (stop.getDestination() == "Out Of Service") {
 			 speak("This train is currentlyy out of service.");
 		} else {
-			speak("The next stop is "+fixStationName(stop.getStationName())+(stop.isTerminus()?", where this train terminates.  ":".  ")+getLandmarkAnnonucement(stop.getStationCode(), false));
+			speak("The next stop is "+fixStationName(stop.getStationName())+(stop.isTerminus()?", where this train terminates.  ":".  ")+getInterchangeAnnouncement(stop)+getLandmarkAnnonucement(stop.getStationCode(), false));
 		}
 	} else if (stop.getPlatformName() != null) {
 		speak("The next train to arrive at "+stop.getPlatformName().replace(/.* - /, '')+" will be a "+stop.getLineName()+" line train to "+fixStationName(stop.getDestination()));
@@ -211,16 +211,35 @@ function fixStationName(name) {
 	.replace('via', 'viaa')
 	.replace("CX", "Charing Cross");
 }
-function getInterchangeAnnouncement(stop) {
+function getInterchangeAnnouncement(stop, atstation) {
 	var output, ii, ll, interchanges = stop.getInterchanges();
 	ll=interchanges.length;
-	output = "Change here for ";
+	if (atstation) output = "Change here for ";
+	else output = "Change for ";
 	if (!ll) return "";
 	for (ii=0; ii<ll; ii++) {
 		switch (interchanges[ii].type) {
 			case "tube":
 				output += "the " + interchanges[ii].title + " line";
 				break;
+			case "nr":
+				output += "National Rail Services from " + interchanges[ii].title;
+				break;
+			case "river":
+				output += "River Boat Services from "+interchanges[ii].title;
+				break;
+			case "dlr":
+				output += "Docklands Light Railway";
+				break;
+			case "overground":
+				output += "London Overground";
+				break;
+			case "buses":
+				output += interchanges[ii].title+" Bus Station";
+				break;
+			case "airport":
+				if (interchanges[ii].title.toLowerCase().indexOf('airport') > -1) output += interchanges[ii].title;
+				else output += interchanges[ii].title + " Airport";
 			default:
 				output += "something else";
 		}
