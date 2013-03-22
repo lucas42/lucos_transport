@@ -141,7 +141,7 @@ lucos.listen("stopApproaching", function _approaching(stop) {
 });
 lucos.listen("stopArrived", function _approaching(stop) {
 	if (stop.isTrain()) {
-		 speak("This is "+fixStationName(stop.getStationName())+(stop.isTerminus()?", where this train terminates.  ":".  ")+getLandmarkAnnonucement(stop.getStationCode(), true));
+		 speak("This is "+fixStationName(stop.getStationName())+(stop.isTerminus()?", where this train terminates.  ":".  ")+getInterchangeAnnouncement(stop)+getLandmarkAnnonucement(stop.getStationCode(), true));
 	} else if (stop.getPlatformName() != null) {
 		speak("The train at "+stop.getPlatformName().replace(/.* - /, '')+" is a "+stop.getLineName()+" line train to "+fixStationName(stop.getDestination()));
 
@@ -211,7 +211,29 @@ function fixStationName(name) {
 	.replace('via', 'viaa')
 	.replace("CX", "Charing Cross");
 }
-
+function getInterchangeAnnouncement(stop) {
+	var output, ii, ll, interchanges = stop.getInterchanges();
+	ll=interchanges.length;
+	output = "Change here for ";
+	if (!ll) return "";
+	for (ii=0; ii<ll; ii++) {
+		switch (interchanges[ii].type) {
+			case "tube":
+				output += "the " + interchanges[ii].title + " line";
+				break;
+			default:
+				output += "something else";
+		}
+		if (ii == ll-1) {
+			output += ".  ";
+		} else if (ii == ll-2) {
+			output += " and ";
+		} else {
+			output += ", ";
+		}
+	}
+	return output;
+}
 function getLandmarkAnnonucement(stationcode, atstation) {
 	var station, landmarks, ll, ii;
 	var station = lucos.bootdata.stations[stationcode] || {};

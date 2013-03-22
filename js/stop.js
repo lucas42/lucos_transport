@@ -7,7 +7,7 @@
  * @param [platform] {String} The platform in the station where the stop will occur (optional - if undefined, an average of all possible platforms will be taken)
  */
 function stop(linecode, setno, stationcode, platform) {
-	var stop, element, timeTextNode, abstime, reltime, stationname, platformname, stationplatformname, linename, stationplatformTextNode, destination, destinationTextNode, interchangeNode;
+	var stop, element, timeTextNode, abstime, reltime, stationname, platformname, stationplatformname, linename, stationplatformTextNode, destination, destinationTextNode, interchangeNode, interchanges;
 	function updateData(tubedata) {
 		var ii, li, totaltime = 0, platforms = 0, newplatformname, newstationplatformname, newdestination;
 		stationname = tubedata.stations[stationcode].n;
@@ -90,16 +90,13 @@ function stop(linecode, setno, stationcode, platform) {
 		}
 	}
 	function updateInterchanges(tubedata) {
-		var interchanges = [], symbols = [], externalinterchanges, ii, il, jj, jl, interchange;
+		var newinterchanges = [], symbols = [], externalinterchanges, ii, il, jj, jl, interchange;
 		if (!interchangeNode) return;
-		while (interchangeNode.firstChild) {
-			interchangeNode.removeChild(interchangeNode.firstChild);
-		}
 		
 		var station = tubedata.stations[stationcode];
 		for (ii=0, il=station.l.length; ii<il; ii++) {
 			if (station.l[ii] == linecode) continue;
-			interchanges.push(
+			newinterchanges.push(
 							  {
 							  title: tubedata.lines[station.l[ii]],
 							  type: "tube",
@@ -111,7 +108,7 @@ function stop(linecode, setno, stationcode, platform) {
 		for (ii=0, il=externalinterchanges.length; ii<il; ii++) {
 			if (externalinterchanges[ii].type == 'tube' && externalinterchanges[ii].code) {
 				for (jj=0, jl=tubedata.stations[externalinterchanges[ii].code].l.length; jj<jl; jj++) {
-					interchanges.push(
+					newinterchanges.push(
 									  {
 									  title: tubedata.lines[tubedata.stations[externalinterchanges[ii].code].l[jj]],
 									  type: "tube",
@@ -127,7 +124,7 @@ function stop(linecode, setno, stationcode, platform) {
 							 }
 							 );
 			} else {
-				interchanges.push(
+				newinterchanges.push(
 								  {
 								  title: externalinterchanges[ii].name,
 								  type: externalinterchanges[ii].type,
@@ -136,26 +133,33 @@ function stop(linecode, setno, stationcode, platform) {
 								  );
 			}
 		}
-		interchanges.sort(function _sortfunc(a, b) {
+		newinterchanges.sort(function _sortfunc(a, b) {
 			if (a.type != b.type) {
-				if (a.type == 'tube') return 1;
-				if (b.type == 'tube') return -1;
+				if (a.type == 'tube') return -1;
+				if (b.type == 'tube') return 1;
 				return a.type > b.type;
 			} else {
 				return a.title > b.title;
 			}
 		});
-		for (ii=0, il=interchanges.length; ii<il; ii++) {
-			interchange = document.createElement("li");
-			interchange.appendChild(document.createTextNode(interchanges[ii].title));
-			interchange.addClass(interchanges[ii].type);
-			if (interchanges[ii].cssClass) interchange.addClass(interchanges[ii].cssClass);
-			interchangeNode.appendChild(interchange);
-		}
-		if (interchanges.length) {
-			element.addClass("interchange");
-		} else {
-			element.removeClass("interchange");
+		
+		if (!interchanges || JSON.stringify(newinterchanges) != JSON.stringify(interchanges)) {
+			interchanges = newinterchanges;
+			while (interchangeNode.firstChild) {
+				interchangeNode.removeChild(interchangeNode.firstChild);
+			}
+			for (ii=0, il=interchanges.length; ii<il; ii++) {
+				interchange = document.createElement("li");
+				interchange.appendChild(document.createTextNode(interchanges[ii].title));
+				interchange.addClass(interchanges[ii].type);
+				if (interchanges[ii].cssClass) interchange.addClass(interchanges[ii].cssClass);
+				interchangeNode.appendChild(interchange);
+			}
+			if (interchanges.length) {
+				element.addClass("interchange");
+			} else {
+				element.removeClass("interchange");
+			}
 		}
 	}
 	function getEl() {
@@ -181,6 +185,9 @@ function stop(linecode, setno, stationcode, platform) {
 	}
 	function isTrain() {
 		return (platform === undefined);
+	}
+	function getInterchanges() {
+		return interchanges;
 	}
 	/**
 	 * Checks whether the current station matches the destination
@@ -253,6 +260,7 @@ function stop(linecode, setno, stationcode, platform) {
 	this.getLineName = getLineName;
 	this.isTrain = isTrain;
 	this.isTerminus = isTerminus;
+	this.getInterchanges = getInterchanges;
 }
 
 exports.construct = stop;
