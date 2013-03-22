@@ -24,9 +24,11 @@
 						</ul>
 					{{/isinterchange}}
 					<a href="{{link}}" class='stoptime' data-timestamp='{{timestamp}}'>{{secondsTo}} seconds</a><a href="{{link}}"> &gt; {{#station}}{{name}}{{/station}} {{#platform}}{{name}}{{/platform}}</a>
+					<div class='symbols'>
 					{{#symbols}}
 						<img src="{{src}}" alt="{{alt}}" title="{{alt}}" class="symbol" />
 					{{/symbols}}
+					</div>
 				</li>
 			{{/stops}}
 			{{#continues}}

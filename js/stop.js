@@ -7,7 +7,7 @@
  * @param [platform] {String} The platform in the station where the stop will occur (optional - if undefined, an average of all possible platforms will be taken)
  */
 function stop(linecode, setno, stationcode, platform) {
-	var stop, element, timeTextNode, abstime, reltime, stationname, platformname, stationplatformname, linename, stationplatformTextNode, destination, destinationTextNode, interchangeNode, interchanges;
+	var stop, element, timeTextNode, abstime, reltime, stationname, platformname, stationplatformname, linename, stationplatformTextNode, destination, destinationTextNode, interchangeNode, interchanges, symbolsNode;
 	function updateData(tubedata) {
 		var ii, li, totaltime = 0, platforms = 0, newplatformname, newstationplatformname, newdestination;
 		stationname = tubedata.stations[stationcode].n;
@@ -90,7 +90,7 @@ function stop(linecode, setno, stationcode, platform) {
 		}
 	}
 	function updateInterchanges(tubedata) {
-		var newinterchanges = [], symbols = [], externalinterchanges, ii, il, jj, jl, interchange;
+		var newinterchanges = [], symbols = [], externalinterchanges, ii, il, jj, jl, interchange, symbolImg;
 		if (!interchangeNode) return;
 		
 		var station = tubedata.stations[stationcode];
@@ -116,13 +116,20 @@ function stop(linecode, setno, stationcode, platform) {
 									  }
 									  );
 				}
-			} else if (externalinterchanges[ii].name == station.n && (externalinterchanges[ii].type in require("lucosjs").bootdata.symbols)) {
+			} else if (stationsMatch(externalinterchanges[ii].name, station.n) && (externalinterchanges[ii].type in require("lucosjs").bootdata.symbols)) {
 				symbols.push(
 							 {
 							 alt: externalinterchanges[ii].type,
 							 src: require("lucosjs").bootdata.symbols[externalinterchanges[ii].type],
 							 }
 							 );
+				newinterchanges.push(
+									 {
+									 title: externalinterchanges[ii].name,
+									 type: externalinterchanges[ii].type,
+									 hide: true
+									 }
+									 );
 			} else {
 				newinterchanges.push(
 								  {
@@ -148,12 +155,30 @@ function stop(linecode, setno, stationcode, platform) {
 			while (interchangeNode.firstChild) {
 				interchangeNode.removeChild(interchangeNode.firstChild);
 			}
+			while (symbolsNode.firstChild) {
+				symbolsNode.removeChild(symbolsNode.firstChild);
+			}
 			for (ii=0, il=interchanges.length; ii<il; ii++) {
+				if (interchanges[ii].hide) continue;
 				interchange = document.createElement("li");
+				if (interchanges[ii].symbol) {
+					symbolImg = document.createElement("img");
+					symbolImg.addClass("symbol");
+					symbolImg.src = interchanges[ii].symbol;
+					symbolImg.setAttribute("alt", interchanges[ii].type);
+					interchange.appendChild(symbolImg);
+				}
 				interchange.appendChild(document.createTextNode(interchanges[ii].title));
 				interchange.addClass(interchanges[ii].type);
 				if (interchanges[ii].cssClass) interchange.addClass(interchanges[ii].cssClass);
 				interchangeNode.appendChild(interchange);
+			}
+			for (ii=0, il=symbols.length; ii<il; ii++) {
+				symbolImg = document.createElement("img");
+				symbolImg.addClass("symbol");
+				symbolImg.src = symbols[ii].src;
+				symbolImg.setAttribute("alt", symbols[ii].alt);
+				symbolsNode.appendChild(symbolImg);
 			}
 			if (interchanges.length) {
 				element.addClass("interchange");
@@ -193,15 +218,22 @@ function stop(linecode, setno, stationcode, platform) {
 	 * Checks whether the current station matches the destination
 	 */
 	function isTerminus() {
-		var norm_stationname = stationname
-			.replace(/\(.*\)/, '')
-			.replace(/[\+\&]/, "and");
-		var norm_destination = destination
-			.replace(/via .*/, '')
-			.replace(/[\+\&]/, "and")
-			.replace(" St ", " Street ");
-		if (norm_destination.indexOf(norm_stationname) > -1) return true;
-		if (norm_stationname.indexOf(norm_destination) > -1) return true;
+		return stationsMatch(stationname, destination);
+	}
+	
+	/*
+	 * Takes 2 station names and tries to work out if they might be the same
+	 *(Obviously this is really rough and station codes should be used where possible)
+	 */
+	function stationsMatch(a, b) {
+		a = a.replace(/via .*/, '')
+		.replace(/[\+\&]/, "and")
+		.replace(" St ", " Street ");
+		b = b.replace(/via .*/, '')
+		.replace(/[\+\&]/, "and")
+		.replace(" St ", " Street ");
+		if (a.indexOf(b) > -1) return true;
+		if (b.indexOf(a) > -1) return true;
 		return false;
 	}
 	function teardown() {
@@ -220,9 +252,7 @@ function stop(linecode, setno, stationcode, platform) {
 			element = document.createElement("li");
 			element.addClass("stop");
 			element.appendChild(timeNode);
-			interchangeNode = document.createElement("ul");
-			interchangeNode.addClass("interchanges");
-			element.appendChild(interchangeNode);
+	 
 			stationplatformTextNode = document.createTextNode("loading...");
 			stationplatformNode = document.createElement("a");
 			stationplatformNode.appendChild(document.createTextNode(" > "));
@@ -230,6 +260,13 @@ function stop(linecode, setno, stationcode, platform) {
 			stationplatformNode.setAttribute("href", "/tube/"+stationcode);
 			timeNode.setAttribute("href", "/tube/"+stationcode);
 			element.appendChild(stationplatformNode);
+
+			interchangeNode = document.createElement("ul");
+			interchangeNode.addClass("interchanges");
+			element.appendChild(interchangeNode);
+			symbolsNode = document.createElement("div");
+			symbolsNode.addClass("symbols");
+			element.appendChild(symbolsNode);
 		} else {
 			element = document.createElement("tr");
 			element.addClass("train");
