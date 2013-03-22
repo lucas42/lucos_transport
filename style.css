@@ -94,7 +94,8 @@ body { background: #ccf; margin: 0; min-height: 100%; position: absolute; width:
 .stationlines { overflow: hidden; }
 .stationlines .line { width: 400px; float:left; clear: both; }
 .stationlines .line h3 { margin: 3px; }
-#footer { background: #999; color: #fff; bottom: 0; left: 0; right: 0; padding: 0 1em; margin-top: 1em; }
+#footer { background: #999; color: #fff; bottom: 0; left: 0; right: 0; padding: 0 1em; margin-top: 1em; cursor:pointer; }
+#footer.loading { background: #cc0; }
 #content { margin: 1em; }
 
 /* buttons */

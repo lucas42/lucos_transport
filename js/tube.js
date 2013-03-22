@@ -34,6 +34,7 @@ function _loadData() {
 	}
 }
 function _fetchData(userwaiting, preload) {
+	lucos.send("loadingdata");
 	lucos.net.get("/data/tube", null, function _dataFetched(req) {
 		var expires = new Date(req.getResponseHeader('Expires'));
 		var fetched = new Date(lucos.getTime());
@@ -51,6 +52,8 @@ function _fetchData(userwaiting, preload) {
 		}
 		if (!preload) _gotData(JSON.parse(req.responseText), expires, fetched);
 	}, function _dataError() {
+		lucos.send("dataerror");
+				  
 		// If noone is waiting for the data, then ignore the error and try again laters
 		if (!userwaiting) {
 			setDataTimeout(null);
@@ -138,11 +141,21 @@ function initFooter() {
 	var footer, text;
 	footer = document.getElementById('footer');
 	if (!footer) return;
+	footer.addEventListener("click", function () {
+		_fetchData();
+	}, false);
 	lucos.pubsub.listenExisting("dataupdate", function _updateFooter(metadata) {
 		var newtext = "Last updated: "+metadata.fetched+", expires: "+metadata.expires;
 		if (newtext != text) {
 			text = newtext;
 			footer.innerText = text;
 		}
+		footer.removeClass("loading");
+	});
+	lucos.pubsub.listenExisting("loadingdata", function () {
+		footer.addClass("loading");
+	});
+	lucos.pubsub.listenExisting("dataerror", function () {
+		footer.removeClass("loading");
 	});
  }
