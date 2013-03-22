@@ -120,7 +120,9 @@ function oldspeechstuff() {
 };
 
 function speak(text) {
-	lucos.speech.send(text);
+	window.setTimeout(function () {
+		lucos.speech.send(text);
+	}, 0);
 	console.log("SPEAK:",text);
 }
 
