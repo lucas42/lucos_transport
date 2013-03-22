@@ -209,24 +209,29 @@ function fixStationName(name) {
 	.replace("via T4 Loop", "Terminal 4")
 	.replace("123 + 5", "1, 2, 3 and 5")
 	.replace('via', 'viaa')
-	.replace("CX", "Charing Cross");
+	.replace("CX", "Charing Cross")
+	.replace(/\(.*\)/, "");
 }
 function getInterchangeAnnouncement(stop, atstation) {
-	var output, ii, ll, interchanges = stop.getInterchanges();
+	var output, ii, ll, interchanges = stop.getInterchanges(), title, stationmatches;
 	ll=interchanges.length;
 	if (atstation) output = "Change here for ";
 	else output = "Change for ";
 	if (!ll) return "";
 	for (ii=0; ii<ll; ii++) {
+		title = interchanges[ii].title;
+		stationmatches = interchanges[ii].stationmatches;
 		switch (interchanges[ii].type) {
 			case "tube":
-				output += "the " + interchanges[ii].title + " line";
+				output += "the " + title + " line";
 				break;
 			case "nr":
-				output += "National Rail Services from " + interchanges[ii].title;
+				output += "National Rail Services";
+				if (!stationmatches) output += " from " + title;
 				break;
 			case "river":
-				output += "River Boat Services from "+interchanges[ii].title;
+				output += "River Boat Services";
+				if (!stationmatches) output += " from " + title;
 				break;
 			case "dlr":
 				output += "Docklands Light Railway";
@@ -235,11 +240,11 @@ function getInterchangeAnnouncement(stop, atstation) {
 				output += "London Overground";
 				break;
 			case "buses":
-				output += interchanges[ii].title+" Bus Station";
+				output += title + " Bus Station";
 				break;
 			case "airport":
-				if (interchanges[ii].title.toLowerCase().indexOf('airport') > -1) output += interchanges[ii].title;
-				else output += interchanges[ii].title + " Airport";
+				if (interchanges[ii].title.toLowerCase().indexOf('airport') > -1) output += title;
+				else output += title + " Airport";
 			default:
 				output += "something else";
 		}

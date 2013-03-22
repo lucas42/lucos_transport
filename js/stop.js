@@ -94,6 +94,8 @@ function stop(linecode, setno, stationcode, platform) {
 		if (!interchangeNode) return;
 		
 		var station = tubedata.stations[stationcode];
+		
+		// Go through all the lines served by this station and add them as interchanges
 		for (ii=0, il=station.l.length; ii<il; ii++) {
 			key = "tube:"+station.l[ii];
 			newinterchanges[key] = {
@@ -102,9 +104,13 @@ function stop(linecode, setno, stationcode, platform) {
 							  cssClass: tubedata.lines[station.l[ii]].replace(/[ &]/g, '')
 							  };
 		}
+		
+		// Go through interchanges specified in data file and add them too
 		externalinterchanges = getExternalInterchanges(stationcode);
 		for (ii=0, il=externalinterchanges.length; ii<il; ii++) {
 			key = externalinterchanges[ii].type + ":" + (externalinterchanges[ii].code?externalinterchanges[ii].code:externalinterchanges[ii].name);
+			
+			// If the interchange is with another tube station, then include all the lines from that
 			if (externalinterchanges[ii].type == 'tube' && externalinterchanges[ii].code) {
 				for (jj=0, jl=tubedata.stations[externalinterchanges[ii].code].l.length; jj<jl; jj++) {
 					key = "tube:"+tubedata.stations[externalinterchanges[ii].code].l[jj];
@@ -114,38 +120,42 @@ function stop(linecode, setno, stationcode, platform) {
 									  cssClass: tubedata.lines[tubedata.stations[externalinterchanges[ii].code].l[jj]].replace(/[ &]/g, '')
 									  };
 				}
-			} else if ((!externalinterchanges[ii].name ||stationsMatch(externalinterchanges[ii].name, station.n)) && (externalinterchanges[ii].type in require("lucosjs").bootdata.symbols)) {
-				symbols.push(
-							 {
-							 alt: externalinterchanges[ii].type,
-							 src: require("lucosjs").bootdata.symbols[externalinterchanges[ii].type],
-							 }
-							 );
+			} else {
 				newinterchanges[key] = {
-									 title: externalinterchanges[ii].name,
-									 type: externalinterchanges[ii].type,
-									 hide: true
-									 };
-			} else if (externalinterchanges[ii].name) {
-				newinterchanges[key] = {
-								  title: externalinterchanges[ii].name,
-								  type: externalinterchanges[ii].type,
-								  symbol: require("lucosjs").bootdata.symbols[externalinterchanges[ii].type],
-								  };
+					title: externalinterchanges[ii].name,
+					type: externalinterchanges[ii].type,
+					symbol: require("lucosjs").bootdata.symbols[externalinterchanges[ii].type],
+					stationmatches: (externalinterchanges[ii].name && stationsMatch(externalinterchanges[ii].name, station.n))
+				};
 			}
 		}
 		for (ii in newinterchanges) {
+			
+			// Don't include the current line as an interchange
 			if (ii == "tube:"+linecode) continue;
 			newinterchangesarray.push(newinterchanges[ii]);
+			
+			// For anything which has a symbol and matches the name of the current symbol, display the symbol next to the station name, rather than the interchange box
+			if (newinterchanges[ii].stationmatches && newinterchanges[ii].symbol) {
+				symbols.push({
+							 alt: newinterchanges[ii].type,
+							 src: newinterchanges[ii].symbol
+				});
+			}
 		}
 		newinterchangesarray.sort(function _sortfunc(a, b) {
+								  
+			// Make sure all the tube lines go at the top
 			if (a.type != b.type) {
 				if (a.type == 'tube') return -1;
 				if (b.type == 'tube') return 1;
-				return a.type > b.type;
-			} else {
-				return a.title > b.title;
 			}
+								  
+			// Following tube lines should go interchanges which match the station name (these are usually just displayed as a symbol, but the order affects announcements too)
+			if (a.stationmatches != b.stationmatches) {
+				return (a.stationmatches) ? -1 : 1;
+			}
+			return a.title > b.title;
 		});
 		
 		if (!interchanges || JSON.stringify(newinterchangesarray) != JSON.stringify(interchanges)) {
@@ -157,7 +167,10 @@ function stop(linecode, setno, stationcode, platform) {
 				symbolsNode.removeChild(symbolsNode.firstChild);
 			}
 			for (ii=0, il=interchanges.length; ii<il; ii++) {
-				if (interchanges[ii].hide) continue;
+				
+				// Don't show things in the interchange box if they are to have their own symbol next to the station name
+				if (interchanges[ii].stationmatches && interchanges[ii].symbol) continue;
+				
 				interchange = document.createElement("li");
 				if (interchanges[ii].symbol) {
 					symbolImg = document.createElement("img");
