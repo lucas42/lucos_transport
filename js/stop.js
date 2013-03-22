@@ -90,57 +90,55 @@ function stop(linecode, setno, stationcode, platform) {
 		}
 	}
 	function updateInterchanges(tubedata) {
-		var newinterchanges = [], symbols = [], externalinterchanges, ii, il, jj, jl, interchange, symbolImg;
+		var newinterchanges = {}, newinterchangesarray = [], symbols = [], externalinterchanges, ii, il, jj, jl, interchange, symbolImg, key;
 		if (!interchangeNode) return;
 		
 		var station = tubedata.stations[stationcode];
 		for (ii=0, il=station.l.length; ii<il; ii++) {
-			if (station.l[ii] == linecode) continue;
-			newinterchanges.push(
-							  {
+			key = "tube:"+station.l[ii];
+			newinterchanges[key] = {
 							  title: tubedata.lines[station.l[ii]],
 							  type: "tube",
 							  cssClass: tubedata.lines[station.l[ii]].replace(/[ &]/g, '')
-							  }
-							  );
+							  };
 		}
 		externalinterchanges = getExternalInterchanges(stationcode);
 		for (ii=0, il=externalinterchanges.length; ii<il; ii++) {
+			key = externalinterchanges[ii].type + ":" + (externalinterchanges[ii].code?externalinterchanges[ii].code:externalinterchanges[ii].name);
 			if (externalinterchanges[ii].type == 'tube' && externalinterchanges[ii].code) {
 				for (jj=0, jl=tubedata.stations[externalinterchanges[ii].code].l.length; jj<jl; jj++) {
-					newinterchanges.push(
-									  {
+					key = "tube:"+tubedata.stations[externalinterchanges[ii].code].l[jj];
+					newinterchanges[key] = {
 									  title: tubedata.lines[tubedata.stations[externalinterchanges[ii].code].l[jj]],
 									  type: "tube",
 									  cssClass: tubedata.lines[tubedata.stations[externalinterchanges[ii].code].l[jj]].replace(/[ &]/g, '')
-									  }
-									  );
+									  };
 				}
-			} else if (stationsMatch(externalinterchanges[ii].name, station.n) && (externalinterchanges[ii].type in require("lucosjs").bootdata.symbols)) {
+			} else if ((!externalinterchanges[ii].name ||stationsMatch(externalinterchanges[ii].name, station.n)) && (externalinterchanges[ii].type in require("lucosjs").bootdata.symbols)) {
 				symbols.push(
 							 {
 							 alt: externalinterchanges[ii].type,
 							 src: require("lucosjs").bootdata.symbols[externalinterchanges[ii].type],
 							 }
 							 );
-				newinterchanges.push(
-									 {
+				newinterchanges[key] = {
 									 title: externalinterchanges[ii].name,
 									 type: externalinterchanges[ii].type,
 									 hide: true
-									 }
-									 );
-			} else {
-				newinterchanges.push(
-								  {
+									 };
+			} else if (externalinterchanges[ii].name) {
+				newinterchanges[key] = {
 								  title: externalinterchanges[ii].name,
 								  type: externalinterchanges[ii].type,
 								  symbol: require("lucosjs").bootdata.symbols[externalinterchanges[ii].type],
-								  }
-								  );
+								  };
 			}
 		}
-		newinterchanges.sort(function _sortfunc(a, b) {
+		for (ii in newinterchanges) {
+			if (ii == "tube:"+linecode) continue;
+			newinterchangesarray.push(newinterchanges[ii]);
+		}
+		newinterchangesarray.sort(function _sortfunc(a, b) {
 			if (a.type != b.type) {
 				if (a.type == 'tube') return -1;
 				if (b.type == 'tube') return 1;
@@ -150,8 +148,8 @@ function stop(linecode, setno, stationcode, platform) {
 			}
 		});
 		
-		if (!interchanges || JSON.stringify(newinterchanges) != JSON.stringify(interchanges)) {
-			interchanges = newinterchanges;
+		if (!interchanges || JSON.stringify(newinterchangesarray) != JSON.stringify(interchanges)) {
+			interchanges = newinterchangesarray;
 			while (interchangeNode.firstChild) {
 				interchangeNode.removeChild(interchangeNode.firstChild);
 			}
