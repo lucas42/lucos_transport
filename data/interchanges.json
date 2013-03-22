@@ -132,7 +132,7 @@
 		},
 		{
 			"type": "nr",
-			"name": "London Waterloo",
+			"name": "Waterloo",
 			"code": "WAT"
 		},
 		{
@@ -151,7 +151,7 @@
 		},
 		{
 			"type": "nr",
-			"name": "London Charing Cross",
+			"name": "Charing Cross",
 			"code": "CHX"
 		},
 		{
@@ -170,7 +170,7 @@
 		},
 		{
 			"type": "nr",
-			"name": "London Fenchurch Street",
+			"name": "Fenchurch Street",
 			"code": "FST"
 		},
 		{
@@ -224,7 +224,7 @@
 		},
 		{
 			"type": "nr",
-			"name": "London Blackfriars",
+			"name": "Blackfriars",
 			"code": "BFR"
 		},
 		{
@@ -239,7 +239,7 @@
 		},
 		{
 			"type": "nr",
-			"name": "London Vauxhall",
+			"name": "Vauxhall",
 			"code": "VXH"
 		},
 		{
