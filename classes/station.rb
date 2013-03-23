@@ -56,15 +56,17 @@ class LineStation
 			platform.elements.each('T') { |stop|
 				begin
 					time = @validtime.to_i + stop.attributes['SecondsTo'].to_i
+					linecode = stop.attributes['LN']
 					pseudoline = @line
 					if (!(stop.attributes['Destination'].index('Circle').nil?) and stop.attributes['Destination'] != 'Circle and Hammersmith & City')
 						pseudoline = @network.get_line('I')
-					end
-					if (@line != pseudoline)
 						pseudoline.add_station(@station, self)
+						linecode = pseudoline.get_code
 					end
-					@network.set_station(pseudoline, @station, self)
-					info[:lines] << pseudoline.get_code
+					if (pseudoline.get_code == linecode)
+						@network.set_station(pseudoline, @station, self)
+					end
+					info[:lines] << linecode
 					
 					info[:destinations][stop.attributes['DestCode'].to_i] = stop.attributes['Destination']
 					info[:stops] << {
@@ -73,7 +75,7 @@ class LineStation
 						:r => stop.attributes['TripNo'].to_i,	# Route number
 						:s => station.attributes['Code'],		# Station code
 						:p => platformNum,						# Platform number
-						:l => pseudoline.get_code,				# Line code
+						:l => linecode,							# Line code
 						:i => time,								# Departure time (unix timestamp)
 					}
 				rescue Exception => e
