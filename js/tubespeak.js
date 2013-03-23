@@ -208,30 +208,60 @@ function fixStationName(name) {
 	return name
 	.replace("via T4 Loop", "Terminal 4")
 	.replace("123 + 5", "1, 2, 3 and 5")
-	.replace('via', 'viaa')
+	//.replace('via', 'viaa')
 	.replace("CX", "Charing Cross")
 	.replace(/\(.*\)/, "");
 }
 function getInterchangeAnnouncement(stop, atstation) {
-	var output, ii, ll, interchanges = stop.getInterchanges(), title, stationmatches;
+	var output, ii, ll, interchanges = stop.getInterchanges(), titles, stationmatches, structured = {}, type, plural, typelength, typecount;
 	ll=interchanges.length;
+	if (!ll) return "";
 	if (atstation) output = "Change here for ";
 	else output = "Change for ";
-	if (!ll) return "";
+	typelength = 0;
 	for (ii=0; ii<ll; ii++) {
-		title = interchanges[ii].title;
-		stationmatches = interchanges[ii].stationmatches;
-		switch (interchanges[ii].type) {
+		if (!structured[interchanges[ii].type]) {
+			structured[interchanges[ii].type] = [];
+			typelength++;
+		}
+		structured[interchanges[ii].type].push(interchanges[ii]);
+	}
+	
+	typecount = 0;
+	for (type in structured) {
+		typecount++;
+		ll = structured[type].length;
+		if (!ll) continue;
+		stationmatches = false;
+		plural = ll > 1;
+		titles = "";
+		for (ii=0; ii<ll; ii++) {
+			if (structured[type][ii].stationmatches && (type == 'nr' || type == 'river')) {
+				stationmatches = true;
+			} else {
+				titles += structured[type][ii].title;
+				if (ii == ll-1) {
+				} else if (ii == ll-2) {
+					titles += " and ";
+				} else {
+					titles += ", ";
+				}
+			}
+		}
+		switch (type) {
 			case "tube":
-				output += "the " + title + " line";
+				output += "the " + titles + " line";
+				if (plural) output += "s";
 				break;
 			case "nr":
 				output += "National Rail Services";
-				if (!stationmatches) output += " from " + title;
+				if (titles && stationmatches) output += " from here and also " + titles;
+				else if (titles) output += " from " + titles;
 				break;
 			case "river":
 				output += "River Boat Services";
-				if (!stationmatches) output += " from " + title;
+				if (titles && stationmatches) output += " from here and also " + titles;
+				else if (titles) output += " from " + titles;
 				break;
 			case "dlr":
 				output += "Docklands Light Railway";
@@ -240,17 +270,22 @@ function getInterchangeAnnouncement(stop, atstation) {
 				output += "London Overground";
 				break;
 			case "buses":
-				output += title + " Bus Station";
+				output += titles + " Bus Station";
+				if (plural) output += "s";
 				break;
 			case "airport":
-				if (interchanges[ii].title.toLowerCase().indexOf('airport') > -1) output += title;
-				else output += title + " Airport";
+				if (interchanges[ii].titles.toLowerCase().indexOf('airport') > -1) {
+					output += titles;
+				} else {
+					output += title + " Airport";
+					if (plural) output += "s";
+				}
 			default:
 				output += "something else";
 		}
-		if (ii == ll-1) {
+		if (typelength == typecount) {
 			output += ".  ";
-		} else if (ii == ll-2) {
+		} else if (typecount == typelength-1) {
 			output += " and ";
 		} else {
 			output += ", ";

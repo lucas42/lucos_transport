@@ -237,12 +237,13 @@ function stop(linecode, setno, stationcode, platform) {
 	 *(Obviously this is really rough and station codes should be used where possible)
 	 */
 	function stationsMatch(a, b) {
-		a = a.replace(/via .*/, '')
-		.replace(/[\+\&]/, "and")
-		.replace(" St ", " Street ");
-		b = b.replace(/via .*/, '')
-		.replace(/[\+\&]/, "and")
-		.replace(" St ", " Street ");
+		function normalise(stationname) {
+			return stationname.replace(/via .*/, '')
+			.replace(/[\+\&]/, "and")
+			.replace(" Street ", " St ");
+		}
+		a = normalise(a);
+		b = normalise(b);
 		if (a.indexOf(b) > -1) return true;
 		if (b.indexOf(a) > -1) return true;
 		return false;
