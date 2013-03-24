@@ -54,10 +54,12 @@ class DLRStation < LineStation
 				info[:stops] << get_stop(platformNum, platformtime, firsttrain)
 			end
 			
-			followingtrains = platform.elements["*[@id = 'platformmiddle']/div[@id = 'line23']/p"].text
-			followingtrains.strip!
-			followingtrains.split(/\s*[\n\r]+\s*/).each() { |train|
-				info[:stops] << get_stop(platformNum, platformtime, train)
+			followingtrains = platform.elements["*[@id = 'platformmiddle']/div[@id = 'line23']/p"].texts
+			followingtrains.each() { |train|
+				datastr = train.value().strip()
+				if (!datastr.empty?)
+					info[:stops] << get_stop(platformNum, platformtime, datastr)
+				end
 			}
 		}
 		info[:stops].each() { |stop|
@@ -78,15 +80,15 @@ class DLRStation < LineStation
 		timestamp = time.to_i + secsto
 		
 		# Make the destination title case for consistency (First trains are usually already title case, but following trains are uppercase)
-		destination.gsub(/\b('?[a-z])/) { $1.capitalize }
+		destination = destination.split(/(\W)/).map(&:capitalize).join
 		{
 			:t => 0,			# Train number
-			:d => destination,			# Destination number
+			:d => destination,	# Destination number
 			:r => nil,			# Route number
 			:s => @station,		# Station code
 			:p => platformNum,	# Platform number
 			:l => 'L',			# Line code
-			:i => timestamp,			# Departure time (unix timestamp)
+			:i => timestamp,	# Departure time (unix timestamp)
 		}
 	end
 end
