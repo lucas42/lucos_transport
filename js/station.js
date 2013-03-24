@@ -17,15 +17,33 @@ function station (stationcode, element, connectedstation) {
 			platforms = newplatforms;
 			render();
 		}
+		
+		// Mark all stops as not current, so they can be removed later
+		for (platformkey in stops) {
+			for (stopkey in stops[platformkey]) {
+				stops[platformkey][stopkey].current = false;
+			}
+		}
+		
 		for (ii=0, ll=tubedata.stops.length; ii<ll; ii++) {
 			if (tubedata.stops[ii].s != stationcode) continue;
 			platformkey = tubedata.stops[ii].p;
-			stopkey = tubedata.stops[ii].l + "_" + tubedata.stops[ii].t;
 			if (!(platformkey in stops)) throw "Platform "+platformkey+" not found in station "+name;
 			
-			// If a stop isn't already in the stops list, then add it
-			if (!(stopkey in stops[platformkey])) {
-				stops[platformkey][stopkey] = new (require('stopjs').construct)(tubedata.stops[ii].l, tubedata.stops[ii].t, tubedata.stops[ii].s, tubedata.stops[ii].p);
+			// For trains with a set number, try to match up to an existing stop
+			if (tubedata.stops[ii].t) {
+				stopkey = tubedata.stops[ii].l + "_" + tubedata.stops[ii].t;
+				
+				// If a stop isn't already in the stops list, then add it
+				if (!(stopkey in stops[platformkey])) {
+					stops[platformkey][stopkey] = new (require('stopjs').construct)(tubedata.stops[ii].l, tubedata.stops[ii].t, tubedata.stops[ii].s, tubedata.stops[ii].p);
+				}
+				
+				// Trains without a set number can be matched up, so will just need replaced each time
+			} else {
+				stopkey = tubedata.stops[ii].l + "_unknown_" + ii;
+				if (stops[platformkey][stopkey]) stops[platformkey][stopkey].teardown();
+				stops[platformkey][stopkey] = new (require('stopjs').construct)(tubedata.stops[ii].l, tubedata.stops[ii].t, tubedata.stops[ii].s, tubedata.stops[ii].p, ii);
 			}
 			stops[platformkey][stopkey].current = true;
 			platformLines[platformkey][tubedata.stops[ii].l] = tubedata.lines[tubedata.stops[ii].l].replace(/[ &]/g, '').toLowerCase();

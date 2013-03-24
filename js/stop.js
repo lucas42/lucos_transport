@@ -6,21 +6,29 @@
  * @param stationcode {String} The station where the stop will occur
  * @param [platform] {String} The platform in the station where the stop will occur (optional - if undefined, an average of all possible platforms will be taken)
  */
-function stop(linecode, setno, stationcode, platform) {
+function stop(linecode, setno, stationcode, platform, setlessid) {
 	var stop, element, timeTextNode, abstime, reltime, stationname, platformname, stationplatformname, linename, stationplatformTextNode, destination, destinationTextNode, interchangeNode, interchanges, symbolsNode;
 	function updateData(tubedata) {
 		var ii, li, totaltime = 0, platforms = 0, newplatformname, newstationplatformname, newdestination;
 		stationname = tubedata.stations[stationcode].n;
 		linename = tubedata.lines[linecode];
 		
-		// Go through all the stops and look for matches
-		for (ii=0, li=tubedata.stops.length; ii<li; ii++) {
-			if (tubedata.stops[ii].l != linecode || tubedata.stops[ii].t != setno || tubedata.stops[ii].s != stationcode) continue;
-			if (platform != undefined && tubedata.stops[ii].p != platform) continue;
-			platforms++;
-			newplatformname = tubedata.stations[stationcode].p[tubedata.stops[ii].p];
-			newdestination = tubedata.destinations[tubedata.stops[ii].d];
-			totaltime += tubedata.stops[ii].i;
+		if (setno) {
+			
+			// Go through all the stops and look for matches
+			for (ii=0, li=tubedata.stops.length; ii<li; ii++) {
+				if (tubedata.stops[ii].l != linecode || tubedata.stops[ii].t != setno || tubedata.stops[ii].s != stationcode) continue;
+				if (platform != undefined && tubedata.stops[ii].p != platform) continue;
+				platforms++;
+				newplatformname = tubedata.stations[stationcode].p[tubedata.stops[ii].p];
+				newdestination = tubedata.destinations[tubedata.stops[ii].d];
+				totaltime += tubedata.stops[ii].i;
+			}
+		} else {
+			platforms = 1;
+			newplatformname = tubedata.stations[stationcode].p[tubedata.stops[setlessid].p];
+			newdestination = tubedata.destinations[tubedata.stops[setlessid].d];
+			totaltime = tubedata.stops[setlessid].i;
 		}
 		if (platforms !== 1) newplatformname = null;
 		
