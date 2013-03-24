@@ -9,7 +9,7 @@
 function stop(linecode, setno, stationcode, platform, setlessid) {
 	var stop, element, timeTextNode, abstime, reltime, stationname, platformname, stationplatformname, linename, stationplatformTextNode, destination, destinationTextNode, interchangeNode, interchanges, symbolsNode;
 	function updateData(tubedata) {
-		var ii, li, totaltime = 0, platforms = 0, newplatformname, newstationplatformname, newdestination;
+		var ii, li, totaltime = 0, timecount = 0, platforms = {}, platformlist = [], newplatformname, newstationplatformname, newdestination;
 		stationname = tubedata.stations[stationcode].n;
 		linename = tubedata.lines[linecode];
 		
@@ -19,21 +19,27 @@ function stop(linecode, setno, stationcode, platform, setlessid) {
 			for (ii=0, li=tubedata.stops.length; ii<li; ii++) {
 				if (tubedata.stops[ii].l != linecode || tubedata.stops[ii].t != setno || tubedata.stops[ii].s != stationcode) continue;
 				if (platform != undefined && tubedata.stops[ii].p != platform) continue;
-				platforms++;
-				newplatformname = tubedata.stations[stationcode].p[tubedata.stops[ii].p];
+				platforms[tubedata.stops[ii].p] = true;
 				newdestination = tubedata.destinations[tubedata.stops[ii].d];
+				timecount++;
 				totaltime += tubedata.stops[ii].i;
 			}
 		} else {
-			platforms = 1;
-			newplatformname = tubedata.stations[stationcode].p[tubedata.stops[setlessid].p];
+			platforms[tubedata.stops[setlessid].p] = true;
 			newdestination = tubedata.destinations[tubedata.stops[setlessid].d];
+			timecount = 1;
 			totaltime = tubedata.stops[setlessid].i;
 		}
-		if (platforms !== 1) newplatformname = null;
 		
-		if (newplatformname == null) newstationplatformname = stationname;
-		else newstationplatformname = stationname + ' - ' + newplatformname;
+		for (ii in platforms) {
+			platformlist.push(tubedata.stations[stationcode].p[ii]);
+		}
+		newplatformname = platformlist.join(' or ');
+		if (platformlist.length == 1) {
+			newstationplatformname = stationname + ' - ' + newplatformname;
+		} else {
+			newstationplatformname = stationname;
+		}
 		
 		platformname = newplatformname;
 		
@@ -48,11 +54,11 @@ function stop(linecode, setno, stationcode, platform, setlessid) {
 		}
 	
 		// If no platforms matched, then remove this stop
-		if (platforms < 1) {
+		if (platformlist.length < 1) {
 			teardown();
 			
 		} else {
-			abstime = totaltime / platforms;
+			abstime = totaltime / timecount;
 			updateRelTime();
 			updateInterchanges(tubedata);
 		}
