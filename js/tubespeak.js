@@ -334,7 +334,7 @@ Stop.prototype.getTrainServiceName = function () {
 Stop.prototype.makeAnnouncement = function (atstation) {
 	var subject, verb;
 	if (this.isTrain()) {
-		if (stop.getDestination() == "Out Of Service") {
+		if (this.getDestination() == "Out Of Service") {
 			speak("This train is currently out of service.");
 		} else {
 			subject = atstation ? "This" : "The next stop";

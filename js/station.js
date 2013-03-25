@@ -1,7 +1,7 @@
 "strict";
 var lucos = require('lucosjs');
 function station (stationcode, element, connectedstation) {
-	var name, platforms = {}, platformDOMLists = {}, stops = {}, stopsDOMLists = {}, platformLines = {}, platformCssClasses = {}, interchanges = {};
+	var name, platforms = {}, platformDOMLists = {}, stops = {}, stopsDOMLists = {}, platformLines = {}, platformCssClasses = {}, interchanges = {}, networktype;
 	
 	
 	function updateData(tubedata) {
@@ -9,6 +9,9 @@ function station (stationcode, element, connectedstation) {
 		var station = tubedata.stations[stationcode];
 		if (!station) throw "Can't find station "+stationcode;
 		newname = station.n;
+		
+		// Network type defaults to tube
+		networktype = station.w || "tube";
 		for (code in station.p) {
 			newplatforms[code] = station.p[code]+(connectedstation ? " ("+newname+")":"");
 		}
@@ -129,7 +132,7 @@ function station (stationcode, element, connectedstation) {
 		}
 		if (!connectedstation) {
 			lucos.addNavBar(name);
-			interchangeset = require('stopjs').getInterchanges(stationcode);
+			interchangeset = require('stopjs').getInterchanges(networktype, stationcode);
 			for (ii=0, li=interchangeset.length; ii<li; ii++) {
 				if ((interchangeset[ii].type == 'tube' || interchangeset[ii].type == 'dlr') && interchangeset[ii].code) {
 					interchangeNode = document.createElement("div");

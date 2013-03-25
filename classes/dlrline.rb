@@ -48,6 +48,7 @@ class DLRLine < Line
 					:n => stationname,
 					:p => stationinfo[:platforms],
 					:l => stationinfo[:lines].sort,
+					:w => "dlr",
 				}
 				info[:stops].concat(stationinfo[:stops])
 				info[:destinations].update(stationinfo[:destinations])

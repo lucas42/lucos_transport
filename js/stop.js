@@ -104,10 +104,13 @@ function stop(linecode, setno, stationcode, platform, setlessid) {
 		}
 	}
 	function updateInterchanges(tubedata) {
-		var newinterchanges = {}, newinterchangesarray = [], symbols = [], externalinterchanges, ii, il, jj, jl, interchange, symbolImg, key;
+		var newinterchanges = {}, newinterchangesarray = [], symbols = [], externalinterchanges, ii, il, jj, jl, interchange, symbolImg, key, networktype;
 		if (!interchangeNode) return;
 		
 		var station = tubedata.stations[stationcode];
+		
+		// Network type defaults to tube if not defined
+		networktype = station.w || "tube";
 		
 		// Go through all the lines served by this station and add them as interchanges
 		for (ii=0, il=station.l.length; ii<il; ii++) {
@@ -120,17 +123,17 @@ function stop(linecode, setno, stationcode, platform, setlessid) {
 		}
 		
 		// Go through interchanges specified in data file and add them too
-		externalinterchanges = getExternalInterchanges(stationcode);
+		externalinterchanges = getExternalInterchanges(networktype, stationcode);
 		for (ii=0, il=externalinterchanges.length; ii<il; ii++) {
 			key = externalinterchanges[ii].type + ":" + (externalinterchanges[ii].code?externalinterchanges[ii].code:externalinterchanges[ii].name);
 			
-			// If the interchange is with another tube station, then include all the lines from that
-			if (externalinterchanges[ii].type == 'tube' && externalinterchanges[ii].code) {
+			// If the interchange is with another tube or dlr station, then include all the lines from that
+			if ((externalinterchanges[ii].type == 'tube' || externalinterchanges[ii].type == 'dlr') && externalinterchanges[ii].code) {
 				for (jj=0, jl=tubedata.stations[externalinterchanges[ii].code].l.length; jj<jl; jj++) {
 					key = "tube:"+tubedata.stations[externalinterchanges[ii].code].l[jj];
 					newinterchanges[key] = {
 									  title: tubedata.lines[tubedata.stations[externalinterchanges[ii].code].l[jj]],
-									  type: "tube",
+									  type: externalinterchanges[ii].type,
 									  cssClass: tubedata.lines[tubedata.stations[externalinterchanges[ii].code].l[jj]].replace(/[ &]/g, '')
 									  };
 				}
@@ -162,7 +165,11 @@ function stop(linecode, setno, stationcode, platform, setlessid) {
 			// Make sure all the tube lines go at the top
 			if (a.type != b.type) {
 				if (a.type == 'tube') return -1;
+				if (a.type == 'dlr') return -1;
+				if (a.type == 'overground') return -1;
 				if (b.type == 'tube') return 1;
+				if (b.type == 'dlr') return 1;
+				if (b.type == 'overgound') return 1;
 			}
 								  
 			// Following tube lines should go interchanges which match the station name (these are usually just displayed as a symbol, but the order affects announcements too)
@@ -328,7 +335,7 @@ function stop(linecode, setno, stationcode, platform, setlessid) {
 
 exports.construct = stop;
 
-function getExternalInterchanges(stationcode) {
+function getExternalInterchanges(networktype, stationcode) {
 	var set, output, jj, jl, ii, match, li;
 	var interchanges = require('lucosjs').bootdata.interchanges;
 	for (ii=0, li=interchanges.length; ii<li; ii++) {
@@ -336,7 +343,7 @@ function getExternalInterchanges(stationcode) {
 		match = false;
 		output = [];
 		for (jj=0, jl=set.length; jj<jl; jj++) {
-			if (set[jj].type == "tube" && set[jj].code == stationcode) {
+			if (set[jj].type == networktype && set[jj].code == stationcode) {
 				match = true;
 			} else {
 				output.push(set[jj]);
