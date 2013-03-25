@@ -127,35 +127,20 @@ function speak(text) {
 }
 
 lucos.listen("stopApproaching", function _approaching(stop) {
-	if (stop.isTrain()) {
-		if (stop.getDestination() == "Out Of Service") {
-			 speak("This train is currentlyy out of service.");
-		} else {
-			speak("The next stop is "+fixStationName(stop.getStationName())+(stop.isTerminus()?", where this train terminates.  ":".  ")+getInterchangeAnnouncement(stop)+getLandmarkAnnonucement(stop.getStationCode(), false));
-		}
-	} else if (stop.getPlatformName() != null) {
-		speak("The next train to arrive at "+stop.getPlatformName().replace(/.* - /, '')+" will be a "+stop.getLineName()+" line train to "+fixStationName(stop.getDestination()));
-	} else {
-		console.log(stop);
-	}
+	stop.makeAnnouncement(false);
 });
 lucos.listen("stopArrived", function _approaching(stop) {
-	if (stop.isTrain()) {
-		 speak("This is "+fixStationName(stop.getStationName())+(stop.isTerminus()?", where this train terminates.  ":".  ")+getInterchangeAnnouncement(stop)+getLandmarkAnnonucement(stop.getStationCode(), true));
-	} else if (stop.getPlatformName() != null) {
-		speak("The train at "+stop.getPlatformName().replace(/.* - /, '')+" is a "+stop.getLineName()+" line train to "+fixStationName(stop.getDestination()));
-
-	} else {
-		console.log(stop);
-		speak("There is a "+stop.getLineName()+" line train to "+fixStationName(stop.getDestination())+" at this station");
-	}
+	stop.makeAnnouncement(true);
 });
 
-require('lucosjs').pubsub.listenExisting('networkStatusChanged', networkStats);
-										 
-function networkStats (network){
+lucos.pubsub.listenExisting('networkStatusChanged', function _networkStats(network) {
+	network.makeAnnouncement();
+});
+
+var Network = require('networkjs').construct;
+Network.prototype.makeAnnouncement = function (){
 	var lines, ii, ll, states, status, overview, maxstate, gotline;
-	lines = network.getLines();
+	lines = this.getLines();
 	ll=lines.length;
 	if (ll < 1) return;
 	// Organise lines based on state
@@ -210,10 +195,29 @@ function fixStationName(name) {
 	.replace("123 + 5", "1, 2, 3 and 5")
 	//.replace('via', 'viaa')
 	.replace("CX", "Charing Cross")
+	.replace("Arsn", "Arsenal")
+	.replace(" St ", " Street ")
 	.replace(/\(.*\)/, "");
 }
-function getInterchangeAnnouncement(stop, atstation) {
-	var output, ii, ll, interchanges = stop.getInterchanges(), titles, stationmatches, structured = {}, type, plural, typelength, typecount;
+
+var Stop = require('stopjs').construct;
+Stop.prototype.getSpeakableStationName = function () {
+	return fixStationName(this.getStationName());
+}
+Stop.prototype.getSpeakableDestination = function () {
+	return fixStationName(this.getDestination());
+}
+Stop.prototype.getSpeakablePlatformName = function () {
+	var platform = this.getPlatformName();
+	if (!platform) {
+		var station = this.getStationName();
+		debugger;
+	}
+	if (platform === null) return "some platform";
+	return platform.replace(/.* - /, '');
+}
+Stop.prototype.getInterchangeAnnouncement = function(atstation) {
+	var output, ii, ll, interchanges = this.getInterchanges(), titles, stationmatches, structured = {}, type, plural, typelength, typecount;
 	ll=interchanges.length;
 	if (!ll) return "";
 	if (atstation) output = "Change here for ";
@@ -293,8 +297,8 @@ function getInterchangeAnnouncement(stop, atstation) {
 	}
 	return output;
 }
-function getLandmarkAnnonucement(stationcode, atstation) {
-	var station, landmarks, ll, ii;
+Stop.prototype.getLandmarkAnnonucement = function(atstation) {
+	var station, landmarks, ll, ii, stationcode = this.getStationCode();
 	var station = lucos.bootdata.stations[stationcode] || {};
 	var landmarks = "";
 	if (station.landmarks) {
@@ -308,4 +312,34 @@ function getLandmarkAnnonucement(stationcode, atstation) {
 		
 	}
 	return landmarks;
+}
+Stop.prototype.getTerminusAnnouncement = function () {
+	if (this.isTerminus()) {
+			return ", where this train terminates";
+	} else {
+			return "";
+	}
+}
+Stop.prototype.getTrainServiceName = function () {
+	var line = this.getLineName();
+	if (line == 'DLR') return "a DLR train";
+	
+	// HACK:  None of the current Underground lines start with a vowel, so always use 'a'
+	return "a " + line + " line train";
+}
+Stop.prototype.makeAnnouncement = function (atstation) {
+	var subject, verb;
+	if (this.isTrain()) {
+		if (stop.getDestination() == "Out Of Service") {
+			speak("This train is currently out of service.");
+		} else {
+			subject = atstation ? "This" : "The next stop";
+			speak(subject+" is "+this.getSpeakableStationName()+this.getTerminusAnnouncement()+".  "+this.getInterchangeAnnouncement(atstation)+this.getLandmarkAnnonucement(atstation));
+		}
+	} else {
+		subject = atstation ? "The train" : "The next train";
+		verb = atstation ? "is" : "will be";
+		speak(subject+" at "+this.getSpeakablePlatformName()+" "+verb+" "+this.getTrainServiceName()+" to "+this.getSpeakableDestination());
+		
+	}
 }
