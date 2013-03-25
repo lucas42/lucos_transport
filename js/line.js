@@ -31,6 +31,10 @@ var line = function (linecode, element) {
 			cssClass: name.replace(/[ &]/g, ''),
 			stations: stations
 		};
+		
+		// BODGE: This should probably come down from the server, but for now just hardcode it here
+		if (linecode == 'L') renderdata.network = 'dlr';
+		else renderdata.network = 'tube';
 		setCurrent(name);
 		require('lucosjs').addNavBar(name+" Line Stations");
 		element.innerHTML = require('lucosjs').render('line', renderdata);

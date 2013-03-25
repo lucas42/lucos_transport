@@ -125,7 +125,6 @@ h1, h2, h3{
 
 /** Line Pages **/
 .station {
-	list-style-image: url('/img/roundel-tube');
 	font-size: 2.5em;
 	zoom: 0.8;
 }
@@ -135,6 +134,15 @@ h1, h2, h3{
 }
 .station a:hover {
 	text-decoration: underline;
+}
+.network_tube .station {
+	list-style-image: url('/img/roundel-tube');
+}
+.network_dlr .station {
+	list-style-image: url('/img/roundel-dlr');
+}
+.network_overground .station {
+	list-style-image: url('/img/roundel-overground');
 }
 
 /** Station Pages **/
