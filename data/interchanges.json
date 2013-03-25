@@ -261,5 +261,20 @@
 			"type": "river",
 			"name": "Chelsea Harbour Pier"
 		}
-	]
+	],
+	[
+		{
+			"type": "tube",
+			"code": "VIC"
+		 },
+		 {
+			"type": "nr",
+			"name": "Victoria",
+			"code": "VIC"
+		 },
+		 {
+			"type": "coaches",
+			"name": "Victoria"
+		 }
+	 ]
 ]

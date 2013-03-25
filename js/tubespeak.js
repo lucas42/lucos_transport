@@ -277,6 +277,10 @@ Stop.prototype.getInterchangeAnnouncement = function(atstation) {
 				output += titles + " Bus Station";
 				if (plural) output += "s";
 				break;
+			case "coaches":
+				output += titles + " Coach Station";
+				if (plural) output += "s";
+				break;
 			case "airport":
 				if (interchanges[ii].titles.toLowerCase().indexOf('airport') > -1) {
 					output += titles;
