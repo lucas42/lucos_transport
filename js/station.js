@@ -1,19 +1,22 @@
 "strict";
 var lucos = require('lucosjs');
 function station (stationcode, element, connectedstation) {
-	var name, platforms = {}, platformDOMLists = {}, stops = {}, stopsDOMLists = {}, platformLines = {}, platformCssClasses = {}, interchanges = {}, networktype;
+	var name, platforms = {}, platformDOMLists = {}, stops = {}, stopsDOMLists = {}, platformLines = {}, platformCssClasses = {}, interchanges = {}, networktype, stationobj = this;
 	
 	
 	function updateData(tubedata) {
 		var newname, newplatforms = [], platformkey, stopkey, stopsArray, prevstopel, classes, code, ii, li, newCssClass;
-		var station = tubedata.stations[stationcode];
-		if (!station) throw "Can't find station "+stationcode;
-		newname = station.n;
+		var stationdata = tubedata.stations[stationcode];
+		if (!stationdata) throw "Can't find station "+stationcode;
+		newname = stationdata.n;
 		
 		// Network type defaults to tube
-		networktype = station.w || "tube";
-		for (code in station.p) {
-			newplatforms[code] = station.p[code]+(connectedstation ? " ("+newname+")":"");
+		networktype = stationdata.w || "tube";
+		for (code in stationdata.p) {
+			newplatforms[code] = stationdata.p[code];
+			
+			// For connected stations of a different name (eg Monument / Bank) display the station name next to the platform
+			if (connectedstation && connectedstation.getName() != newname) newplatforms[code] += " ("+newname+")";
 		}
 		if (!name || newname != name || JSON.stringify(platforms) != JSON.stringify(newplatforms)) {
 			name = newname;
@@ -136,13 +139,12 @@ function station (stationcode, element, connectedstation) {
 			for (ii=0, li=interchangeset.length; ii<li; ii++) {
 				if ((interchangeset[ii].type == 'tube' || interchangeset[ii].type == 'dlr') && interchangeset[ii].code) {
 					interchangeNode = document.createElement("div");
-					interchanges[interchangeset[ii].code] = new station(interchangeset[ii].code, interchangeNode, true);
+					interchanges[interchangeset[ii].code] = new station(interchangeset[ii].code, interchangeNode, stationobj);
 					element.appendChild(interchangeNode)
 				}
 			}
 		}
 	}
-	lucos.pubsub.listenExisting('newtubedata', updateData);
 	function teardown() {
 		var platformkey, stopkey, interchangekey;
 		lucos.pubsub.unlisten('newtubedata', updateData);
@@ -162,6 +164,11 @@ function station (stationcode, element, connectedstation) {
 		}
 	}
 	this.teardown = teardown;
+	function getName() {
+		return name;
+	}
+	this.getName = getName;
+	lucos.pubsub.listenExisting('newtubedata', updateData);
 }
 
 exports.construct = station
