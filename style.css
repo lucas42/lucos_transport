@@ -223,7 +223,7 @@ h1, h2, h3{
 
 .interchanges { width: 10ex; font-weight: bold; text-align: center; list-style-type: none; float: right; margin: 0 2ex; padding: 0; }
 .interchanges > li { font-size: 0.5em; line-height: 3ex; border: solid 1px; color: black; background: white; min-height: 1em; padding: 0 1ex; }
-.interchanges > .tube { border: none; }
+.interchanges > .tube, .interchanges > .dlr, .interchanges > .overground { border: none; }
 .interchanges .symbol { height: 1em; margin: 0.5ex; float: left; }
 .route > .stop:last-child .interchanges { position: absolute; right: 0; } /* In case it overflows its containing box */
 
