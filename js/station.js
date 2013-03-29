@@ -107,7 +107,7 @@ function station (stationcode, element, connectedstation) {
 	}
 	
 	function render() {
-		var renderdata, platformNodes, ii, il, platformid, interchangeset, interchangeNode;
+		var renderdata, platformNodes, ii, il, platformid, interchangeset, interchangeNode, extLink, symbolImg;
 		renderdata = {
 			name: name,
 			platforms: [],
@@ -140,7 +140,22 @@ function station (stationcode, element, connectedstation) {
 				if ((interchangeset[ii].type == 'tube' || interchangeset[ii].type == 'dlr') && interchangeset[ii].code) {
 					interchangeNode = document.createElement("div");
 					interchanges[interchangeset[ii].code] = new station(interchangeset[ii].code, interchangeNode, stationobj);
-					element.appendChild(interchangeNode)
+					element.appendChild(interchangeNode);
+				}
+			}
+			for (ii=0, li=interchangeset.length; ii<li; ii++) {
+				if ((interchangeset[ii].type == 'nr') && interchangeset[ii].code && interchangeset[ii].name) {
+					extLink = document.createElement("a");
+					extLink.addClass("stationextlink");
+					extLink.href = "http://traintimes.org.uk/live/"+interchangeset[ii].code;
+					extLink.setAttribute("target", "_blank");
+					extLink.appendChild(document.createTextNode(interchangeset[ii].name));
+					symbolImg = document.createElement("img");
+					symbolImg.addClass("symbol");
+					symbolImg.src = require("lucosjs").bootdata.symbols[interchangeset[ii].type];
+					symbolImg.setAttribute("alt", interchangeset[ii].type);
+					extLink.appendChild(symbolImg);
+					element.appendChild(extLink);
 				}
 			}
 		}

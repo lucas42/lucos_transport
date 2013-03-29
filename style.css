@@ -176,6 +176,7 @@ h1, h2, h3{
 @media (min-width: 750px) {
 	.departure_board { width: 700px; }
 	.platform_name { width: 700px; margin: 1.5em auto 0.5em; }
+	.stationextlink { width: 700px; }
 }
 
 /** Train pages see http://www.tfl.gov.uk/assets/downloads/corporate/tfl-line-diagram-standard-issue03.pdf **/
@@ -230,6 +231,10 @@ h1, h2, h3{
 /** Navigation **/
 .nav { font-weight: bold; padding: 5px; font-size: 1em; color: #555; border-radius: 10px; display: block; text-decoration: none; margin-bottom: 5px; }
 .nav:hover { text-decoration: underline overline; }
+
+/** extlink **/
+.stationextlink { display: block; text-decoration: none; color: inherit; margin: 1em auto 0; }
+.stationextlink .symbol { height: 1em; margin: 0.5ex; vertical-align: middle; }
 
 /** Maps **/
 #maplist { list-style-type: none; }
