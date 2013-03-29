@@ -197,6 +197,9 @@ function fixStationName(name) {
 	.replace("CX", "Charing Cross")
 	.replace("Arsn", "Arsenal")
 	.replace(" St ", " Street ")
+	.replace("Southwark", "Suthirck")
+	.replace("Fulham", "Fullam")
+	.replace(/int$/i, "International")
 	.replace(/\(.*\)/, "");
 }
 
@@ -325,7 +328,8 @@ Stop.prototype.getTerminusAnnouncement = function () {
 	}
 }
 Stop.prototype.getTrainServiceName = function () {
-	var line = this.getLineName();
+	var line = this.getLineName()
+	.replace("Bakerloo", "Baykerloo");
 	if (line == 'DLR') return "a DLR train";
 	
 	// HACK:  None of the current Underground lines start with a vowel, so always use 'a'
