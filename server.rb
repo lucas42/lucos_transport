@@ -9,23 +9,23 @@ require 'rexml/document'
 require 'time'
 
 # classes
-require 'classes/network'
-require 'classes/line'
-require 'classes/dlrline'
-require 'classes/pseudoline'
-require 'classes/station'
-require 'classes/dlrstation'
+require_relative 'classes/network'
+require_relative 'classes/line'
+require_relative 'classes/dlrline'
+require_relative 'classes/pseudoline'
+require_relative 'classes/station'
+require_relative 'classes/dlrstation'
 
 # controllers
-require 'controllers/wrapper'
-require 'controllers/fallback'
-require 'controllers/tube'
-require 'controllers/line'
-require 'controllers/station'
-require 'controllers/train'
-require 'controllers/map'
-require 'controllers/maplist'
-require '../core/resources.rb'
+require_relative 'controllers/wrapper'
+require_relative 'controllers/fallback'
+require_relative 'controllers/tube'
+require_relative 'controllers/line'
+require_relative 'controllers/station'
+require_relative 'controllers/train'
+require_relative 'controllers/map'
+require_relative 'controllers/maplist'
+require_relative '../core/resources.rb'
 include REXML
 
 $stdout.sync = true
