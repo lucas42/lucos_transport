@@ -9,7 +9,7 @@ var mustacheEngine = require('mustache-express')();
 /**
  * wrappedEngine
  *
- * Any time mustache-express is used, wrapped the output in a standard template
+ * Any time mustache-express is used, wrap the output in a standard template
  */
 function wrappedEngine(templatePath, options, callback) {
 	mustacheEngine(templatePath, options, function (err, content) {
@@ -32,12 +32,18 @@ app.get('/', function(req, res) {
 app.get('/route/:id', function (req, res) {
 	var route = Route.getById(req.params.id);
 	if (route) {
-		var data = route.getData();
-		data.parent = {
-			link: '/',
-			name: 'All Routes',
-		}
-		res.render('line', data);
+		route.attemptRefresh(function () {
+			var data = route.getData();
+			data.parent = {
+				link: '/',
+				name: 'All Routes',
+			}
+			data.stations = [];
+			route.getStops().forEach(function (stop) {
+				data.stations.push(stop.getData());
+			});
+			res.render('line', data);
+		});
 	} else {
 		res.status(404).send("Can't find route");
 	}
@@ -45,7 +51,7 @@ app.get('/route/:id', function (req, res) {
 app.get('/resources/style.css', function (req, res) {
 	res.sendFile('style.css', {root: __dirname + '/..'});
 });
-
+app.use('/img', express.static(__dirname + '/../img'));
 var server = app.listen(process.env.PORT || 3000, function () {
   console.log('App listening at http://%s:%s', server.address().address, server.address().port);
 });

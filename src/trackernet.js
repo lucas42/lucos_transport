@@ -1,6 +1,7 @@
 var req = require('request');
 var xml = require('xml2js');
 var Route = require('./classes/route');
+var Stop = require('./classes/stop');
 function start() {
 	setInterval(processlines, 300000);
 	processlines();
@@ -8,9 +9,9 @@ function start() {
 
 function processlines() {
 	console.log("Updating Line Statuses from TrackerNet");
-	req("http://cloud.tfl.gov.uk/TrackerNet/LineStatus", function processlines(err, resp, rawbody) {
+	req("http://cloud.tfl.gov.uk/TrackerNet/LineStatus", function (err, resp, rawbody) {
 		if (err) {
-			console.err(err);
+			console.error(err);
 			return;
 		}
 		xml.parseString(rawbody, function(err, body){
@@ -20,7 +21,36 @@ function processlines() {
 					status:linestatus.Status[0].$.Description,
 					details:linestatus.$.StatusDetails,
 				}
-				Route.update("TN-"+getLineCode(data.name), data);
+				data.title = data.name + " Line";
+				var linecode, refresh;
+				switch(data.name) {
+
+					// Treat Circle as a separate case, because trackernet bundles it with Hammersmith and City
+					case "Circle":
+						routeid = "TN-I";
+						data.network = "tube";
+						break;
+					case "DLR":
+						routeid = "DLR";
+						data.network = "dlr";
+						break;
+					case "TfL Rail":
+						routeid = "TflRail";
+						data.network = "TflRail";
+						break;
+					case "Overground":
+						routeid = "Overground";
+						data.network = "overground";
+						break;
+					default:
+						routeid = "TN-"+data.name[0];
+						data.network = "tube";
+						refresh = createRefresh(data.name[0]);
+						break;
+				}
+				var linecode = getLineCode(data.name);
+				var route = Route.update(routeid, data);
+				if (refresh) route.refresh = refresh;
 			});
 		});
 	});
@@ -31,16 +61,42 @@ function processlines() {
  * Identify lines by the train prediction service line Code (different to Network Status line ID)
  */
 function getLineCode(name) {
-	switch(name) {
-
-		// Treat Circle as a separate case, because trackernet bundles it with Hammersmith and City
-		case "Cirle":
-			return "I";
-		default:
-			return name[0];
-	}
 }
 
+function createRefresh(linecode) {
+	return function processline(callback) {
+		if (!callback) callback = function(){};
+		var route = this;
+		req("http://cloud.tfl.gov.uk/TrackerNet/PredictionSummary/"+linecode, function (err, resp, rawbody) {
+			if (err) {
+				callback(err);
+				return;
+			}
+			xml.parseString(rawbody, function(err, body){
+				if (err) {
+					callback(err);
+					return;
+				}
+				if (!body) {
+					var err = 'No TrackerNet data for Line code '+linecode
+					callback(err);
+					console.error(err);
+					return;
+				}
+				var validtime = body.ROOT.Time[0].$.TimeStamp;
+				body.ROOT.S.forEach(function (stopstatus) {
+					var stopdata = {
+						code: stopstatus.$.Code,
+						name: stopstatus.$.N.replace(/\.$/,''),
+					}
+					var stop = Stop.update("TN-"+stopdata.code, stopdata);
+					route.addStop(stop);
+				})
+				callback();
+			});
+		});
+	};
+}
 
 module.exports = {
 	start: start,

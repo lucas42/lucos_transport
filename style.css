@@ -139,13 +139,13 @@ h1, h2, h3{
 	text-decoration: underline;
 }
 .network_tube .station {
-	list-style-image: url('/img/roundel-tube');
+	list-style-image: url('/img/roundel-tube.png');
 }
 .network_dlr .station {
-	list-style-image: url('/img/roundel-dlr');
+	list-style-image: url('/img/roundel-dlr.png');
 }
 .network_overground .station {
-	list-style-image: url('/img/roundel-overground');
+	list-style-image: url('/img/roundel-overground.png');
 }
 
 /** Station Pages **/
