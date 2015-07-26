@@ -1,5 +1,5 @@
 
-/** Colours for specific lines taken from http://www.tfl.gov.uk/assets/downloads/corporate/tfl-colour-standard-issue03.pdf **/
+/** Colours for specific lines taken from https://tfl.gov.uk/cdn/static/cms/documents/tfl-colour-standard.pdf **/
 .bakerloo h3, .line_bakerloo #lucos_navbar, .interchanges .bakerloo { color:#FFF!important; background-color:#996633!important; }
 .central h3, .line_central #lucos_navbar, .interchanges .central { color:#FFF!important; background-color:#CC3333!important; }
 .circle h3, .line_circle #lucos_navbar, .interchanges .circle { color:#113B92!important; background-color:#FFCC00!important; }
@@ -13,6 +13,9 @@
 .waterloocity h3, .line_waterloocity #lucos_navbar, .interchanges .waterloocity { color:#113B92!important; background-color:#66CCCC!important; }
 .overground h3, .line_overground #lucos_navbar, .interchanges .overground { color:#FFF!important; background-color:#FF6600!important; }
 .dlr h3, .line_dlr #lucos_navbar, .interchanges .dlr { color:#FFF!important; background-color:#009999!important; }
+
+/** Not defined in colour standard - use Corporate Blue **/
+.tflrail h3, .line_tflrail #lucos_navbar, .interchanges .tflrail { color:#FFF!important; background-color:#000099!important; }
 
 /** These colours used on TFL website and API are wrong **/
 /*.bakerloo h3, .line_bakerloo #lucos_navbar { color:#FFF!important; background-color:#AE6118!important; }

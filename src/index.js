@@ -27,9 +27,13 @@ app.get('/', function(req, res) {
 	for (i in routes) {
 		var route = routes[i].getData();
 		route.link = "/route/"+i;
+		route.cssClass = route.name.replace(/[ &]|and/g,'').toLowerCase();
 		routedata.push(route);
 	}
 	res.render('lines', {lines: routedata});
+});
+app.get('/resources/style.css', function (req, res) {
+	res.sendFile('style.css', {root: __dirname + '/..'});
 });
 
 var server = app.listen(process.env.PORT || 3000, function () {
