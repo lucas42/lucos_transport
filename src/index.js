@@ -27,7 +27,7 @@ app.get('/', function(req, res) {
 	for (i in routes) {
 		routedata.push(routes[i].getData());
 	}
-	res.render('lines', {lines: routedata});
+	res.render('routes', {routes: routedata});
 });
 app.get('/route/:id', function (req, res) {
 	var route = Route.getById(req.params.id);
@@ -42,7 +42,7 @@ app.get('/route/:id', function (req, res) {
 			route.getStops().forEach(function (stop) {
 				data.stations.push(stop.getData());
 			});
-			res.render('line', data);
+			res.render('route', data);
 		});
 	} else {
 		res.status(404).send("Can't find route");

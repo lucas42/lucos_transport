@@ -41,7 +41,6 @@ Route.prototype.getData = function getData() {
 	var output = this.getRawData();
 	output.link = "/route/"+this.getId();
 	output.cssClass = "route_"+output.name.replace(/[ &]|and/g,'').toLowerCase();
-	output.title = output.name + " Line"; //TODO: move to data source when we start having non-lines (eg buses)
 	return output;
 }
 

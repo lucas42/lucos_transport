@@ -1,12 +1,12 @@
 
 <a href='/maps/' class='maplink'>Maps</a>
 
-{{#lines}}
-	<div class="route {{cssClass}}" id="{{name}}" data-line="{{name}}" data-status="{{status}}" data-details="{{details}}">
+{{#routes}}
+	<div class="route {{cssClass}}" id="{{name}}" data-route="{{name}}" data-status="{{status}}" data-details="{{details}}">
 		<a href="{{link}}"><h3><span class='innertext'>{{name}}</span></h3></a>
 		<div class='status'>{{status}}</div>
 		<div class='details'>{{details}}</div>
 	</div>
-{{/lines}}
+{{/routes}}
 
  

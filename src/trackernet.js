@@ -29,22 +29,27 @@ function processlines() {
 					case "Circle":
 						routeid = "TN-I";
 						data.network = "tube";
+						data.title = "Circle Line";
 						break;
 					case "DLR":
 						routeid = "DLR";
 						data.network = "dlr";
+						data.title = "Docklands Light Railway";
 						break;
 					case "TfL Rail":
 						routeid = "TflRail";
 						data.network = "TflRail";
+						data.title = "TfL Rail";
 						break;
 					case "Overground":
 						routeid = "Overground";
 						data.network = "overground";
+						data.title = "London Overground";
 						break;
 					default:
 						routeid = "TN-"+data.name[0];
 						data.network = "tube";
+						data.title = data.name+" Line";
 						refresh = createRefresh(data.name[0]);
 						break;
 				}
