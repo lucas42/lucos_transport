@@ -5,16 +5,23 @@ function Route(id) {
 	this.setData = function (newdata) {
 		data = newdata;
 	};
-	this.getData = function () {
+	this.getRawData = function () {
 		var output = {};
 		for (i in data) {
 			output[i] = data[i];
 		}
-		output.link = "/route/"+id;
-		output.cssClass = data.name.replace(/[ &]|and/g,'').toLowerCase();
-		output.title = data.name + " Line";
 		return output;
 	}
+	this.getId = function getId() {
+		return id;
+	}
+}
+Route.prototype.getData = function getData() {
+	var output = this.getRawData();
+	output.link = "/route/"+this.getId();
+	output.cssClass = "route_"+output.name.replace(/[ &]|and/g,'').toLowerCase();
+	output.title = output.name + " Line";
+	return output;
 }
 
 Route.update = function update(id, data) {

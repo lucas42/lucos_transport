@@ -32,7 +32,12 @@ app.get('/', function(req, res) {
 app.get('/route/:id', function (req, res) {
 	var route = Route.getById(req.params.id);
 	if (route) {
-		res.render('line', route.getData());
+		var data = route.getData();
+		data.parent = {
+			link: '/',
+			name: 'All Routes',
+		}
+		res.render('line', data);
 	} else {
 		res.status(404).send("Can't find route");
 	}
