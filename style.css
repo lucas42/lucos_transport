@@ -90,13 +90,13 @@ background: -webkit-gradient(linear, 0 0, 100% 100%,
 
 /** General **/
 body { background: #ccf; margin: 0; min-height: 100%; position: absolute; width: 100%; box-sizing: border-box; }
-.line a, a.line { text-decoration: none; }
-.line h3 { text-decoration: none; text-align: center; padding: 0.1em; clear: both; }
-.line .status {font-weight: bold; }
-.line .status, .line .details { margin: 0 2em; }
+.route a, a.route { text-decoration: none; display:block; clear:both; }
+.route h3 { text-decoration: none; text-align: center; padding: 0.1em; clear: both; }
+.route .status {font-weight: bold; }
+.route .status, .route .details { margin: 0 2em; }
 .stationlines { overflow: hidden; }
-.stationlines .line { width: 400px; float:left; clear: both; }
-.stationlines .line h3 { margin: 3px; }
+.stationlines .route { width: 400px; float:left; clear: both; }
+.stationlines .route h3 { margin: 3px; }
 #footer { background: #999; color: #fff; bottom: 0; left: 0; right: 0; padding: 0 1em; margin-top: 1em; cursor:pointer; }
 #footer.loading { background: #c90; }
 #footer:not(.loading) { -webkit-transition: background 1s; -moz-transition: background 1s; }
@@ -104,9 +104,9 @@ body { background: #ccf; margin: 0; min-height: 100%; position: absolute; width:
 
 /* buttons */
 .innertext { display: block; }
-.line h3, .platform_name, .overview { border-radius: 1em; overflow: hidden; }
+.route h3, .platform_name, .overview { border-radius: 1em; overflow: hidden; }
 .innertext, .overview { background-image: -webkit-gradient(linear, 0 100%, 0 0, color-stop(0, transparent), color-stop(0.15, transparent), color-stop(0.9, rgba(255, 255, 255, 0.4))); }
-.line h3:active .innertext, .overview:active { background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(0, transparent), color-stop(0.15, transparent), color-stop(0.9, rgba(255, 255, 255, 0.4))); }
+.route h3:active .innertext, .overview:active { background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(0, transparent), color-stop(0.15, transparent), color-stop(0.9, rgba(255, 255, 255, 0.4))); }
 
 /* fonts (as used by TFL) */
 body{
@@ -185,7 +185,7 @@ h1, h2, h3{
 /** Train pages see http://www.tfl.gov.uk/assets/downloads/corporate/tfl-line-diagram-standard-issue03.pdf **/
 .journey { position: relative; margin: 10px 0; }
 .journey .journeyname { width: 1ex; position: absolute; left: 31px; margin: 0; top: 0.7ex; bottom: 0.9ex; box-sizing: border-box; }
-.journey .journeyname .linename, .journey .continues .destination { display: none; }
+.journey .journeyname .routename, .journey .continues .destination { display: none; }
 .journey .continues { width: 4ex; overflow: hidden; height: 4ex; position: relative; padding: 0; margin-left: -2.5ex; }
 .journey .continues:after { content: " "; display: block; height: 3ex; width: 3ex; border: solid 1ex; border-top: none; border-left: none; -webkit-transform: rotate(45deg); bottom: 1ex; position: absolute; }
 
