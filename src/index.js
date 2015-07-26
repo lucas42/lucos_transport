@@ -25,13 +25,18 @@ app.get('/', function(req, res) {
 	var routedata = [];
 	var routes = Route.getAll();
 	for (i in routes) {
-		var route = routes[i].getData();
-		route.link = "/route/"+i;
-		route.cssClass = route.name.replace(/[ &]|and/g,'').toLowerCase();
-		routedata.push(route);
+		routedata.push(routes[i].getData());
 	}
 	res.render('lines', {lines: routedata});
 });
+app.get('/route/:id', function (req, res) {
+	var route = Route.getById(req.params.id);
+	if (route) {
+		res.render('line', route.getData());
+	} else {
+		res.status(404).send("Can't find route");
+	}
+})
 app.get('/resources/style.css', function (req, res) {
 	res.sendFile('style.css', {root: __dirname + '/..'});
 });

@@ -6,7 +6,14 @@ function Route(id) {
 		data = newdata;
 	};
 	this.getData = function () {
-		return data;
+		var output = {};
+		for (i in data) {
+			output[i] = data[i];
+		}
+		output.link = "/route/"+id;
+		output.cssClass = data.name.replace(/[ &]|and/g,'').toLowerCase();
+		output.title = data.name + " Line";
+		return output;
 	}
 }
 
@@ -18,6 +25,12 @@ Route.update = function update(id, data) {
 		route = new Route(id);
 	}
 	route.setData(data);
+}
+Route.getById = function getById(id) {
+	if (id in routes) {
+		return routes[id];
+	}
+	return null;
 }
 Route.getAll = function getAll() {
 	return routes;
