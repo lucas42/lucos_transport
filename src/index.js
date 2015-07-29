@@ -45,9 +45,29 @@ app.get('/route/:id', function (req, res) {
 			res.render('route', data);
 		});
 	} else {
-		res.status(404).send("Can't find route");
+		res.status(404).send("Can't find route "+req.params.id);
 	}
-})
+});
+var Stop = require('./classes/stop');
+app.get('/stop/:id', function (req, res) {
+	var stop = Stop.getById(req.params.id);
+	if (stop) {
+		stop.attemptRefresh(function () {
+			var data = stop.getData();
+			data.parent = {
+				link: '/',
+				name: 'All Routes',
+			}
+			data.platforms = [];
+			stop.getPlatforms().forEach(function (platform) {
+				data.platforms.push(platform.getData());
+			});
+			res.render('station', data);
+		});
+	} else {
+		res.status(404).send("Can't find stop "+req.params.id);
+	}
+});
 app.get('/resources/style.css', function (req, res) {
 	res.sendFile('style.css', {root: __dirname + '/..'});
 });

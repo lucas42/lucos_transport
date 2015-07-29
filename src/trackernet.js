@@ -2,6 +2,8 @@ var req = require('request');
 var xml = require('xml2js');
 var Route = require('./classes/route');
 var Stop = require('./classes/stop');
+var Platform = require('./classes/platform');
+var Event = require('./classes/event');
 function start() {
 	setInterval(processlines, 300000);
 	processlines();
@@ -56,6 +58,7 @@ function processlines() {
 				var linecode = getLineCode(data.name);
 				var route = Route.update(routeid, data);
 				if (refresh) route.refresh = refresh;
+				route.attemptRefresh();
 			});
 		});
 	});
@@ -94,8 +97,26 @@ function createRefresh(linecode) {
 						code: stopstatus.$.Code,
 						name: stopstatus.$.N.replace(/\.$/,''),
 					}
+					stopdata.title = stopdata.name;
 					var stop = Stop.update("TN-"+stopdata.code, stopdata);
 					route.addStop(stop);
+					stopstatus.P.forEach(function (platformstatus) {
+
+						// TODO: need to handle refresh being called lots of times
+						var platform = new Platform(stop, platformstatus.$.N, route);
+
+						if (platformstatus.T) platformstatus.T.forEach(function (eventstatus) {
+							var eventdata = {
+								setno: eventstatus.$.S,
+								timetostation: eventstatus.$.C,
+								destination: eventstatus.$.DE,
+								validtime: validtime,
+							};
+							var event = new Event(eventdata.setno, platform, validtime+"+"+eventdata.timetostation);
+							//event.setData(eventdata);
+							platform.addEvent(event);
+						});
+					});
 				})
 				callback();
 			});
