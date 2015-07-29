@@ -1,7 +1,7 @@
 Thing = require('./thing');
 function Route() {
 	Thing.apply(this, arguments);
-	Thing.addRelation(this, 'stop');
+	this.addRelation('stop');
 }
 Thing.extend(Route);
 Route.prototype.getData = function getData() {

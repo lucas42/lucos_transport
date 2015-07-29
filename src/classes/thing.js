@@ -63,15 +63,15 @@ Thing.extend = function extend(Class) {
 	Class.getById = getById;
 	Class.getAll = getAll;
 }
-Thing.addRelation = function addRelation(thing, singular, plural) {
+Thing.prototype.addRelation = function addRelation(singular, plural) {
 	if (!plural) plural = singular+"s";
 	singular = singular.charAt(0).toUpperCase() + singular.slice(1);
 	plural = singular.charAt(0).toUpperCase() + plural.slice(1);
 	var instances = {};
-	thing['add'+singular] = function addThing(instance) {
+	this['add'+singular] = function addThing(instance) {
 		instances[instance.getId()] = instance;
 	}
-	thing['get'+plural] = function getThings() {
+	this['get'+plural] = function getThings() {
 		var output = [];
 		for (i in instances) output.push(instances[i]);
 		return output;

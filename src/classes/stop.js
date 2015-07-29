@@ -1,7 +1,7 @@
 Thing = require('./thing');
 function Stop() {
 	Thing.apply(this, arguments);
-	Thing.addRelation(this, 'platform');
+	this.addRelation('platform');
 }
 Thing.extend(Stop);
 Stop.prototype.getData = function getData() {
