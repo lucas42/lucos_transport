@@ -91,7 +91,7 @@ function createRefresh(linecode) {
 					console.error(err);
 					return;
 				}
-				var validtime = body.ROOT.Time[0].$.TimeStamp;
+				var validtime = new Date(body.ROOT.Time[0].$.TimeStamp);
 				body.ROOT.S.forEach(function (stopstatus) {
 					var stopdata = {
 						code: stopstatus.$.Code,
@@ -109,11 +109,18 @@ function createRefresh(linecode) {
 							var eventdata = {
 								setno: eventstatus.$.S,
 								timetostation: eventstatus.$.C,
-								destination: eventstatus.$.DE,
-								validtime: validtime,
+								Destination: eventstatus.$.DE,
 							};
+							if (eventstatus.$.C == '-' || eventstatus.$.C == 'due') {
+								eventdata.time = validtime;
+							} else {
+								var timetostation = eventstatus.$.C.split(':');
+								eventdata.time = new Date(validtime.getTime() + (timetostation[0] * 60000) + (timetostation[1] * 1000));
+							}
+
+							if (eventdata.setno == '000') eventdata.ghost = true;
 							var event = new Event(eventdata.setno, platform, validtime+"+"+eventdata.timetostation);
-							//event.setData(eventdata);
+							event.setData(eventdata);
 							platform.addEvent(event);
 						});
 					});

@@ -2,6 +2,7 @@ Thing = require('./thing');
 function Event(vehicle, platform, datetime) {
 	var id = ['vehicleid', platform.getId(), datetime];
 	Thing.call(this, id);
+	platform.addEvent(this);
 }
 Thing.extend(Event);
 module.exports = Event;

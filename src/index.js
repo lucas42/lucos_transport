@@ -60,7 +60,17 @@ app.get('/stop/:id', function (req, res) {
 			}
 			data.platforms = [];
 			stop.getPlatforms().forEach(function (platform) {
-				data.platforms.push(platform.getData());
+				var platformdata = platform.getData();
+				platformdata.trains = [];
+
+				platform.getEvents().forEach(function (event) {
+					var eventdata = event.getData();
+					eventdata.SecondsTo = Math.floor((eventdata.time - new Date()) / 1000);
+					if (eventdata.SecondsTo < -5) return;
+					if (eventdata.SecondsTo < 0) eventdata.now = true;
+					platformdata.trains.push(eventdata);
+				});
+				data.platforms.push(platformdata);
 			});
 			res.render('station', data);
 		});

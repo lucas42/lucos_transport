@@ -18,12 +18,12 @@ function Thing(id) {
 	}
 	var lastRefresh = null;
 	this.attemptRefresh = function attemptRefresh(callback) {
-		console.log("Refreshing "+data.title);
 		if (!callback) callback = function(){};
 		if (!this.refresh || Date.now() - lastRefresh < 30000) {
 			callback();
 			return;
 		}
+		console.log("Refreshing "+data.title);
 		this.refresh.call(this, function () {
 			lastRefresh = Date.now();
 			callback();
