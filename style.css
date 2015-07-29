@@ -174,7 +174,7 @@ h1, h2, h3{
 @font-face
 {
 	font-family: led;
-	src: url('/fonts/led');
+	src: url('/resources/fonts/led');
 }
 @media (min-width: 750px) {
 	.departure_board { width: 700px; }

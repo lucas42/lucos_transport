@@ -81,6 +81,9 @@ app.get('/stop/:id', function (req, res) {
 app.get('/resources/style.css', function (req, res) {
 	res.sendFile('style.css', {root: __dirname + '/..'});
 });
+app.get('/resources/fonts/led', function (req, res) {
+	res.sendFile('fonts/led.ttf', {root: __dirname + '/..'});
+});
 app.use('/img', express.static(__dirname + '/../img'));
 var server = app.listen(process.env.PORT || 3000, function () {
   console.log('App listening at http://%s:%s', server.address().address, server.address().port);
