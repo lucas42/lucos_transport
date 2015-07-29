@@ -24,7 +24,7 @@ var Route = require('./classes/route');
 app.get('/', function(req, res) {
 	var routedata = [];
 	var routes = Route.getAll();
-	for (i in routes) {
+	for (var i in routes) {
 		routedata.push(routes[i].getData());
 	}
 	res.render('routes', {routes: routedata});
@@ -33,15 +33,11 @@ app.get('/route/:id', function (req, res) {
 	var route = Route.getById(req.params.id);
 	if (route) {
 		route.attemptRefresh(function () {
-			var data = route.getData();
+			var data = route.getDataTree();
 			data.parent = {
 				link: '/',
 				name: 'All Routes',
 			}
-			data.stations = [];
-			route.getStops().forEach(function (stop) {
-				data.stations.push(stop.getData());
-			});
 			res.render('route', data);
 		});
 	} else {
@@ -53,21 +49,11 @@ app.get('/stop/:id', function (req, res) {
 	var stop = Stop.getById(req.params.id);
 	if (stop) {
 		stop.attemptRefresh(function () {
-			var data = stop.getData();
+			var data = stop.getDataTree();
 			data.parent = {
 				link: '/',
 				name: 'All Routes',
 			}
-			data.platforms = [];
-			stop.getPlatforms().forEach(function (platform) {
-				var platformdata = platform.getData();
-				platformdata.trains = [];
-				platform.getEvents().forEach(function (event) {
-					if (!event.getData()) console.log(event);
-					platformdata.trains.push(event.getData());
-				});
-				data.platforms.push(platformdata);
-			});
 			res.render('station', data);
 		});
 	} else {

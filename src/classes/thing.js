@@ -5,7 +5,7 @@ function Thing(id) {
 	};
 	this.getRawData = function getRawData() {
 		var output = {};
-		for (i in data) {
+		for (var i in data) {
 			output[i] = data[i];
 		}
 		return output;
@@ -29,6 +29,7 @@ function Thing(id) {
 			callback();
 		});
 	};
+	this.relations = {};
 }
 Thing.prototype.getData = function getData() {
 	var output = this.getRawData();
@@ -65,17 +66,40 @@ Thing.extend = function extend(Class) {
 }
 Thing.prototype.addRelation = function addRelation(singular, plural) {
 	if (!plural) plural = singular+"s";
-	singular = singular.charAt(0).toUpperCase() + singular.slice(1);
-	plural = singular.charAt(0).toUpperCase() + plural.slice(1);
 	var instances = {};
-	this['add'+singular] = function addThing(instance) {
+	function addThing(instance) {
 		instances[instance.getId()] = instance;
 	}
-	this['get'+plural] = function getThings() {
+	function getThings() {
 		var output = [];
-		for (i in instances) output.push(instances[i]);
+		for (var i in instances) output.push(instances[i]);
 		return output;
 	}
+	this.relations[singular] = {
+		singular: singular,
+		plural: plural,
+		add: addThing,
+		get: getThings,
+	}
+	singular = singular.charAt(0).toUpperCase() + singular.slice(1);
+	plural = singular.charAt(0).toUpperCase() + plural.slice(1);
+	this['add'+singular] = addThing;
+	this['get'+plural] = getThings;
+}
+
+/**
+ * Get data about the object and all its related objects recursively
+ */
+Thing.prototype.getDataTree = function getDataTree() {
+	var output = this.getData();
+	for (var i in this.relations) {
+		var relateddata = [];
+		this.relations[i].get().forEach(function (relatedthing) {
+			relateddata.push(relatedthing.getDataTree());
+		});
+		output[this.relations[i].plural] = relateddata;
+	}
+	return output;
 }
 
 module.exports = Thing;
