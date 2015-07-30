@@ -76,20 +76,22 @@ function createRefresh(linecode) {
 	return function processline(callback) {
 		if (!callback) callback = function(){};
 		var route = this;
-		req("http://cloud.tfl.gov.uk/TrackerNet/PredictionSummary/"+linecode, function (err, resp, rawbody) {
+		var url = "http://cloud.tfl.gov.uk/TrackerNet/PredictionSummary/"+linecode;
+		req(url, function (err, resp, rawbody) {
 			if (err) {
 				callback(err);
 				return;
 			}
 			xml.parseString(rawbody, function(err, body){
 				if (err) {
+					console.error(url, err);
 					callback(err);
 					return;
 				}
 				if (!body) {
 					var err = 'No TrackerNet data for Line code '+linecode
+					console.error(url, err);
 					callback(err);
-					console.error(err);
 					return;
 				}
 				var validtime = new Date(body.ROOT.Time[0].$.TimeStamp);
