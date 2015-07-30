@@ -4,6 +4,7 @@ var Route = require('./classes/route');
 var Stop = require('./classes/stop');
 var Platform = require('./classes/platform');
 var Event = require('./classes/event');
+var Vehicle = require('./classes/vehicle');
 function start() {
 	setInterval(processlines, 300000);
 	processlines();
@@ -107,9 +108,7 @@ function createRefresh(linecode) {
 
 						if (platformstatus.T) platformstatus.T.forEach(function (eventstatus) {
 							var eventdata = {
-								setno: eventstatus.$.S,
 								timetostation: eventstatus.$.C,
-								Destination: eventstatus.$.DE,
 							};
 							if (eventstatus.$.C == '-' || eventstatus.$.C == 'due') {
 								eventdata.time = validtime;
@@ -117,9 +116,12 @@ function createRefresh(linecode) {
 								var timetostation = eventstatus.$.C.split(':');
 								eventdata.time = new Date(validtime.getTime() + (timetostation[0] * 60000) + (timetostation[1] * 1000));
 							}
-
-							if (eventdata.setno == '000') eventdata.ghost = true;
-							var event = new Event(eventdata.setno, platform, validtime+"+"+eventdata.timetostation);
+							var vehicledata = {
+								destination: eventstatus.$.DE,
+							};
+							if (eventstatus.$.S == '000') vehicledata.ghost = true;
+							var vehicle = Vehicle.update(linecode+eventstatus.$.S, vehicledata);
+							var event = new Event(vehicle, platform, validtime+"+"+eventdata.timetostation);
 							event.setData(eventdata);
 							platform.addEvent(event);
 						});

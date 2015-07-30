@@ -64,7 +64,7 @@ Thing.extend = function extend(Class) {
 	Class.getById = getById;
 	Class.getAll = getAll;
 }
-Thing.prototype.addRelation = function addRelation(singular, plural) {
+Thing.prototype.addRelation = function addRelation(singular, plural, source) {
 	if (!plural) plural = singular+"s";
 	var instances = {};
 	function addThing(instance) {
@@ -78,6 +78,7 @@ Thing.prototype.addRelation = function addRelation(singular, plural) {
 	this.relations[singular] = {
 		singular: singular,
 		plural: plural,
+		source: source,
 		add: addThing,
 		get: getThings,
 	}
@@ -90,14 +91,15 @@ Thing.prototype.addRelation = function addRelation(singular, plural) {
 /**
  * Get data about the object and all its related objects recursively
  */
-Thing.prototype.getDataTree = function getDataTree() {
-	var output = this.getData();
+Thing.prototype.getDataTree = function getDataTree(source) {
+	var output = this.getData(source);
 	for (var i in this.relations) {
+		var relation = this.relations[i];
 		var relateddata = [];
-		this.relations[i].get().forEach(function (relatedthing) {
-			relateddata.push(relatedthing.getDataTree());
+		relation.get().forEach(function (relatedthing) {
+			relateddata.push(relatedthing.getDataTree(relation.source));
 		});
-		output[this.relations[i].plural] = relateddata;
+		output[relation.plural] = relateddata;
 	}
 	return output;
 }

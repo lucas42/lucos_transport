@@ -1,7 +1,7 @@
 Thing = require('./thing');
 function Platform(stop, name, route) {
 	Thing.call(this, name);
-	this.addRelation('event');
+	this.addRelation('event', 'events', 'platform');
 	stop.addPlatform(this);
 	var cssClass;
 
