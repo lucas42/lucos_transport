@@ -8,6 +8,8 @@ Bugs
 * Piccadilly line trains showing on District line platforms between Hammersmith and Acton Town.
 * Some trains report a setNo of 0 in the API despite having a number on the front of the train in real life.
 * Some trains report a Destination which is just the name of a line, rather than an actual station.
+* When the API has an error, it still returns 200 OK as a status code.
+* When the API has an error, it serves html with a text/xml Content-Type.
 
 Documentation issues
 * It isn't clear whether setNo is unique to the network as a whole or just to a specific line or rolling stock.
