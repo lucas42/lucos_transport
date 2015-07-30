@@ -120,6 +120,7 @@ function createRefresh(linecode) {
 							}
 							var vehicledata = {
 								destination: eventstatus.$.DE,
+								route: route,
 							};
 							if (eventstatus.$.S == '000') vehicledata.ghost = true;
 							var vehicle = Vehicle.update(linecode+eventstatus.$.S, vehicledata);

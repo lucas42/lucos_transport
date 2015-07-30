@@ -60,6 +60,22 @@ app.get('/stop/:id', function (req, res) {
 		res.status(404).send("Can't find stop "+req.params.id);
 	}
 });
+var Vehicle = require('./classes/vehicle');
+app.get('/vehicle/:id', function (req, res) {
+	var vehicle = Vehicle.getById(req.params.id);
+	if (vehicle) {
+		vehicle.attemptRefresh(function () {
+			var data = vehicle.getDataTree();
+			data.parent = {
+				link: '/',
+				name: 'All Routes',
+			}
+			res.render('vehicle', data);
+		});
+	} else {
+		res.status(404).send("Can't find vehicle "+req.params.id);
+	}
+});
 app.get('/resources/style.css', function (req, res) {
 	res.sendFile('style.css', {root: __dirname + '/..'});
 });

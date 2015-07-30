@@ -4,9 +4,12 @@ function Stop() {
 	this.addRelation('platform');
 }
 Thing.extend(Stop);
+Stop.prototype.getLink = function getLink() {
+	return "/stop/"+this.getId();
+}
 Stop.prototype.getData = function getData() {
 	var output = this.getRawData();
-	output.link = "/stop/"+this.getId();
+	output.link = this.getLink();
 	return output;
 }
 module.exports = Stop;

@@ -208,19 +208,20 @@ h1, h2, h3{
 .route > .stop:last-child { margin-bottom: 0; height: 1.2em;}
 .route > .stop:not(.interchange):first-child:before, .route > .stop:not(.interchange):last-child:before { width: 2.32ex; margin-left: -3.26ex; }
 
-.bakerloo .route > .stop:before, .bakerloo .continues:after { border-color:#996633; }
-.central .route > .stop:before, .central .continues:after { border-color:#CC3333; }
-.circle .route > .stop:before, .circle .continues:after { border-color:#FFCC00; }
-.district .route > .stop:before, .district .continues:after { border-color:#006633; }
-.hammersmithcity .route > .stop:before, .hammersmithcity .continues:after { border-color:#CC9999; }
-.jubilee .route > .stop:before, .jubilee .continues:after{ border-color:#868F98; }
-.metropolitan .route > .stop:before, .metropolitan .continues:after { border-color:#660066; }
-.northern .route > .stop:before, .northern .continues:after { border-color:#000000; }
-.piccadilly .route > .stop:before, .piccadilly .continues:after { border-color:#000099; }
-.victoria .route > .stop:before, .victoria .continues:after { border-color:#0099CC; }
-.waterloocity .route > .stop:before, .waterloocity .continues:after { border-color:#66CCCC; }
-.overground .route > .stop:before, .overground .continues:after { border-color:#FF6600; }
-.dlr .route > .stop:before, .dlr .continues:after { border-color:#009999; }
+.route_bakerloo .route > .stop:before, .route_bakerloo .continues:after { border-color:#996633; }
+.route_central .route > .stop:before, .route_central .continues:after { border-color:#CC3333; }
+.route_circle .route > .stop:before, .route_circle .continues:after { border-color:#FFCC00; }
+.route_district .route > .stop:before, .route_district .continues:after { border-color:#006633; }
+.route_hammersmithcity .route > .stop:before, .route_hammersmithcity .continues:after { border-color:#CC9999; }
+.route_jubilee .route > .stop:before, .route_jubilee .continues:after{ border-color:#868F98; }
+.route_metropolitan .route > .stop:before, .route_metropolitan .continues:after { border-color:#660066; }
+.route_northern .route > .stop:before, .route_northern .continues:after { border-color:#000000; }
+.route_piccadilly .route > .stop:before, .route_piccadilly .continues:after { border-color:#000099; }
+.route_victoria .route > .stop:before, .route_victoria .continues:after { border-color:#0099CC; }
+.route_waterloocity .route > .stop:before, .route_waterloocity .continues:after { border-color:#66CCCC; }
+.route_overground .route > .stop:before, .route_overground .continues:after { border-color:#FF6600; }
+.route_dlr .route > .stop:before, .route_dlr .continues:after { border-color:#009999; }
+.route_tflrail .route > .stop:before, .route_tflrail .continues:after { border-color:#000099; }
 
 .stop .symbols { display: inline; }
 .stop .symbols > .symbol { height: 1em; margin: 0 1ex; }

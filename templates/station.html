@@ -11,7 +11,7 @@
 				{{#events}}{{^passed}}
 					<tr class="train{{#ghost}} ghost{{/ghost}}" data-line="{{line}}" data-route="{{route}}">
 						<td><a href="{{link}}">{{destination}}</a></td>
-						<td><a href="{{link}}" class='departtime' data-timestamp='{{timestamp}}'>{{#now}}now{{/now}}{{^now}}{{SecondsTo}} seconds{{/now}}</a></td>
+						<td><a href="{{link}}" class='departtime' data-timestamp='{{timestamp}}'>{{#now}}now{{/now}}{{^now}}{{secondsTo}} seconds{{/now}}</a></td>
 					</tr>
 				{{/passed}}{{/events}}
 			</tbody>

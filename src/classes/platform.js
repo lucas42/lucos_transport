@@ -10,7 +10,17 @@ function Platform(stop, name, route) {
 	this.setData({
 		name: name,
 		cssClass: cssClass,
+		link: stop.getLink(),
 	})
+	this.getStop = function getStop() {
+		return stop;
+	}
+}
+
+Platform.prototype.getData = function getData() {
+	var output = this.getRawData();
+	output.link = "/stop/"+this.getId();
+	return output;
 }
 Thing.extend(Platform);
 module.exports = Platform;
