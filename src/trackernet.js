@@ -95,6 +95,7 @@ function createRefresh(linecode) {
 					return;
 				}
 				var validtime = new Date(body.ROOT.Time[0].$.TimeStamp);
+				console.log('validtime', validtime);
 				body.ROOT.S.forEach(function (stopstatus) {
 					var stopdata = {
 						code: stopstatus.$.Code,
@@ -118,6 +119,7 @@ function createRefresh(linecode) {
 								var timetostation = eventstatus.$.C.split(':');
 								eventdata.time = new Date(validtime.getTime() + (timetostation[0] * 60000) + (timetostation[1] * 1000));
 							}
+							console.log('eventtime', eventdata.time);
 							var vehicledata = {
 								destination: eventstatus.$.DE,
 								route: route,
