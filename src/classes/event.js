@@ -89,6 +89,9 @@ Event.prototype.updateRelTime = function updateRelTime() {
 		Pubsub.send("stopApproaching", this);
 	}
 }
+Event.sortByTime = function sortByTime(a, b) {
+	return a.getField('time') - b.getField('time');
+}
 
 var timestimeout;
 /**

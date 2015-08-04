@@ -67,7 +67,7 @@ Thing.extend = function extend(Class) {
 	Class.getById = getById;
 	Class.getAll = getAll;
 }
-Thing.prototype.addRelation = function addRelation(singular, plural, source) {
+Thing.prototype.addRelation = function addRelation(singular, plural, source, sort) {
 	if (!plural) plural = singular+"s";
 	var instances = {};
 	function addThing(instance) {
@@ -76,6 +76,7 @@ Thing.prototype.addRelation = function addRelation(singular, plural, source) {
 	function getThings() {
 		var output = [];
 		for (var i in instances) output.push(instances[i]);
+		if (sort) output.sort(sort);
 		return output;
 	}
 	this.relations[singular] = {
