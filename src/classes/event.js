@@ -1,7 +1,7 @@
 var Thing = require('./thing');
 var Pubsub = require('lucos_pubsub');
 function Event(vehicle, platform, datetime) {
-	var id = [vehicle.getId(), platform.getId(), datetime];
+	var id = [vehicle.getId(), platform.getId()];
 	Thing.call(this, id);
 	platform.addEvent(this);
 	vehicle.addEvent(this);
@@ -15,6 +15,7 @@ function Event(vehicle, platform, datetime) {
 	Pubsub.listen('updateTimes', function () {
 		thisevent.updateRelTime();
 	});
+	thisevent.updateRelTime();
 }
 Thing.extend(Event);
 Event.prototype.getData = function getData(source) {
