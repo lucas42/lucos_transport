@@ -14,6 +14,11 @@ var mustacheEngine = require('mustache-express')();
 function wrappedEngine(templatePath, options, callback) {
 	mustacheEngine(templatePath, options, function (err, content) {
 		options.content = content;
+		if (options.title && options.title != "TFLuke") {
+			options.headtitle = "TFLuke - " + options.title;
+		} else {
+			options.headtitle = "TFLuke";
+		}
 		var output = require('mustache').render(wrapperTemplate, options);
 		callback(err, output);
 	});
@@ -27,7 +32,11 @@ app.get('/', function(req, res) {
 	for (var i in routes) {
 		routedata.push(routes[i].getData());
 	}
-	res.render('routes', {routes: routedata});
+	res.render('routes', {
+		routes: routedata,
+		cssClass: 'homepage',
+		title: 'TFLuke',
+	});
 });
 app.get('/route/:id', function (req, res) {
 	var route = Route.getById(req.params.id);

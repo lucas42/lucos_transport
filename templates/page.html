@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>LucOS Travel</title>
+	<title>{{headtitle}}</title>
 	<meta name="viewport" content="initial-scale=1.0" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
@@ -9,6 +9,9 @@
 	<link rel="stylesheet" href="/resources/style.css" type="text/css" />
 </head>
 <body{{#cssClass}} class='{{cssClass}}'{{/cssClass}}>
+	
+	
+	<h1><span class="innertext">{{#title}}{{title}}{{/title}}</span></h1>
 	
 	<div class="ribbon-wrapper"><div class="ribbon">Alpha</div></div>
 	<div id='content'>
