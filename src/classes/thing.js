@@ -13,6 +13,9 @@ function Thing(id) {
 	this.getField = function getField(key) {
 		return data[key];
 	}
+	this.setField = function setField(key, val) {
+		data[key] = val;
+	}
 	this.getId = function getId() {
 		return id;
 	}

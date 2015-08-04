@@ -1,4 +1,5 @@
-Thing = require('./thing');
+var Thing = require('./thing');
+var Pubsub = require('lucos_pubsub');
 function Event(vehicle, platform, datetime) {
 	var id = [vehicle.getId(), platform.getId(), datetime];
 	Thing.call(this, id);
@@ -10,6 +11,10 @@ function Event(vehicle, platform, datetime) {
 	this.getPlatform = function getPlatform() {
 		return platform;
 	}
+	var thisevent = this;
+	Pubsub.listen('updateTimes', function () {
+		thisevent.updateRelTime();
+	});
 }
 Thing.extend(Event);
 Event.prototype.getData = function getData(source) {
@@ -24,6 +29,8 @@ Event.prototype.getData = function getData(source) {
 	if (source == "vehicle") {
 		output["platform"] = this.getPlatform().getData();
 		output["stop"] = this.getPlatform().getStop().getData();
+
+		if (output["humanReadableTime"] == "missed it") output["humanReadableTime"] = "passed it";
 	}
 	return output;
 }
@@ -49,4 +56,50 @@ function stationsMatch(a, b) {
 	if (b.indexOf(a) > -1) return true;
 	return false;
 }
+
+/**
+ * Gets the amount of time until an event in a form which is useful to humans
+ */
+function getHumanReadableRelTime(secondsTo) {
+	if (secondsTo < -10) {
+		return "missed it";
+	} else if (secondsTo < 1) {
+		return "now";
+	} else if (secondsTo < 60) {
+		return Math.floor(secondsTo) + " secs";
+	} else {
+		var minsTo = Math.floor(secondsTo / 60);
+		var remainSecondsTo = Math.floor(secondsTo % 60);
+		if (remainSecondsTo < 10) remainSecondsTo = ":0" + remainSecondsTo;
+		else remainSecondsTo = ":" + remainSecondsTo;
+		return minsTo + remainSecondsTo + " mins";
+	}
+}
+Event.prototype.updateRelTime = function updateRelTime() {
+	var secondsTo = (this.getField('time') - new Date()) / 1000;
+	var oldSecondsTo = this.getField('secondsTo');
+	this.setField('secondsTo', secondsTo);
+	this.setField('humanReadableTime', getHumanReadableRelTime(secondsTo));
+
+	// TODO: tidy up event object (this) if it's been gone for 30 seconds
+	this.setField('passed', secondsTo < -30);
+	if (oldSecondsTo >= 1 && secondsTo < 1) {
+		Pubsub.send("stopArrived", this);
+	} else if (oldSecondsTo >= 30 && secondsTo < 30) {
+		Pubsub.send("stopApproaching", this);
+	}
+}
+
+var timestimeout;
+/**
+ * Keep all times update-to-date (once a second)
+ */
+function updateTimes() {
+	if (timestimeout) clearTimeout(timestimeout);
+	Pubsub.send("updateTimes");
+
+	// TODO: use lucos_time for current time
+	timestimeout=setTimeout(updateTimes, 1000-(new Date().getMilliseconds()));
+}
+updateTimes();
 module.exports = Event;
