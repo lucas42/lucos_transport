@@ -5,6 +5,7 @@ var Stop = require('./classes/stop');
 var Platform = require('./classes/platform');
 var Event = require('./classes/event');
 var Vehicle = require('./classes/vehicle');
+var Moment = require('moment-timezone');
 function start() {
 	setInterval(processlines, 300000);
 	processlines();
@@ -94,8 +95,9 @@ function createRefresh(linecode) {
 					callback(err);
 					return;
 				}
-				var validtime = new Date(body.ROOT.Time[0].$.TimeStamp);
-				console.log('validtime', validtime);
+
+				// Tracker Net uses a weird time format and doesn't document its timezone (London Time)
+				var validtime = Moment.tz(body.ROOT.Time[0].$.TimeStamp, "YYYY/MM/DD HH:mm:ss", "Europe/London").toDate();
 				body.ROOT.S.forEach(function (stopstatus) {
 					var stopdata = {
 						code: stopstatus.$.Code,
@@ -119,7 +121,6 @@ function createRefresh(linecode) {
 								var timetostation = eventstatus.$.C.split(':');
 								eventdata.time = new Date(validtime.getTime() + (timetostation[0] * 60000) + (timetostation[1] * 1000));
 							}
-							console.log('eventtime', eventdata.time);
 							var vehicledata = {
 								destination: eventstatus.$.DE,
 								route: route,

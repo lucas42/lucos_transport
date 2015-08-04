@@ -14,6 +14,7 @@ Bugs
 Documentation issues
 * It isn't clear whether setNo is unique to the network as a whole or just to a specific line or rolling stock.
 * It isn't clear what TripNo actually means - seems to imply that it's unique for each route, but these IDs appear to change over time.
+* No mention what timezone the TimeStamp attribute is in.
 
 Feature requests
 * Don't round secondsTo in PredictionSummary to nearest 30 seconds.  At the moment to get precise data for all lines one has to query PredictionDetailed for every station individually.

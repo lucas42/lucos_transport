@@ -23,6 +23,7 @@
   "dependencies": {
     "express": "^4.13.1",
     "lucos_pubsub": "0.x",
+    "moment-timezone": "^0.4.0",
     "mustache": "^2.1.2",
     "mustache-express": "^1.2.1",
     "request": "^2.60.0",
