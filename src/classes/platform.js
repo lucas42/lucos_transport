@@ -41,7 +41,9 @@ Platform.prototype.getInterchanges = function getInterchanges() {
 	externalInterchanges.forEach(function (stop) {
 		var routes = Route.getByStop(stop);
 		routes.forEach(function (route) {
-			interchanges.push(route.getData());
+			var routedata = route.getData();
+			delete routedata['name'];
+			interchanges.push(routedata);
 		});
 	});
 
