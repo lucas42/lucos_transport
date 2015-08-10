@@ -1,4 +1,5 @@
 Thing = require('./thing');
+var Symbols = require('../../data/symbols.json');
 function Route() {
 	Thing.apply(this, arguments);
 	this.addRelation('stop');
@@ -8,6 +9,7 @@ Route.prototype.getData = function getData() {
 	var output = this.getRawData();
 	output.link = this.getLink();
 	output.cssClass = this.getCssClass();
+	output.symbol = Symbols[this.getField('network')];
 	return output;
 }
 Route.prototype.getLink = function getLink() {
@@ -15,6 +17,7 @@ Route.prototype.getLink = function getLink() {
 }
 Route.prototype.getCssClass = function getCssClass() {
 	var name = this.getField('name');
+	if (!name) return "";
 	return "route route_"+name.replace(/[ &]|and/g,'').toLowerCase();
 }
 Route.getByStop = function getByStop(stop) {

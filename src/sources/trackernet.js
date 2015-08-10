@@ -38,7 +38,7 @@ function processlines() {
 					case "DLR":
 						data.routecode = "";
 						data.network = "dlr";
-						data.title = "Docklands Light Railway";
+						data.title = "DLR";
 						break;
 					case "TfL Rail":
 						data.routecode = "";
@@ -100,11 +100,12 @@ function createRefresh(linecode) {
 				var validtime = Moment.tz(body.ROOT.Time[0].$.TimeStamp, "YYYY/MM/DD HH:mm:ss", "Europe/London").toDate();
 				body.ROOT.S.forEach(function (stopstatus) {
 					var stopdata = {
+						network: "tube",
 						code: stopstatus.$.Code,
 						name: stopstatus.$.N.replace(/\.$/,''),
 					}
 					stopdata.title = stopdata.name;
-					var stop = Stop.update("TN-"+stopdata.code, stopdata);
+					var stop = Stop.update([stopdata.network, stopdata.code], stopdata);
 					route.addStop(stop);
 					stopstatus.P.forEach(function (platformstatus) {
 

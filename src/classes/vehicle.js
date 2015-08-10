@@ -2,7 +2,11 @@ Thing = require('./thing');
 Event = require('./event');
 function Vehicle() {
 	Thing.apply(this, arguments);
-	this.addRelation('event', 'events', 'vehicle', Event.sortByTime);
+	this.addRelation({
+		singular: 'event',
+		source: 'vehicle',
+		sort: Event.sortByTime
+	});
 }
 Thing.extend(Vehicle);
 

@@ -2,6 +2,10 @@ Thing = require('./thing');
 function Stop() {
 	Thing.apply(this, arguments);
 	this.addRelation('platform');
+	this.addRelation({
+		singular: 'externalInterchange',
+		symmetrical: true,
+	});
 }
 Thing.extend(Stop);
 Stop.prototype.getLink = function getLink() {

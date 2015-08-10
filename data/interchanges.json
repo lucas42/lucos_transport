@@ -1,366 +1,366 @@
 [
 	[
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "BNK"
 		},
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "MON"
 		},
 		{
-			"type": "dlr",
+			"network": "dlr",
 			"code": "ban"
 		}
 	],
 	[
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "WDN"
 		},
 		{
-			"type": "nr",
+			"network": "nr",
 			"code": "WIM",
 			"name": "Wimbledon"
 		},
 		{
-			"type": "tramlink",
+			"network": "tramlink",
 			"name": "Wimbledon"
 		}
 	],
 	[
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "HMD"
 		},
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "HMS"
 		},
 		{
-			"type": "buses",
+			"network": "buses",
 			"name": "Hammersmith"
 		}
 	],
 	[
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "ERD"
 		},
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "ERB"
 		}
 	],
 	[
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "PADc"
 		},
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "PADs"
 		}
 	],
 	[
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": ""
 		},
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": ""
 		}
 	],
 	[
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "WCT"
 		},
 		{
-			"type": "tube",
+			"network": "tube",
 			"name": "Wood Lane"
 		}
 	],
 	[
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "EUS"
 		},
 		{
-			"type": "nr",
+			"network": "nr",
 			"name": "Euston",
 			"code": "EUS"
 		}
 	],
 	[
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "MYB"
 		},
 		{
-			"type": "nr",
+			"network": "nr",
 			"name": "Marylebone",
 			"code": "MYB"
 		}
 	],
 	[
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "KXX"
 		},
 		{
-			"type": "nr",
+			"network": "nr",
 			"name": "Kings Cross",
 			"code": "KGX"
 		},
 		{
-			"type": "nr",
+			"network": "nr",
 			"name": "St Pancras International",
 			"code": "STP"
 		}
 	],
 	[
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "WMS"
 		},
 		{
-			"type": "river",
+			"network": "river",
 			"name": "Westminster Millennium Pier"
 		}
 	],
 	[
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "WLO"
 		},
 		{
-			"type": "river",
+			"network": "river",
 			"name": "London Eye Millennium Pier"
 		}
 	],
 	[
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "WLO"
 		},
 		{
-			"type": "nr",
+			"network": "nr",
 			"name": "Waterloo",
 			"code": "WAT"
 		},
 		{
-			"type": "river",
+			"network": "river",
 			"name": "London Eye Millennium Pier"
 		}
 	],
 	[
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "CHX"
 		},
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "EMB"
 		},
 		{
-			"type": "nr",
+			"network": "nr",
 			"name": "Charing Cross",
 			"code": "CHX"
 		},
 		{
-			"type": "river",
+			"network": "river",
 			"name": "Embankment Pier"
 		}
 	],
 	[
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "THL"
 		},
 		{
-			"type": "dlr",
+			"network": "dlr",
 			"code": "tog"
 		},
 		{
-			"type": "nr",
+			"network": "nr",
 			"name": "Fenchurch Street",
 			"code": "FST"
 		},
 		{
-			"type": "river",
+			"network": "river",
 			"name": "Tower Millennium Pier"
 		},
 		{
-			"type": "river",
+			"network": "river",
 			"name": "St Katharine\u2019s Pier"
 		}
 	],
 	[
 		{
-			"type": "dlr",
+			"network": "dlr",
 			"code": "CUS"
 		},
 		{
-			"type": "river",
+			"network": "river",
 			"name": "Greenwich Pier"
 		}
 	],
 	[
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "NGW"
 		},
 		{
-			"type": "river",
+			"network": "river",
 			"name": "North Greenwich Pier"
 		}
 	],
 	[
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "LON"
 		},
 		{
-			"type": "nr",
+			"network": "nr",
 			"name": "London Bridge",
 			"code": "LBG"
 		},
 		{
-			"type": "river",
+			"network": "river",
 			"name": "London Bridge City Pier"
 		}
 	],
 	[
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "BLF"
 		},
 		{
-			"type": "nr",
+			"network": "nr",
 			"name": "Blackfriars",
 			"code": "BFR"
 		},
 		{
-			"type": "river",
+			"network": "river",
 			"name": "Blackfriars Millennium Pier"
 		}
 	],
 	[
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "VUX"
 		},
 		{
-			"type": "nr",
+			"network": "nr",
 			"name": "Vauxhall",
 			"code": "VXH"
 		},
 		{
-			"type": "river",
+			"network": "river",
 			"name": "St George Wharf Pier"
 		}
 	],
 	[
 		{
-			"type": "overground",
+			"network": "overground",
 			"name": "Imperial Wharf"
 		},
 		{
-			"type": "nr",
+			"network": "nr",
 			"name": "Imperial Wharf",
 			"code": "IMW"
 		},
 		{
-			"type": "river",
+			"network": "river",
 			"name": "Chelsea Harbour Pier"
 		}
 	],
 	[
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "VIC"
 		},
 		{
-			"type": "nr",
+			"network": "nr",
 			"name": "Victoria",
 			"code": "VIC"
 		},
 		{
-			"type": "coaches",
+			"network": "coaches",
 			"name": "Victoria"
 		}
 	],
 	[
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "CNT"
 		},
 		{
-			"type": "dlr",
+			"network": "dlr",
 			"code": "cat"
 		},
 		{
-			"type": "buses",
+			"network": "buses",
 			"name": "Canning Town"
 		}
 	],
 	[
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "SFD"
 		},
 		{
-			"type": "dlr",
+			"network": "dlr",
 			"code": "str"
 		},
 		{
-			"type": "nr",
+			"network": "nr",
 			"name": "Stratford",
 			"code": "SRA"
 		},
 		{
-			"type": "buses",
+			"network": "buses",
 			"name": "Stratford"
 		}
 	],
 	[
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "CWF"
 		},
 		{
-			"type": "dlr",
+			"network": "dlr",
 			"code": "caw"
 		},
 		{
-			"type": "dlr",
+			"network": "dlr",
 			"code": "heq"
 		}
 	],
 	[
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "WHM"
 		},
 		{
-			"type": "dlr",
+			"network": "dlr",
 			"code": "weh"
 		},
 		{
-			"type": "nr",
+			"network": "nr",
 			"name": "West Ham",
 			"code": "WEH"
 		}
 	],
 	[
 		{
-			"type": "tube",
+			"network": "tube",
 			"code": "BWR"
 		},
 		{
-			"type": "dlr",
+			"network": "dlr",
 			"code": "boc"
 		}
 	]

@@ -1,6 +1,5 @@
 var Thing = require('./thing');
 var Pubsub = require('lucos_pubsub');
-var Route = require('./route');
 function Event(vehicle, platform, datetime) {
 	var id = [vehicle.getId(), platform.getId()];
 	Thing.call(this, id);
@@ -34,14 +33,19 @@ Event.prototype.getData = function getData(source) {
 
 		if (output["humanReadableTime"] == "missed it") output["humanReadableTime"] = "passed it";
 
-		var routes = Route.getByStop(this.getPlatform().getStop());
-		var thisevent = this;
-		var interchanges = [];
-		routes.forEach(function (route) {
-			if (route == thisevent.getPlatform().getRoute()) return;
-			interchanges.push(route.getData());
-		});
+		var interchanges = this.getPlatform().getInterchanges();
 
+		// Find where the symbol needs no extra text
+		output['symbols'] = [];
+		interchanges.forEach(function (interchange) {
+			if (!interchange['name'] && interchange['symbol']) {
+				output['symbols'].push({
+					src: interchange['symbol'],
+					alt: interchange['network'],
+				});
+				interchange['ignore'] = true;
+			}
+		});
 		if (interchanges.length > 0) {
 			output['isinterchange'] = true;
 			output['interchanges'] = interchanges;
