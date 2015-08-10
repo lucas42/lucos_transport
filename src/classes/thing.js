@@ -61,11 +61,25 @@ Thing.extend = function extend(Class) {
 	function getAll() {
 		return all;
 	}
+	function getByRelatedThing(relation, thing) {
+		var relations, relatedinstance, output = [];
+		for (var id in all) {
+			relatedthings = all[id].relations[relation].get();
+			for (var i = 0; i < relatedthings.length; i++) {
+				if (relatedthings[i] == thing) {
+					output.push(all[id]);
+					continue;
+				}
+			}
+		}
+		return output;
+	}
 	Class.prototype = new Thing();
 	Class.prototype.constructor = Class;
 	Class.update = update;
 	Class.getById = getById;
 	Class.getAll = getAll;
+	Class.getByRelatedThing = getByRelatedThing;
 }
 Thing.prototype.addRelation = function addRelation(singular, plural, source, sort) {
 	if (!plural) plural = singular+"s";

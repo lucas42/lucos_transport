@@ -1,5 +1,6 @@
 var Thing = require('./thing');
 var Pubsub = require('lucos_pubsub');
+var Route = require('./route');
 function Event(vehicle, platform, datetime) {
 	var id = [vehicle.getId(), platform.getId()];
 	Thing.call(this, id);
@@ -32,6 +33,19 @@ Event.prototype.getData = function getData(source) {
 		output["stop"] = this.getPlatform().getStop().getData();
 
 		if (output["humanReadableTime"] == "missed it") output["humanReadableTime"] = "passed it";
+
+		var routes = Route.getByStop(this.getPlatform().getStop());
+		var thisevent = this;
+		var interchanges = [];
+		routes.forEach(function (route) {
+			if (route == thisevent.getPlatform().getRoute()) return;
+			interchanges.push(route.getData());
+		});
+
+		if (interchanges.length > 0) {
+			output['isinterchange'] = true;
+			output['interchanges'] = interchanges;
+		}
 	}
 	return output;
 }

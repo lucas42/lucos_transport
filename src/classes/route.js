@@ -17,5 +17,7 @@ Route.prototype.getCssClass = function getCssClass() {
 	var name = this.getField('name');
 	return "route route_"+name.replace(/[ &]|and/g,'').toLowerCase();
 }
-
+Route.getByStop = function getByStop(stop) {
+	return Route.getByRelatedThing('stop', stop);
+}
 module.exports = Route;

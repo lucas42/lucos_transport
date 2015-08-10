@@ -16,6 +16,9 @@ function Platform(stop, name, route) {
 	this.getStop = function getStop() {
 		return stop;
 	}
+	this.getRoute = function getRoute() {
+		return route;
+	}
 }
 
 Platform.prototype.getData = function getData() {
