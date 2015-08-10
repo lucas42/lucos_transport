@@ -58,8 +58,8 @@ app.get('/route/:network/:id?', function (req, res) {
 	}
 });
 var Stop = require('./classes/stop');
-app.get('/stop/:id', function (req, res) {
-	var stop = Stop.getById(req.params.id);
+app.get('/stop/:network/:id?', function (req, res) {
+	var stop = Stop.getById([req.params.network, req.params.id]);
 	if (stop) {
 		stop.attemptRefresh(function () {
 			var data = stop.getDataTree();
@@ -70,7 +70,11 @@ app.get('/stop/:id', function (req, res) {
 			res.render('station', data);
 		});
 	} else {
-		res.status(404).send("Can't find stop "+req.params.id);
+		if (!req.params.id) {
+			res.redirect('/');
+		} else {
+			res.status(404).send("Can't find stop "+req.params.id);
+		}
 	}
 });
 var Vehicle = require('./classes/vehicle');

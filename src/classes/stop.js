@@ -5,7 +5,7 @@ function Stop() {
 }
 Thing.extend(Stop);
 Stop.prototype.getLink = function getLink() {
-	return "/stop/"+this.getId();
+	return "/stop/"+this.getField('network')+"/"+this.getField('code');
 }
 Stop.prototype.getData = function getData() {
 	var output = this.getRawData();
