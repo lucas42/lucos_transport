@@ -38,8 +38,8 @@ app.get('/', function(req, res) {
 		title: 'TFLuke',
 	});
 });
-app.get('/route/:id', function (req, res) {
-	var route = Route.getById(req.params.id);
+app.get('/route/:network/:id?', function (req, res) {
+	var route = Route.getById([req.params.network, req.params.id]);
 	if (route) {
 		route.attemptRefresh(function () {
 			var data = route.getDataTree();
@@ -50,7 +50,11 @@ app.get('/route/:id', function (req, res) {
 			res.render('route', data);
 		});
 	} else {
-		res.status(404).send("Can't find route "+req.params.id);
+		if (!req.params.id) {
+			res.redirect('/');
+		} else {
+			res.status(404).send("Can't find route "+req.params.id);
+		}
 	}
 });
 var Stop = require('./classes/stop');
@@ -96,4 +100,4 @@ var server = app.listen(process.env.PORT || 3000, function () {
   console.log('App listening at http://%s:%s', server.address().address, server.address().port);
 });
 
-require('./trackernet').start();
+require('./sources/trackernet').start();

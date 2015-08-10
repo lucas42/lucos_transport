@@ -11,7 +11,7 @@ Route.prototype.getData = function getData() {
 	return output;
 }
 Route.prototype.getLink = function getLink() {
-	return "/route/"+this.getId();
+	return "/route/"+this.getField('network')+"/"+this.getField('routecode');
 }
 Route.prototype.getCssClass = function getCssClass() {
 	var name = this.getField('name');

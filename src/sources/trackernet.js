@@ -1,10 +1,10 @@
 var req = require('request');
 var xml = require('xml2js');
-var Route = require('./classes/route');
-var Stop = require('./classes/stop');
-var Platform = require('./classes/platform');
-var Event = require('./classes/event');
-var Vehicle = require('./classes/vehicle');
+var Route = require('../classes/route');
+var Stop = require('../classes/stop');
+var Platform = require('../classes/platform');
+var Event = require('../classes/event');
+var Vehicle = require('../classes/vehicle');
 var Moment = require('moment-timezone');
 function start() {
 	setInterval(processlines, 300000);
@@ -31,34 +31,34 @@ function processlines() {
 
 					// Treat Circle as a separate case, because trackernet bundles it with Hammersmith and City
 					case "Circle":
-						routeid = "TN-I";
+						data.routecode = "I";
 						data.network = "tube";
 						data.title = "Circle Line";
 						break;
 					case "DLR":
-						routeid = "DLR";
+						data.routecode = "";
 						data.network = "dlr";
 						data.title = "Docklands Light Railway";
 						break;
 					case "TfL Rail":
-						routeid = "TflRail";
+						data.routecode = "";
 						data.network = "TflRail";
 						data.title = "TfL Rail";
 						break;
 					case "Overground":
-						routeid = "Overground";
+						data.routecode = "";
 						data.network = "overground";
 						data.title = "London Overground";
 						break;
 					default:
-						routeid = "TN-"+data.name[0];
+						data.routecode = data.name[0];
 						data.network = "tube";
 						data.title = data.name+" Line";
 						refresh = createRefresh(data.name[0]);
 						break;
 				}
 				var linecode = getLineCode(data.name);
-				var route = Route.update(routeid, data);
+				var route = Route.update([data.network, data.routecode], data);
 				if (refresh) route.refresh = refresh;
 				route.attemptRefresh();
 			});
