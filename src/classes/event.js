@@ -55,7 +55,7 @@ Event.prototype.getData = function getData(source) {
 }
 Event.prototype.isTerminus = function isTerminus() {
 	var destination = this.getVehicle().getField("destination");
-	var stopname = this.getPlatform().getStop().getField("name");
+	var stopname = this.getPlatform().getStop().getField("title");
 	return stationsMatch(stopname, destination);
 }
 

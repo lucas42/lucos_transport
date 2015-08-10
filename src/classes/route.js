@@ -18,7 +18,7 @@ Route.prototype.getLink = function getLink() {
 Route.prototype.getCssClass = function getCssClass() {
 	var name = this.getField('name');
 	if (!name) return "";
-	return "route route_"+name.replace(/[ &]|and/g,'').toLowerCase();
+	return "route_"+name.replace(/[ &]|and/g,'').toLowerCase();
 }
 Route.getByStop = function getByStop(stop) {
 	return Route.getByRelatedThing('stop', stop);

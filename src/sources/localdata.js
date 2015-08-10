@@ -10,7 +10,10 @@ function loadLocalData() {
 			var stop = Stop.getCreate(id);
 			stop.setField('network', stopdata.network);
 			stop.setField('code', stopdata.code);
-			if (stopdata.name) stop.setField('title', stopdata.name);
+			if (!stop.getField('title')) {
+				if (stopdata.name) stop.setField('title', stopdata.name);
+				else stop.setField('title', stopdata.network+" stop "+stopdata.code);
+			}
 			stops.push(stop);
 
 			// For non-tube networks, make sure a route exists
@@ -18,6 +21,8 @@ function loadLocalData() {
 				var route = Route.getCreate([stopdata.network, ""]);
 				route.setField('network', stopdata.network);
 				route.setField('routecode', '');
+				route.setField('title', stopdata.network);
+				route.setField('name', stopdata.network);
 				route.addStop(stop);
 			}
 		});

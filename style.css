@@ -17,6 +17,9 @@
 /** Not defined in colour standard - use Corporate Blue **/
 .route_tflrail h3, .route_tflrail h1, .route_tflrail #lucos_navbar, .route .interchanges .route_tflrail { color:#FFF!important; background-color:#000099!important; }
 
+
+.route h3 { color:#FFFFE7; background-color:#353535; }
+
 /** These colours used on TFL website and API are wrong **/
 /*.route_bakerloo h3, .route_bakerloo #lucos_navbar { color:#FFF!important; background-color:#AE6118!important; }
 .route_central h3, .route_central #lucos_navbar { color:#FFF!important; background-color:#E41F1F!important; }

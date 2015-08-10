@@ -102,9 +102,8 @@ function createRefresh(linecode) {
 					var stopdata = {
 						network: "tube",
 						code: stopstatus.$.Code,
-						name: stopstatus.$.N.replace(/\.$/,''),
+						title: stopstatus.$.N.replace(/\.$/,''),
 					}
-					stopdata.title = stopdata.name;
 					var stop = Stop.update([stopdata.network, stopdata.code], stopdata);
 					route.addStop(stop);
 					stopstatus.P.forEach(function (platformstatus) {
