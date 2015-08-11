@@ -35,24 +35,31 @@ Thing.extend(Platform);
 Platform.prototype.getInterchanges = function getInterchanges() {
 	var platform = this;
 
-	// Get interchanges to stops on other networks and Out of Station Interchanges
-	var externalInterchanges = this.getStop().getExternalInterchanges();
-	var interchanges = []
-	externalInterchanges.forEach(function (stop) {
-		var routes = Route.getByStop(stop);
-		routes.forEach(function (route) {
-			var routedata = route.getData();
-			delete routedata['name'];
-			interchanges.push(routedata);
-		});
-	});
+	var interchanges = [];
+	var gotinterchanges = {};
+	gotinterchanges[platform.getRoute().getId()] = true;
 
 	// Add any interchanges to other routes on the same network in this station
 	var routes = Route.getByStop(this.getStop());
 	routes.forEach(function (route) {
-		if (route == platform.getRoute()) return;
+		if (route.getId() in gotinterchanges) return;
 		interchanges.push(route.getData());
+		gotinterchanges[route.getId()] = true;
 	});
+
+	// Get interchanges to stops on other networks and Out of Station Interchanges
+	var externalInterchanges = this.getStop().getExternalInterchanges();
+	externalInterchanges.forEach(function (stop) {
+		var routes = Route.getByStop(stop);
+		routes.forEach(function (route) {
+			if (route.getId() in gotinterchanges) return;
+			var routedata = route.getData();
+			delete routedata['name'];
+			interchanges.push(routedata);
+			gotinterchanges[route.getId()] = true;
+		});
+	});
+
 	return interchanges;
 }
 module.exports = Platform;
