@@ -9,11 +9,12 @@ function Stop() {
 }
 Thing.extend(Stop);
 Stop.prototype.getLink = function getLink() {
-	return "/stop/"+this.getField('network')+"/"+this.getField('code');
+	return "/stop/"+this.getField('network').getId()+"/"+this.getField('code');
 }
 Stop.prototype.getData = function getData() {
 	var output = this.getRawData();
 	output.link = this.getLink();
+	output.network = output.network.getId();
 	return output;
 }
 module.exports = Stop;

@@ -5,6 +5,7 @@ var Stop = require('../classes/stop');
 var Platform = require('../classes/platform');
 var Event = require('../classes/event');
 var Vehicle = require('../classes/vehicle');
+var Network = require('../classes/network');
 var Moment = require('moment-timezone');
 function start() {
 	setInterval(processlines, 300000);
@@ -32,33 +33,33 @@ function processlines() {
 					// Treat Circle as a separate case, because trackernet bundles it with Hammersmith and City
 					case "Circle":
 						data.routecode = "I";
-						data.network = "tube";
+						data.network = Network.getCreate("tube");
 						data.title = "Circle Line";
 						break;
 					case "DLR":
 						data.routecode = "";
-						data.network = "dlr";
+						data.network = Network.getCreate("dlr");
 						data.title = "DLR";
 						break;
 					case "TfL Rail":
 						data.routecode = "";
-						data.network = "TflRail";
+						data.network = Network.getCreate("TflRail");
 						data.title = "TfL Rail";
 						break;
 					case "Overground":
 						data.routecode = "";
-						data.network = "overground";
+						data.network = Network.getCreate("overground");
 						data.title = "London Overground";
 						break;
 					default:
 						data.routecode = data.name[0];
-						data.network = "tube";
+						data.network = Network.getCreate("tube");
 						data.title = data.name+" Line";
 						refresh = createRefresh(data.name[0]);
 						break;
 				}
 				var linecode = getLineCode(data.name);
-				var route = Route.update([data.network, data.routecode], data);
+				var route = Route.update([data.network.getId(), data.routecode], data);
 				if (refresh) route.refresh = refresh;
 				route.attemptRefresh();
 			});
@@ -100,11 +101,11 @@ function createRefresh(linecode) {
 				var validtime = Moment.tz(body.ROOT.Time[0].$.TimeStamp, "YYYY/MM/DD HH:mm:ss", "Europe/London").toDate();
 				body.ROOT.S.forEach(function (stopstatus) {
 					var stopdata = {
-						network: "tube",
+						network: Network.getCreate("tube"),
 						code: stopstatus.$.Code,
 						title: stopstatus.$.N.replace(/\.$/,''),
 					}
-					var stop = Stop.update([stopdata.network, stopdata.code], stopdata);
+					var stop = Stop.update([stopdata.network.getId(), stopdata.code], stopdata);
 					route.addStop(stop);
 					stopstatus.P.forEach(function (platformstatus) {
 
