@@ -28,7 +28,7 @@ app.engine('html', wrappedEngine);
 var Route = require('./classes/route');
 app.get('/', function(req, res) {
 	var routedata = [];
-	var routes = Route.getAll();
+	var routes = Route.getAllSorted();
 	for (var i in routes) {
 		routedata.push(routes[i].getData());
 	}
@@ -47,6 +47,7 @@ app.get('/route/:network/:id?', function (req, res) {
 				link: '/',
 				name: 'All Routes',
 			}
+			data.cssClass = 'route '+data.cssClass;
 			res.render('route', data);
 		});
 	} else {

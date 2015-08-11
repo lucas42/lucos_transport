@@ -18,7 +18,7 @@
 .route_tflrail h3, .route_tflrail h1, .route_tflrail #lucos_navbar, .route .interchanges .route_tflrail { color:#FFF!important; background-color:#000099!important; }
 
 
-.route h3 { color:#FFFFE7; background-color:#353535; }
+.route h3, .route h1 { color:#343431; background-color:#CDCDCD; }
 
 /** These colours used on TFL website and API are wrong **/
 /*.route_bakerloo h3, .route_bakerloo #lucos_navbar { color:#FFF!important; background-color:#AE6118!important; }
@@ -152,6 +152,9 @@ h2, h3{
 .network_overground .station {
 	list-style-image: url('/img/roundel-overground.png');
 }
+.station .symbol {
+	padding: 0 0.2em;
+}
 
 /** Station Pages **/
 .platform_name .innertext {
@@ -228,13 +231,15 @@ h2, h3{
 .route_dlr .route > .stop:before, .route_dlr .continues:after { border-color:#009999; }
 .route_tflrail .route > .stop:before, .route_tflrail .continues:after { border-color:#000099; }
 
+.symbol { height: 1em; }
+h3 .symbol, h1 .symbol { margin: 0 1em; }
 .stop .symbols { display: inline; }
-.stop .symbols > .symbol { height: 1em; margin: 0 1ex; }
+.stop .symbols > .symbol { margin: 0 1ex; }
 
 .interchanges { width: 10ex; font-weight: bold; text-align: center; list-style-type: none; float: right; margin: 0 2ex; padding: 0; }
 .interchanges > li { font-size: 0.5em; line-height: 3ex; border: solid 1px; color: black; background: white; min-height: 1em; padding: 0 1ex; }
 .interchanges > .tube, .interchanges > .dlr, .interchanges > .overground { border: none; }
-.interchanges .symbol { height: 1em; margin: 0.5ex; float: left; }
+.interchanges .symbol { margin: 0.5ex; float: left; }
 .route > .stop:last-child .interchanges { position: absolute; right: 0; } /* In case it overflows its containing box */
 
 /** Navigation **/
@@ -243,7 +248,7 @@ h2, h3{
 
 /** extlink **/
 .stationextlink { display: block; text-decoration: none; color: inherit; margin: 1em auto 0; }
-.stationextlink .symbol { height: 1em; margin: 0.5ex; vertical-align: middle; }
+.stationextlink .symbol { margin: 0.5ex; vertical-align: middle; }
 
 /** Maps **/
 #maplist { list-style-type: none; }

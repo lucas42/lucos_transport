@@ -3,7 +3,7 @@
 
 {{#routes}}
 	<div class="route {{cssClass}}" id="{{name}}" data-route="{{name}}" data-status="{{status}}" data-details="{{details}}">
-		<a href="{{link}}"><h3><span class='innertext'>{{name}}</span></h3></a>
+		<a href="{{link}}"><h3><span class='innertext'>{{name}}{{#symbol}}<img src="{{symbol}}" alt="{{network}}" class="symbol" />{{/symbol}}</span></h3></a>
 		<div class='status'>{{status}}</div>
 		<div class='details'>{{details}}</div>
 	</div>

@@ -63,7 +63,11 @@ Thing.extend = function extend(Class) {
 		return instance;
 	}
 	function getAll() {
-		return all;
+		var output = [];
+		for (var id in all) {
+			output.push(all[id]);
+		}
+		return output;
 	}
 	function getByRelatedThing(relation, thing) {
 		var relations, relatedinstance, output = [];
