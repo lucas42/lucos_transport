@@ -22,11 +22,13 @@
   "homepage": "https://github.com/lucas42/lucos_transport",
   "dependencies": {
     "express": "^4.13.1",
+    "htmlparser2": "^3.8.3",
     "lucos_pubsub": "0.x",
     "moment-timezone": "^0.4.0",
     "mustache": "^2.1.2",
     "mustache-express": "^1.2.1",
     "request": "^2.60.0",
+    "soupselect": "^0.2.0",
     "xml2js": "^0.4.9"
   },
   "engines": {
