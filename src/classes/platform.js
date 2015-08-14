@@ -1,50 +1,52 @@
-Thing = require('./thing');
-Event = require('./event');
-Route = require('./route');
-function Platform(stop, name, route) {
-	Thing.call(this, [stop.getId(), name]);
+var Class = require('./class');
+var Event = require('./event');
+var Route = require('./route');
+var Platform = Class("Platform", ["stop", "name"], function () {
 	this.addRelation({
 		singular: 'event',
-		source: 'platform',
-		sort: Event.sortByTime
+		sort: Event.sortByTime,
 	});
-	stop.addPlatform(this);
-	var cssClass;
+	this.addRelation({
+		singular: 'route',
+		nofollow: true,
+	});
+	this.getStop().addPlatform(this);
+});
 
-	// TODO handle platforms which serve multiple routes
-	if (route) cssClass = route.getCssClass();
-	this.setData({
-		name: name,
-		cssClass: cssClass,
-		link: stop.getLink(),
-	})
-	this.getStop = function getStop() {
-		return stop;
-	}
-	this.getRoute = function getRoute() {
-		return route;
-	}
+
+Platform.prototype.getLink = function getLink() {
+	return this.getStop().getLink();
 }
-
+Platform.prototype.getCssClass = function getCssClass() {
+	var cssClass = "route";
+	this.getRoutes().sort(Route.sort).forEach(function (route) {
+		cssClass += "_"+route.getNormalisedName();
+	});
+	return cssClass;
+}
 Platform.prototype.getData = function getData() {
 	var output = this.getRawData();
-	output.link = "/stop/"+this.getId();
+	output.name = this.getName();
+	output.title = output.name;
+	output.link = this.getLink();
+	output.cssClass = this.getCssClass();
 	return output;
 }
-Thing.extend(Platform);
-Platform.prototype.getInterchanges = function getInterchanges() {
+Platform.prototype.getInterchanges = function getInterchanges(vehicle) {
 	var platform = this;
 
 	var interchanges = [];
 	var gotinterchanges = {};
-	gotinterchanges[platform.getRoute().getId()] = true;
+
+	// Ignore whichever route the vehicle is on.
+	gotinterchanges[vehicle.getRoute().getIndex()] = true;
 
 	// Add any interchanges to other routes on the same network in this station
 	var routes = Route.getByStop(this.getStop());
 	routes.forEach(function (route) {
-		if (route.getId() in gotinterchanges) return;
+		if (route.getIndex() in gotinterchanges) return;
 		interchanges.push(route.getData());
-		gotinterchanges[route.getId()] = true;
+		gotinterchanges[route.getIndex()] = true;
 	});
 
 	// Get interchanges to stops on other networks and Out of Station Interchanges
@@ -52,11 +54,11 @@ Platform.prototype.getInterchanges = function getInterchanges() {
 	externalInterchanges.forEach(function (stop) {
 		var routes = Route.getByStop(stop);
 		routes.forEach(function (route) {
-			if (route.getId() in gotinterchanges) return;
+			if (route.getIndex() in gotinterchanges) return;
 			var routedata = route.getData();
 			delete routedata['name'];
 			interchanges.push(routedata);
-			gotinterchanges[route.getId()] = true;
+			gotinterchanges[route.getIndex()] = true;
 		});
 	});
 

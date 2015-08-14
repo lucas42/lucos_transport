@@ -37,17 +37,16 @@
 
 
 /** Colours for comibinations of lines **/
-.district_hammersmithcity h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #006633), color-stop(.25, #CC9999), color-stop(.5, #CC9999), color-stop(.5, #006633), color-stop(.75, #006633), color-stop(.75, #CC9999), to(#CC9999));
-background: -webkit-repeating-linear-gradient(45deg, #006633 25px, #CC9999 25px, #CC9999 25px, #006633 25px, #006633 25px, #CC9999 25px, #CC9999 25px);  background-size: 50px 50px;
+.route_district_hammersmithcity h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #006633), color-stop(.25, #CC9999), color-stop(.5, #CC9999), color-stop(.5, #006633), color-stop(.75, #006633), color-stop(.75, #CC9999), to(#CC9999)); background-size: 50px 50px;
 
 }
-.circle_district h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #006633), color-stop(.25, #FFCC00), color-stop(.5, #FFCC00), color-stop(.5, #006633), color-stop(.75, #006633), color-stop(.75, #FFCC00), to(#FFCC00)); background-size: 50px 50px; }
-.hammersmithcity_metropolitan h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #660066), color-stop(.25, #CC9999), color-stop(.5, #CC9999), color-stop(.5, #660066), color-stop(.75, #660066), color-stop(.75, #CC9999), to(#CC9999)); background-size: 50px 50px; }
-.circle_hammersmithcity h3 { color:#113B92; text-shadow: #FFF 0 0 5px;background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #CC9999), color-stop(.25, #FFCC00), color-stop(.5, #FFCC00), color-stop(.5, #CC9999), color-stop(.75, #CC9999), color-stop(.75, #FFCC00), to(#FFCC00)); background-size: 50px 50px; }
-.metropolitan_piccadilly h3 { color:#FFF; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #660066), color-stop(.25, #000099), color-stop(.5, #000099), color-stop(.5, #660066), color-stop(.75, #660066), color-stop(.75, #000099), to(#000099)); background-size: 50px 50px; }
-.jubilee_metropolitan h3 { color:#FFF;background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #660066), color-stop(.25, #8F989E), color-stop(.5, #8F989E), color-stop(.5, #660066), color-stop(.75, #660066), color-stop(.75, #8F989E), to(#8F989E)); background-size: 50px 50px; }
-.district_piccadilly h3 { color:#FFF;background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #006633), color-stop(.25, #000099), color-stop(.5, #000099), color-stop(.5, #006633), color-stop(.75, #006633), color-stop(.75, #000099), to(#000099)); background-size: 50px 50px; }
-.circle_hammersmithcity_metropolitan h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background-size: 50px 50px;
+.route_circle_district h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #006633), color-stop(.25, #FFCC00), color-stop(.5, #FFCC00), color-stop(.5, #006633), color-stop(.75, #006633), color-stop(.75, #FFCC00), to(#FFCC00)); background-size: 50px 50px; }
+.route_hammersmithcity_metropolitan h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #660066), color-stop(.25, #CC9999), color-stop(.5, #CC9999), color-stop(.5, #660066), color-stop(.75, #660066), color-stop(.75, #CC9999), to(#CC9999)); background-size: 50px 50px; }
+.route_circle_hammersmithcity h3 { color:#113B92; text-shadow: #FFF 0 0 5px;background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #CC9999), color-stop(.25, #FFCC00), color-stop(.5, #FFCC00), color-stop(.5, #CC9999), color-stop(.75, #CC9999), color-stop(.75, #FFCC00), to(#FFCC00)); background-size: 50px 50px; }
+.route_metropolitan_piccadilly h3 { color:#FFF; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #660066), color-stop(.25, #000099), color-stop(.5, #000099), color-stop(.5, #660066), color-stop(.75, #660066), color-stop(.75, #000099), to(#000099)); background-size: 50px 50px; }
+.route_jubilee_metropolitan h3 { color:#FFF;background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #660066), color-stop(.25, #8F989E), color-stop(.5, #8F989E), color-stop(.5, #660066), color-stop(.75, #660066), color-stop(.75, #8F989E), to(#8F989E)); background-size: 50px 50px; }
+.route_district_piccadilly h3 { color:#FFF;background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #006633), color-stop(.25, #000099), color-stop(.5, #000099), color-stop(.5, #006633), color-stop(.75, #006633), color-stop(.75, #000099), to(#000099)); background-size: 50px 50px; }
+.route_circle_hammersmithcity_metropolitan h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background-size: 50px 50px;
 background: -webkit-gradient(linear, 0 0, 100% 100%, 
 	color-stop(.15, #660066),
 	color-stop(.15, #CC9999),
@@ -62,7 +61,7 @@ background: -webkit-gradient(linear, 0 0, 100% 100%,
 	to(#FFCC00));  background-size: 50px 50px;
 }
 /* In real life no station serves all three of these lines, but TFL's data isn't real life */
-.circle_district_hammersmithcity h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background-size: 50px 50px;
+.route_circle_district_hammersmithcity h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background-size: 50px 50px;
 background: -webkit-gradient(linear, 0 0, 100% 100%, 
 	color-stop(.15, #CC9999),
 	color-stop(.15, #FFCC00),
@@ -76,7 +75,7 @@ background: -webkit-gradient(linear, 0 0, 100% 100%,
 	color-stop(.85, #006633), 
 	to(#006633));  background-size: 50px 50px;
 }
-.district_hammersmithcity_metropolitan h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background-size: 50px 50px;
+.route_district_hammersmithcity_metropolitan h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background-size: 50px 50px;
 background: -webkit-gradient(linear, 0 0, 100% 100%, 
 	color-stop(.15, #660066),
 	color-stop(.15, #CC9999),
@@ -89,6 +88,20 @@ background: -webkit-gradient(linear, 0 0, 100% 100%,
 	color-stop(.85, #CC9999),
 	color-stop(.85, #006633), 
 	to(#006633));  background-size: 50px 50px;
+}
+.route_hammersmithcity_jubilee_metropolitan h3 { color:#FFF; text-shadow: #113B92 0 0 5px; background-size: 50px 50px;
+background: -webkit-gradient(linear, 0 0, 100% 100%, 
+	color-stop(.15, #660066),
+	color-stop(.15, #CC9999),
+	color-stop(.35, #CC9999),
+	color-stop(.35, #868F98), 
+	color-stop(.5, #868F98), 
+	color-stop(.5, #660066), 
+	color-stop(.65, #660066), 
+	color-stop(.65, #CC9999),
+	color-stop(.85, #CC9999),
+	color-stop(.85, #868F98), 
+	to(#868F98));  background-size: 50px 50px;
 }
 
 /** General **/

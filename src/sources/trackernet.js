@@ -27,51 +27,37 @@ function processlines() {
 					details:linestatus.$.StatusDetails,
 				}
 				data.title = data.name + " Line";
-				var linecode, refresh;
+				var refresh, route;
 				switch(data.name) {
 
 					// Treat Circle as a separate case, because trackernet bundles it with Hammersmith and City
 					case "Circle":
-						data.routecode = "I";
-						data.network = Network.getCreate("tube");
+						route = new Route(new Network("tube"), "I");
 						data.title = "Circle Line";
 						break;
 					case "DLR":
-						data.routecode = "";
-						data.network = Network.getCreate("dlr");
+						route = new Route(new Network("dlr"), "");
 						data.title = "DLR";
 						break;
 					case "TfL Rail":
-						data.routecode = "";
-						data.network = Network.getCreate("TflRail");
+						route = new Route(new Network("TflRail"), "");
 						data.title = "TfL Rail";
 						break;
 					case "Overground":
-						data.routecode = "";
-						data.network = Network.getCreate("overground");
+						route = new Route(new Network("overground"), "");
 						data.title = "London Overground";
 						break;
 					default:
-						data.routecode = data.name[0];
-						data.network = Network.getCreate("tube");
+						route = new Route(new Network("tube"), data.name[0]);
 						data.title = data.name+" Line";
-						refresh = createRefresh(data.name[0]);
+						route.refresh = createRefresh(data.name[0]);
 						break;
 				}
-				var linecode = getLineCode(data.name);
-				var route = Route.update([data.network.getId(), data.routecode], data);
-				if (refresh) route.refresh = refresh;
+				route.setData(data);
 				route.attemptRefresh();
 			});
 		});
 	});
-}
-
-
-/**
- * Identify lines by the train prediction service line Code (different to Network Status line ID)
- */
-function getLineCode(name) {
 }
 
 function createRefresh(linecode) {
@@ -101,16 +87,16 @@ function createRefresh(linecode) {
 				var validtime = Moment.tz(body.ROOT.Time[0].$.TimeStamp, "YYYY/MM/DD HH:mm:ss", "Europe/London").toDate();
 				body.ROOT.S.forEach(function (stopstatus) {
 					var stopdata = {
-						network: Network.getCreate("tube"),
-						code: stopstatus.$.Code,
 						title: stopstatus.$.N.replace(/\.$/,''),
 					}
-					var stop = Stop.update([stopdata.network.getId(), stopdata.code], stopdata);
+					var stop = new Stop(new Network("tube"), stopstatus.$.Code);
+					stop.setData(stopdata);
 					route.addStop(stop);
 					stopstatus.P.forEach(function (platformstatus) {
 
 						// TODO: need to handle refresh being called lots of times
-						var platform = new Platform(stop, platformstatus.$.N, route);
+						var platform = new Platform(stop, platformstatus.$.N);
+						platform.addRoute(route);
 
 						if (platformstatus.T) platformstatus.T.forEach(function (eventstatus) {
 							var eventdata = {
@@ -127,10 +113,10 @@ function createRefresh(linecode) {
 								route: route,
 							};
 							if (eventstatus.$.S == '000') vehicledata.ghost = true;
-							var vehicle = Vehicle.update(linecode+eventstatus.$.S, vehicledata);
-							var event = new Event(vehicle, platform, validtime+"+"+eventdata.timetostation);
+							var vehicle = new Vehicle(route, eventstatus.$.S);
+							vehicle.setData(vehicledata);
+							var event = new Event(vehicle, platform);
 							event.setData(eventdata);
-							platform.addEvent(event);
 						});
 					});
 				})

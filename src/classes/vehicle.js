@@ -1,19 +1,19 @@
-Thing = require('./thing');
-Event = require('./event');
-function Vehicle() {
-	Thing.apply(this, arguments);
+var Class = require('./class');
+var Event = require('./event');
+var Vehicle = Class("Vehicle", ["route", "code"], function () {
 	this.addRelation({
 		singular: 'event',
-		source: 'vehicle',
 		sort: Event.sortByTime
 	});
-}
-Thing.extend(Vehicle);
+});
 
+Vehicle.prototype.getLink = function getLink() {
+	return "/vehicle/"+this.getRoute().getNetwork().getCode()+"/"+this.getRoute().getCode()+"/"+this.getCode();
+}
 Vehicle.prototype.getData = function getData() {
 	var output = this.getRawData();
-	output.link = "/vehicle/"+this.getId();
-	output.cssClass = output.route.getCssClass();
+	output.link = this.getLink();
+	output.cssClass = this.getRoute().getCssClass();
 	output.continues = false;
 	var events = this.getEvents();
 	if (events.length) {

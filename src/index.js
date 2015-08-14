@@ -79,8 +79,8 @@ app.get('/stop/:network/:id?', function (req, res) {
 	}
 });
 var Vehicle = require('./classes/vehicle');
-app.get('/vehicle/:id', function (req, res) {
-	var vehicle = Vehicle.getById(req.params.id);
+app.get('/vehicle/:network/:route/:code', function (req, res) {
+	var vehicle = Vehicle.getById([[req.params.network, req.params.route], req.params.code]);
 	if (vehicle) {
 		vehicle.attemptRefresh(function () {
 			var data = vehicle.getDataTree();

@@ -1,39 +1,32 @@
-var Thing = require('./thing');
+var Class = require('./class');
 var Pubsub = require('lucos_pubsub');
-function Event(vehicle, platform, datetime) {
-	var id = [vehicle.getId(), platform.getId()];
-	Thing.call(this, id);
-	platform.addEvent(this);
-	vehicle.addEvent(this);
-	this.getVehicle = function getVehicle() {
-		return vehicle;
-	}
-	this.getPlatform = function getPlatform() {
-		return platform;
-	}
+var Event = Class("Event", ["vehicle", "platform"], function () {
+	this.getPlatform().addEvent(this);
+	this.getVehicle().addEvent(this);
+
 	var thisevent = this;
 	Pubsub.listen('updateTimes', function () {
 		thisevent.updateRelTime();
 	});
 	thisevent.updateRelTime();
-}
-Thing.extend(Event);
+});
+
 Event.prototype.getData = function getData(source) {
 	var output = this.getRawData();
 	output.secondsTo = Math.floor((output.time - new Date()) / 1000);
 	if (output.secondsTo < -5) output.passed = true;
 	else if (output.secondsTo < 0) output.now = true;
-	if (source == "platform") {
+	if (source == "Platform") {
 		var vehicledata = this.getVehicle().getData();
 		for (var i in vehicledata) output[i] = vehicledata[i];
 	}
-	if (source == "vehicle") {
+	if (source == "Vehicle") {
 		output["platform"] = this.getPlatform().getData();
 		output["stop"] = this.getPlatform().getStop().getData();
 
 		if (output["humanReadableTime"] == "missed it") output["humanReadableTime"] = "passed it";
 
-		var interchanges = this.getPlatform().getInterchanges();
+		var interchanges = this.getPlatform().getInterchanges(this.getVehicle());
 
 		// Find where the symbol needs no extra text
 		output['symbols'] = [];

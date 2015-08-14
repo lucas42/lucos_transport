@@ -1,32 +1,35 @@
-Thing = require('./thing');
+var Class = require('./class');
 var Symbols = require('../../data/symbols.json');
-function Route() {
-	Thing.apply(this, arguments);
+var Route = Class("Route", ["network", "code"], function () {
 	this.addRelation('stop');
-}
-Thing.extend(Route);
+	this.getNetwork().addRoute(this);
+});
 Route.prototype.getData = function getData() {
 	var output = this.getRawData();
 	output.link = this.getLink();
 	output.cssClass = this.getCssClass();
-	output.symbol = Symbols[this.getField('network').getId()];
-	output.network = output.network.getId();
+	output.network = this.getNetwork().getCode();
+	output.symbol = Symbols[output.network];
 	return output;
 }
 Route.prototype.getLink = function getLink() {
-	return "/route/"+this.getField('network').getId()+"/"+this.getField('routecode');
+	return "/route/"+this.getNetwork().getCode()+"/"+this.getCode();
+}
+Route.prototype.getNormalisedName = function getNormalisedName() {
+	var name = this.getField('name');
+	return name.replace(/[ &]|and/g,'').toLowerCase();
 }
 Route.prototype.getCssClass = function getCssClass() {
-	var name = this.getField('name');
+	var name = this.getNormalisedName();
 	if (!name) return "";
-	return "route_"+name.replace(/[ &]|and/g,'').toLowerCase();
+	return "route_"+name;
 }
 Route.getByStop = function getByStop(stop) {
-	return Route.getByRelatedThing('stop', stop).sort(sortRoutes);
+	return Route.getByRelatedThing('stop', stop).sort(Route.sort);
 }
-function sortRoutes(a, b) {
-	var neta = a.getField("network").getId();
-	var netb = b.getField("network").getId();
+Route.sort = function sortRoutes(a, b) {
+	var neta = a.getNetwork().getCode();
+	var netb = b.getNetwork().getCode();
 
 	// Make sure all the tube lines go at the top
 	if (neta != netb) {
@@ -40,6 +43,6 @@ function sortRoutes(a, b) {
 	return a.getField("title") > b.getField("title") ? 1 : -1;
 }
 Route.getAllSorted = function getAllSorted() {
-	return Route.getAll().sort(sortRoutes);
+	return Route.getAll().sort(Route.sort);
 }
 module.exports = Route;

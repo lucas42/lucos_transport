@@ -7,20 +7,21 @@ function loadLocalData() {
 		var stops = [];
 		interchange.forEach(function (stopdata) {
 			if (!stopdata.code) stopdata.code = stopdata.name;
-			var network = Network.getCreate(stopdata.network);
-			var id = [network.getId(), stopdata.code];
-			var stop = Stop.getCreate(id);
-			stop.setField('network', network);
-			stop.setField('code', stopdata.code);
+			if (!stopdata.code) {
+				console.error("No code or name specified for interchange. ", stopdata);
+				return;
+			}
+			var network = new Network(stopdata.network);
+			var stop = new Stop(network, stopdata.code);
 			if (!stop.getField('title')) {
 				if (stopdata.name) stop.setField('title', stopdata.name);
-				else stop.setField('title', network.getId()+" stop "+stopdata.code);
+				else stop.setField('title', network.getCode()+" stop "+stopdata.code);
 			}
 			stops.push(stop);
 
 			// For non-tube networks, make sure a route exists
-			if (network.getId() != "tube") {
-				var route = Route.getCreate([network.getId(), ""]);
+			if (network.getCode() != "tube") {
+				var route = new Route(network, "");
 				route.setField('network', network);
 				route.setField('routecode', '');
 				route.setField('title', stopdata.network);

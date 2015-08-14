@@ -1,7 +1,5 @@
-Thing = require('./thing');
-function Network() {
-	Thing.apply(this, arguments);
+var Class = require('./class');
+var Network = Class('Network', 'code', function () {
 	this.addRelation('route');
-}
-Thing.extend(Network);
+});
 module.exports = Network;
