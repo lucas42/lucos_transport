@@ -2,6 +2,7 @@ var Class = require('./class');
 var Route = Class("Route", ["network", "code"], function () {
 	this.addRelation('stop');
 	this.getNetwork().addRoute(this);
+	this.addRelation('vehicle');
 });
 Route.prototype.getData = function getData() {
 	var output = this.getRawData();

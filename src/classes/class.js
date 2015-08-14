@@ -81,6 +81,12 @@ function Class(classname, keynames, constructor) {
 		instance.getIndex = function getIndex() {
 			return index;
 		}
+
+		// Removes the object from the list of all instances in the class
+		// References may remain to the object in other places
+		instance.deleteFromAll = function deleteFromAll() {
+			delete all[index];
+		}
 		var lastRefresh = null;
 		instance.attemptRefresh = function attemptRefresh(callback) {
 			if (!callback) callback = function(){};

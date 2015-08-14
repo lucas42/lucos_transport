@@ -62,6 +62,10 @@ function processlines() {
 
 var overground_regex = new RegExp('overground to ', 'i');
 var overground = new Route(new Network("overground"), "");
+var circle_regex = new RegExp(' \\(circle\\)', 'i');
+var circle_ambigous_regex = new RegExp('(hammersmith)|(Check Front of Train)', 'i');
+var circle = new Route(new Network("tube"), "I");
+var handc = new Route(new Network("tube"), "H");
 function createRefresh(linecode) {
 	return function processline(callback) {
 		if (!callback) callback = function(){};
@@ -87,6 +91,7 @@ function createRefresh(linecode) {
 
 				// Tracker Net uses a weird time format and doesn't document its timezone (London Time)
 				var validtime = Moment.tz(body.ROOT.Time[0].$.TimeStamp, "YYYY/MM/DD HH:mm:ss", "Europe/London").toDate();
+				var ambigousvehicles = [];
 				body.ROOT.S.forEach(function (stopstatus) {
 					var stopdata = {
 						title: stopstatus.$.N.replace(/\.$/,''),
@@ -127,6 +132,14 @@ function createRefresh(linecode) {
 								// The set numbers for overgroud trains are fictional.
 								vehicledata.ghost = true;
 							}
+
+							// Hack for dealing with circle line trains which don't have their own feed.
+							if (route == handc && circle_regex.test(vehicledata.destination)) {
+								vehicledata.destination = vehicledata.destination.replace(circle_regex, '');
+								vehicleroute = circle;
+								platform.addRoute(circle);
+								circle.addStop(stop);
+							}
 							if (vehiclecode == '000') vehicledata.ghost = true;
 
 							// To stop all ghost vehicles having the same destination,
@@ -138,6 +151,19 @@ function createRefresh(linecode) {
 							vehicle.setData(vehicledata);
 							var event = new Event(vehicle, platform);
 							event.setData(eventdata);
+
+							// If it's not clear whether a train is handc or circle, create a second event
+							// Then we'll tidy up later on.
+							if (route == handc && circle_ambigous_regex.test(vehicledata.destination)) {
+								var circlevehicle = new Vehicle(circle, vehiclecode);
+								circlevehicle.setData(vehicledata);
+								var circleevent = new Event(circlevehicle, platform);
+								circleevent.setData(eventdata);
+								ambigousvehicles.push({
+									handc: vehicle,
+									circle: circlevehicle,
+								})
+							}
 						});
 
 						// Look for platforms which have overgound trains and nothing else.
@@ -147,7 +173,7 @@ function createRefresh(linecode) {
 								if (event.getVehicle().getRoute() != overground) {
 									alloverground = false;
 								}
-							})
+							});
 							if (alloverground) {
 
 								// Remove the non-overground routes from the platform
@@ -158,13 +184,56 @@ function createRefresh(linecode) {
 							}
 							var routes = platform.getRoutes();
 						}
+
 					});
 
 					// Stations which contain only overground platforms and no underground trains shouldn't be consider underground stations
 					if (overgroundonlyplatforms && stop.getPlatforms().length == overgroundonlyplatforms) {
 						route.removeStop(stop);
 					}
-				})
+				});
+
+				// Go through the ambigous vehicles and try to work out which route is the correct one
+				ambigousvehicles.forEach(function(vehiclepair) {
+
+					// Assume a vehicle is a circle line train unless it stops somewhere not on the cirle line
+					// This logic breaks down when there's no clockwise circle trains, because we can't identify
+					// circle line platforms
+					var allcircle = true;
+					vehiclepair.handc.getEvents().forEach(function (event) {
+						if (!event.getPlatform().hasRoute(circle)) allcircle = false;
+					});
+					var deletevehicle = vehiclepair[allcircle?'handc':'circle'];
+					deletevehicle.getEvents().forEach(function (event) {
+						event.getPlatform().removeEvent(event);
+					});
+					deletevehicle.getRoute().removeVehicle(deletevehicle);
+					deletevehicle.deleteFromAll();
+					if (allcircle) vehiclepair.circle.getEvents().forEach(function (event) {
+						event.getPlatform().addRoute(event.getVehicle().getRoute());
+					});
+				});
+
+				// Get any platfroms with no h&c trains and remove the h&c route from them
+				Platform.getByRelatedThing('route', handc).forEach(function (platform) {
+					var has_handc = false;
+					platform.getEvents().forEach(function (event) {
+						if (event.getVehicle().getRoute() == handc) {
+							has_handc = true;
+						}
+					});
+					if (!has_handc) platform.removeRoute(handc);
+				});
+
+				// Get any stops with no h&c platforms and remove them from the h&c route
+				handc.getStops().forEach(function (stop) {
+					var has_handc = false;
+					stop.getPlatforms().forEach(function (platform) {
+						if (platform.hasRoute(handc)) has_handc = true;
+					})
+					if (!has_handc) handc.removeStop(stop);
+				});
+
 				callback();
 			});
 		});
