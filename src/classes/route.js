@@ -1,5 +1,4 @@
 var Class = require('./class');
-var Symbols = require('../../data/symbols.json');
 var Route = Class("Route", ["network", "code"], function () {
 	this.addRelation('stop');
 	this.getNetwork().addRoute(this);
@@ -9,7 +8,7 @@ Route.prototype.getData = function getData() {
 	output.link = this.getLink();
 	output.cssClass = this.getCssClass();
 	output.network = this.getNetwork().getCode();
-	output.symbol = Symbols[output.network];
+	output.symbol = this.getNetwork().getSymbol();
 	return output;
 }
 Route.prototype.getLink = function getLink() {

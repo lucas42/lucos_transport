@@ -166,7 +166,9 @@ function Class(classname, keynames, constructor) {
 		var output = this.getData(source);
 		for (var i in this.relations) {
 			var relation = this.relations[i];
-			if (relation.nofollow) continue;
+
+			// If nofollow is true, then only include relations from the root of the tree
+			if (source && relation.nofollow) continue;
 			var relateddata = [];
 			relation.get().forEach(function (relatedthing) {
 				relateddata.push(relatedthing.getDataTree(relation.source));

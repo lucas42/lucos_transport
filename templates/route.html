@@ -1,10 +1,10 @@
-	<ul class="network_{{network}}"{{#symbol}} style="padding:0"{{/symbol}}>
+	<ul class="stoplist" {{#symbol}} style="padding:0"{{/symbol}}>
 	{{#stops}}
-		<li class="station">
+		<li class="{{cssClass}}">
 			<a href="{{link}}">{{#symbol}}<img src="{{symbol}}" alt="{{network}}" class="symbol" />{{/symbol}}{{title}}</a>
 		</li>
 	{{/stops}}
 	{{^stops}}
-		<li class="station nostation">Sorry, data for this route is unavailable</li>
+		<li class="stop">Sorry, data for this route is unavailable</li>
 	{{/stops}}
 	</ul>

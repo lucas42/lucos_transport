@@ -145,27 +145,27 @@ h2, h3{
 .maplink:hover { text-shadow: 0 0 30px black; }
 
 /** Line Pages **/
-.station {
+li.stop {
 	font-size: 2.5em;
 	zoom: 0.8;
 }
-.station a {
+li.stop a {
 	color: inherit;
 	text-decoration: none;
 }
-.station a:hover {
+li.stop a:hover {
 	text-decoration: underline;
 }
-.network_tube .station {
+li.stop.network_tube {
 	list-style-image: url('/img/roundel-tube.png');
 }
-.network_dlr .station {
+li.stop.network_dlr {
 	list-style-image: url('/img/roundel-dlr.png');
 }
-.network_overground .station {
+li.stop.network_overground {
 	list-style-image: url('/img/roundel-overground.png');
 }
-.station .symbol {
+li.stop .symbol {
 	padding: 0 0.2em;
 }
 
@@ -211,7 +211,7 @@ h2, h3{
 .journey .continues:after { content: " "; display: block; height: 3ex; width: 3ex; border: solid 1ex; border-top: none; border-left: none; -webkit-transform: rotate(45deg); bottom: 1ex; position: absolute; }
 
 /* List of stops */
-.route { margin: 0; list-style-type: none; }
+.route, .stoplist { margin: 0; list-style-type: none; }
 
 /* Normal stops */
 .route > .stop { color: #000099; margin: 3ex 0; font-weight: 550; margin-left: 1.6ex; }

@@ -18,3 +18,12 @@
 			</table>
 		</div>
 	{{/platforms}}
+
+	{{#hasExternalInterchanges}}<h2>Connections from this stop</h2>{{/hasExternalInterchanges}}
+	{{#externalInterchanges}}
+	<ul class="stoplist">
+		<li class="station {{cssClass}}">
+			<a href="{{link}}">{{#symbol}}<img src="{{symbol}}" alt="{{network}}" class="symbol" />{{/symbol}}{{title}}</a>
+		</li>
+	</ul>
+	{{/externalInterchanges}}
