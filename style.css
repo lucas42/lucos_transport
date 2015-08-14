@@ -145,27 +145,27 @@ h2, h3{
 .maplink:hover { text-shadow: 0 0 30px black; }
 
 /** Line Pages **/
-li.stop {
+.stoplist li.stop {
 	font-size: 2.5em;
 	zoom: 0.8;
 }
-li.stop a {
+.stoplist li.stop a {
 	color: inherit;
 	text-decoration: none;
 }
-li.stop a:hover {
+.stoplist li.stop a:hover {
 	text-decoration: underline;
 }
-li.stop.network_tube {
+.stoplist li.stop.network_tube {
 	list-style-image: url('/img/roundel-tube.png');
 }
-li.stop.network_dlr {
+.stoplist li.stop.network_dlr {
 	list-style-image: url('/img/roundel-dlr.png');
 }
-li.stop.network_overground {
+.stoplist li.stop.network_overground {
 	list-style-image: url('/img/roundel-overground.png');
 }
-li.stop .symbol {
+.stoplist li.stop .symbol {
 	padding: 0 0.2em;
 }
 
