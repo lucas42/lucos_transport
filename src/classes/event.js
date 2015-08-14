@@ -60,7 +60,11 @@ function stationsMatch(a, b) {
 	function normalise(stationname) {
 		return stationname.replace(/via .*/, '')
 		.replace(/[\+\&]/, "and")
-		.replace(" Street ", " St ");
+		.replace(" Street ", " St ")
+		.replace(/\(.*\)/, '')
+		.replace(/Platform.*/, '')
+		.replace(/\s*$/, '')
+		.replace(/^\s*/, '');
 	}
 	a = normalise(a);
 	b = normalise(b);
