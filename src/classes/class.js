@@ -135,15 +135,22 @@ function Class(classname, keynames, constructor) {
 		if (!relation.plural) relation.plural = relation.singular+"s";
 		var instances = {};
 		var thisinstance = this;
+		function hasThing(instance) {
+			return instance.getIndex() in instances;
+		}
 		function addThing(instance) {
-			var wasthere = instance.getIndex() in instances;
+			if (hasThing(instance)) return;
 			instances[instance.getIndex()] = instance;
-			if (relation.symmetrical) {
-				if (!wasthere && thisinstance != instance) {
-					instance.relations[relation.singular].add(thisinstance);
-				}
-				relation.nofollow = true;
+			if (relation.symmetrical && thisinstance != instance) {
+				instance.relations[relation.singular].add(thisinstance);
 			}  
+		}
+		function removeThing(instance) {
+			if (!hasThing(instance)) return;
+			delete instances[instance.getIndex()];
+			if (relation.symmetrical && thisinstance != instance) {
+				instance.relations[relation.singular].remove(thisinstance);
+			}
 		}
 		function getThings() {
 			var output = [];
@@ -151,11 +158,16 @@ function Class(classname, keynames, constructor) {
 			if (relation.sort) output.sort(relation.sort);
 			return output;
 		}
+		if (relation.symmetrical) relation.nofollow = true;
+		relation.has = hasThing;
 		relation.add = addThing;
+		relation.remove = removeThing;
 		relation.get = getThings;
 		relation.source = classname;
 		this.relations[relation.singular] = relation;
+		this['has'+capitalise(relation.singular)] = hasThing;
 		this['add'+capitalise(relation.singular)] = addThing;
+		this['remove'+capitalise(relation.singular)] = removeThing;
 		this['get'+capitalise(relation.plural)] = getThings;
 	}
 

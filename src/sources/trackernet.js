@@ -60,6 +60,8 @@ function processlines() {
 	});
 }
 
+var overground_regex = new RegExp('overground to ', 'i');
+var overground = new Route(new Network("overground"), "");
 function createRefresh(linecode) {
 	return function processline(callback) {
 		if (!callback) callback = function(){};
@@ -92,6 +94,7 @@ function createRefresh(linecode) {
 					var stop = new Stop(new Network("tube"), stopstatus.$.Code);
 					stop.setData(stopdata);
 					route.addStop(stop);
+					var overgroundonlyplatforms = 0;
 					stopstatus.P.forEach(function (platformstatus) {
 
 						// TODO: need to handle refresh being called lots of times
@@ -110,15 +113,57 @@ function createRefresh(linecode) {
 							}
 							var vehicledata = {
 								destination: eventstatus.$.DE,
-								route: route,
 							};
-							if (eventstatus.$.S == '000') vehicledata.ghost = true;
-							var vehicle = new Vehicle(route, eventstatus.$.S);
+							var vehicleroute = route;
+							var vehiclecode = eventstatus.$.S;
+
+							// Hack for dealing with overground trains which appear in bakerloo line feeds.
+							if (overground_regex.test(vehicledata.destination)) {
+								vehicledata.destination = vehicledata.destination.replace(overground_regex, '');
+								vehicleroute = overground;
+								platform.addRoute(overground);
+								overground.addStop(stop);
+
+								// The set numbers for overgroud trains are fictional.
+								vehicledata.ghost = true;
+							}
+							if (vehiclecode == '000') vehicledata.ghost = true;
+
+							// To stop all ghost vehicles having the same destination,
+							// make up a random code for them.
+							if (vehicledata.ghost) {
+								vehiclecode = Math.random();
+							}
+							var vehicle = new Vehicle(vehicleroute, vehiclecode);
 							vehicle.setData(vehicledata);
 							var event = new Event(vehicle, platform);
 							event.setData(eventdata);
 						});
+
+						// Look for platforms which have overgound trains and nothing else.
+						if (platform.hasRoute(overground)) {
+							var alloverground = true;
+							platform.getEvents().forEach(function (event) {
+								if (event.getVehicle().getRoute() != overground) {
+									alloverground = false;
+								}
+							})
+							if (alloverground) {
+
+								// Remove the non-overground routes from the platform
+								platform.getRoutes().forEach(function (route) {
+									if (route != overground) platform.removeRoute(route);
+								});
+								overgroundonlyplatforms++;
+							}
+							var routes = platform.getRoutes();
+						}
 					});
+
+					// Stations which contain only overground platforms and no underground trains shouldn't be consider underground stations
+					if (overgroundonlyplatforms && stop.getPlatforms().length == overgroundonlyplatforms) {
+						route.removeStop(stop);
+					}
 				})
 				callback();
 			});

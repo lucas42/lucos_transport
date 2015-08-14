@@ -46,6 +46,7 @@
 .route_metropolitan_piccadilly h3 { color:#FFF; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #660066), color-stop(.25, #000099), color-stop(.5, #000099), color-stop(.5, #660066), color-stop(.75, #660066), color-stop(.75, #000099), to(#000099)); background-size: 50px 50px; }
 .route_jubilee_metropolitan h3 { color:#FFF;background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #660066), color-stop(.25, #8F989E), color-stop(.5, #8F989E), color-stop(.5, #660066), color-stop(.75, #660066), color-stop(.75, #8F989E), to(#8F989E)); background-size: 50px 50px; }
 .route_district_piccadilly h3 { color:#FFF;background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #006633), color-stop(.25, #000099), color-stop(.5, #000099), color-stop(.5, #006633), color-stop(.75, #006633), color-stop(.75, #000099), to(#000099)); background-size: 50px 50px; }
+.route_bakerloo_overground h3 { color:#FFF; text-shadow: #554433 0 0 5px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #996633), color-stop(.25, #FF6600), color-stop(.5, #FF6600), color-stop(.5, #996633), color-stop(.75, #996633), color-stop(.75, #FF6600), to(#FF6600)); background-size: 50px 50px; }
 .route_circle_hammersmithcity_metropolitan h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background-size: 50px 50px;
 background: -webkit-gradient(linear, 0 0, 100% 100%, 
 	color-stop(.15, #660066),
