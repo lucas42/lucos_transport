@@ -21,4 +21,7 @@ Stop.prototype.getData = function getData(source) {
 	output.cssClass = this.getCssClass();
 	return output;
 }
+Stop.sort = function sortStops(a, b) {
+	return a.getField("title") > b.getField("title") ? 1 : -1;
+}
 module.exports = Stop;

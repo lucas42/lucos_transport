@@ -1,6 +1,10 @@
 var Class = require('./class');
+var Stop = require('./stop');
 var Route = Class("Route", ["network", "code"], function () {
-	this.addRelation('stop');
+	this.addRelation({
+		singular: 'stop',
+		sort: Stop.sort,
+	});
 	this.getNetwork().addRoute(this);
 	this.addRelation('vehicle');
 });

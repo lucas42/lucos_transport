@@ -8,6 +8,7 @@ var Platform = Class("Platform", ["stop", "name"], function () {
 	});
 	this.addRelation({
 		singular: 'route',
+		sort: Route.sort,
 		nofollow: true,
 	});
 	this.getStop().addPlatform(this);
@@ -19,7 +20,7 @@ Platform.prototype.getLink = function getLink() {
 }
 Platform.prototype.getCssClass = function getCssClass() {
 	var cssClass = "route";
-	this.getRoutes().sort(Route.sort).forEach(function (route) {
+	this.getRoutes().forEach(function (route) {
 		cssClass += "_"+route.getNormalisedName();
 	});
 	return cssClass;
