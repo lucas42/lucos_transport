@@ -127,7 +127,13 @@ function createRefresh(linecode) {
 								vehicledata.destination = vehicledata.destination.replace(overground_regex, '');
 								vehicleroute = overground;
 								platform.addRoute(overground);
-								overground.addStop(stop);
+								var overgroundstop = new Stop(new Network("overground"), stopstatus.$.Code);
+								overgroundstop.setData(stopdata);
+								overground.addStop(overgroundstop);
+								stop.addExternalInterchange(overgroundstop);
+								var overgroundplatform = new Platform(overgroundstop, platformstatus.$.N);
+								overgroundplatform.addRoute(overground);
+								// TODO: Find way in UI to visualise that overgoundplatform and platform are physically the same
 
 								// The set numbers for overgroud trains are fictional.
 								vehicledata.ghost = true;
