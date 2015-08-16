@@ -12,7 +12,7 @@ var Moment = require('moment-timezone');
 var network = new Network("dlr");
 var route = new Route(network, "");
 function start() {
-	setInterval(loadstations, 300000);
+	setInterval(loadstations, 30000);
 	loadstations();
 }
 
@@ -75,6 +75,11 @@ function loadStation(stop) {
 						}
 						var platform = new Platform(stop, platformcode);
 						platform.addRoute(route);
+
+						// Remove existing events, because data source has no way to identify specific trains
+						platform.getEvents().forEach(function (event) {
+							platform.removeEvent(event);
+						});
 
 						var rawtime = select(platformelement, "#time")[0].children[0].data.trim();
 
