@@ -109,3 +109,4 @@ require('./sources/trackernet').start();
 require('./sources/dlrlondon').start();
 require('./sources/tfl-unified').start();
 require('./sources/localdata').start();
+require('./sources/boatdata').start();

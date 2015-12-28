@@ -18,10 +18,18 @@ Vehicle.prototype.getLink = function getLink() {
 	link += "/"+this.getCode();
 	return link;
 }
+Vehicle.prototype.getCssClass = function getCssClass() {
+	var cssclass = this.getRoute().getCssClass();
+	var title = this.getField('title')
+	if (title) {
+		cssclass += " vehicle_"+title.toLowerCase().replace(' ', '');
+	}
+	return cssclass;
+}
 Vehicle.prototype.getData = function getData() {
 	var output = this.getRawData();
 	output.link = this.getLink();
-	output.cssClass = this.getRoute().getCssClass();
+	output.cssClass = this.getCssClass();
 	output.continues = false;
 	var events = this.getEvents();
 	if (events.length) {
