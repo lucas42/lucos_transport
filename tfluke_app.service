@@ -1,0 +1,12 @@
+[Service]
+ExecStart=/usr/bin/nodejs src/index.js
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=tfluke_app
+User=lucos
+Group=lucos
+WorkingDirectory=/web/lucos/lucos_transport
+
+[Install]
+WantedBy=multi-user.target
