@@ -66,6 +66,7 @@ function stationsMatch(a, b) {
 		.replace(/\s*$/, '')
 		.replace(/^\s*/, '');
 	}
+	if (!a || !b) return false;
 	a = normalise(a);
 	b = normalise(b);
 	if (a.indexOf(b) > -1) return true;

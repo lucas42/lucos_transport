@@ -32,23 +32,23 @@ function processlines() {
 
 					// Treat Circle as a separate case, because trackernet bundles it with Hammersmith and City
 					case "Circle":
-						route = new Route(new Network("tube"), "I");
+						route = new Route(new Network("tube"), "circle");
 						data.title = "Circle Line";
 						break;
 					case "DLR":
-						route = new Route(new Network("dlr"), "");
+						route = new Route(new Network("dlr"), "dlr");
 						data.title = "DLR";
 						break;
 					case "TfL Rail":
-						route = new Route(new Network("TflRail"), "");
+						route = new Route(new Network("tflrail"), "tfl-rail");
 						data.title = "TfL Rail";
 						break;
 					case "Overground":
-						route = new Route(new Network("overground"), "");
+						route = new Route(new Network("overground"), "london-overground");
 						data.title = "London Overground";
 						break;
 					default:
-						route = new Route(new Network("tube"), data.name[0]);
+						route = new Route(new Network("tube"), data.name.toLowerCase().replace(' and ', '-'));
 						data.title = data.name+" Line";
 						route.refresh = createRefresh(data.name[0]);
 						break;
@@ -61,11 +61,11 @@ function processlines() {
 }
 
 var overground_regex = new RegExp('overground to ', 'i');
-var overground = new Route(new Network("overground"), "");
+var overground = new Route(new Network("overground"), "london-overground");
 var circle_regex = new RegExp(' \\(circle\\)', 'i');
 var circle_ambigous_regex = new RegExp('(hammersmith)|(Check Front of Train)', 'i');
-var circle = new Route(new Network("tube"), "I");
-var handc = new Route(new Network("tube"), "H");
+var circle = new Route(new Network("tube"), "circle");
+var handc = new Route(new Network("tube"), "hammersmith-city");
 function createRefresh(linecode) {
 	return function processline(callback) {
 		if (!callback) callback = function(){};

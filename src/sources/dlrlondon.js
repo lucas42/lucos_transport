@@ -10,7 +10,7 @@ var Network = require('../classes/network');
 var Moment = require('moment-timezone');
 
 var network = new Network("dlr");
-var route = new Route(network, "");
+var route = new Route(network, "dlr");
 function start() {
 	setInterval(loadstations, 30000);
 	loadstations();

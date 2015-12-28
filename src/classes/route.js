@@ -19,14 +19,9 @@ Route.prototype.getData = function getData() {
 Route.prototype.getLink = function getLink() {
 	return "/route/"+this.getNetwork().getCode()+"/"+this.getCode();
 }
-Route.prototype.getNormalisedName = function getNormalisedName() {
-	var name = this.getField('name');
-	return name.replace(/[ &]|and/g,'').toLowerCase();
-}
 Route.prototype.getCssClass = function getCssClass() {
-	var name = this.getNormalisedName();
-	if (!name) return "";
-	return "route_"+name;
+	var code = this.getCode();
+	return "route_"+code;
 }
 Route.getByStop = function getByStop(stop) {
 	return Route.getByRelatedThing('stop', stop).sort(Route.sort);

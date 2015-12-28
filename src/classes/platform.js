@@ -21,7 +21,7 @@ Platform.prototype.getLink = function getLink() {
 Platform.prototype.getCssClass = function getCssClass() {
 	var cssClass = "route";
 	this.getRoutes().forEach(function (route) {
-		cssClass += "_"+route.getNormalisedName();
+		cssClass += "_"+route.getCode();
 	});
 	return cssClass;
 }

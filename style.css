@@ -1,21 +1,22 @@
 
 /** Colours for specific lines taken from https://tfl.route_gov.route_uk/cdn/static/cms/documents/tfl-colour-standard.route_pdf **/
+.journey h3, .route .interchanges .journey { color:#FFF; background-color:#000099; }
 .route_bakerloo h3, .route_bakerloo h1, .route_bakerloo #lucos_navbar, .route .interchanges .route_bakerloo { color:#FFF!important; background-color:#996633!important; }
 .route_central h3, .route_central h1, .route_central #lucos_navbar, .route .interchanges .route_central { color:#FFF!important; background-color:#CC3333!important; }
 .route_circle h3, .route_circle h1, .route_circle #lucos_navbar, .route .interchanges .route_circle { color:#113B92!important; background-color:#FFCC00!important; }
 .route_district h3, .route_district h1, .route_district #lucos_navbar, .route .interchanges .route_district { color:#FFF!important; background-color:#006633!important; }
-.route_hammersmithcity h3, .route_hammersmithcity h1, .route_hammersmithcity #lucos_navbar, .route .interchanges .route_hammersmithcity { color:#113B92!important; background-color:#CC9999!important; }
+.route_hammersmith-city h3, .route_hammersmith-city h1, .route_hammersmith-city #lucos_navbar, .route .interchanges .route_hammersmith-city { color:#113B92!important; background-color:#CC9999!important; }
 .route_jubilee h3, .route_jubilee h1, .route_jubilee #lucos_navbar, .route .interchanges .route_jubilee { color:#FFF!important; background-color:#868F98!important; }
 .route_metropolitan h3, .route_metropolitan h1, .route_metropolitan #lucos_navbar, .route .interchanges .route_metropolitan { color:#FFF!important; background-color:#660066!important; }
 .route_northern h3, .route_northern h1, .route_northern #lucos_navbar, .route .interchanges .route_northern { color:#FFF!important; background-color:#000000!important; }
 .route_piccadilly h3, .route_piccadilly h1, .route_piccadilly #lucos_navbar, .route .interchanges .route_piccadilly { color:#FFF!important; background-color:#000099!important; }
 .route_victoria h3, .route_victoria h1, .route_victoria #lucos_navbar, .route .interchanges .route_victoria { color:#FFF!important; background-color:#0099CC!important; }
-.route_waterloocity h3, .route_waterloocity h1, .route_waterloocity #lucos_navbar, .route .interchanges .route_waterloocity { color:#113B92!important; background-color:#66CCCC!important; }
-.route_overground h3, .route_overground h1, .route_overground #lucos_navbar, .route .interchanges .route_overground { color:#FFF!important; background-color:#FF6600!important; }
+.route_waterloo-city h3, .route_waterloo-city h1, .route_waterloo-city #lucos_navbar, .route .interchanges .route_waterloo-city { color:#113B92!important; background-color:#66CCCC!important; }
+.route_london-overground h3, .route_london-overground h1, .route_london-overground #lucos_navbar, .route .interchanges .route_london-overground { color:#FFF!important; background-color:#FF6600!important; }
 .route_dlr h3, .route_dlr h1, .route_dlr #lucos_navbar, .route .interchanges .route_dlr { color:#FFF!important; background-color:#009999!important; }
 
 /** Not defined in colour standard - use Corporate Blue **/
-.route_tflrail h3, .route_tflrail h1, .route_tflrail #lucos_navbar, .route .interchanges .route_tflrail { color:#FFF!important; background-color:#000099!important; }
+.route_tfl-rail h3, .route_tfl-rail h1, .route_tfl-rail #lucos_navbar, .route .interchanges .route_tfl-rail { color:#FFF!important; background-color:#000099!important; }
 
 
 .route h3, .route h1 { color:#343431; background-color:#CDCDCD; }
@@ -25,30 +26,30 @@
 .route_central h3, .route_central #lucos_navbar { color:#FFF!important; background-color:#E41F1F!important; }
 .route_circle h3, .route_circle #lucos_navbar { color:#113B92!important; background-color:#F8D42D!important; }
 .route_district h3, .route_district #lucos_navbar { color:#FFF!important; background-color:#00A575!important; }
-.route_hammersmithcity h3, .route_hammersmithcity #lucos_navbar { color:#113B92!important; background-color:#E899A8!important; }
+.route_hammersmith-city h3, .route_hammersmith-city #lucos_navbar { color:#113B92!important; background-color:#E899A8!important; }
 .route_jubilee h3, .route_jubilee #lucos_navbar { color:#FFF!important; background-color:#8F989E!important; }
 .route_metropolitan h3, .route_metropolitan #lucos_navbar { color:#FFF!important; background-color:#893267!important; }
 .route_northern h3, .route_northern #lucos_navbar { color:#FFF!important; background-color:#000000!important; }
 .route_piccadilly h3, .route_piccadilly #lucos_navbar { color:#FFF!important; background-color:#0450A1!important; }
 .route_victoria h3, .route_victoria #lucos_navbar { color:#FFF!important; background-color:#009FE0!important; }
-.route_waterloocity h3, .route_waterloocity #lucos_navbar { color:#113B92!important; background-color:#70C3CE!important; }
-.route_overground h3, .route_overground #lucos_navbar { color:#FFF!important; background-color:#F86C00!important; }
+.route_waterloo-city h3, .route_waterloo-city #lucos_navbar { color:#113B92!important; background-color:#70C3CE!important; }
+.route_london-overground h3, .route_london-overground #lucos_navbar { color:#FFF!important; background-color:#F86C00!important; }
 .route_dlr h3, .route_dlr #lucos_navbar { color:#FFF!important; background-color:#00BBB4!important; }*/
 
 
 /** Colours for comibinations of lines **/
-.route_district_hammersmithcity h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #006633), color-stop(.25, #CC9999), color-stop(.5, #CC9999), color-stop(.5, #006633), color-stop(.75, #006633), color-stop(.75, #CC9999), to(#CC9999)); background-size: 50px 50px;
+.route_district_hammersmith-city h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #006633), color-stop(.25, #CC9999), color-stop(.5, #CC9999), color-stop(.5, #006633), color-stop(.75, #006633), color-stop(.75, #CC9999), to(#CC9999)); background-size: 50px 50px;
 
 }
 .route_circle_district h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #006633), color-stop(.25, #FFCC00), color-stop(.5, #FFCC00), color-stop(.5, #006633), color-stop(.75, #006633), color-stop(.75, #FFCC00), to(#FFCC00)); background-size: 50px 50px; }
-.route_hammersmithcity_metropolitan h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #660066), color-stop(.25, #CC9999), color-stop(.5, #CC9999), color-stop(.5, #660066), color-stop(.75, #660066), color-stop(.75, #CC9999), to(#CC9999)); background-size: 50px 50px; }
-.route_circle_hammersmithcity h3 { color:#113B92; text-shadow: #FFF 0 0 5px;background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #CC9999), color-stop(.25, #FFCC00), color-stop(.5, #FFCC00), color-stop(.5, #CC9999), color-stop(.75, #CC9999), color-stop(.75, #FFCC00), to(#FFCC00)); background-size: 50px 50px; }
+.route_hammersmith-city_metropolitan h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #660066), color-stop(.25, #CC9999), color-stop(.5, #CC9999), color-stop(.5, #660066), color-stop(.75, #660066), color-stop(.75, #CC9999), to(#CC9999)); background-size: 50px 50px; }
+.route_circle_hammersmith-city h3 { color:#113B92; text-shadow: #FFF 0 0 5px;background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #CC9999), color-stop(.25, #FFCC00), color-stop(.5, #FFCC00), color-stop(.5, #CC9999), color-stop(.75, #CC9999), color-stop(.75, #FFCC00), to(#FFCC00)); background-size: 50px 50px; }
 .route_circle_metropolitan h3 { color:#113B92; text-shadow: #FFF 0 0 5px;background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #660066), color-stop(.25, #FFCC00), color-stop(.5, #FFCC00), color-stop(.5, #660066), color-stop(.75, #660066), color-stop(.75, #FFCC00), to(#FFCC00)); background-size: 50px 50px; }
 .route_metropolitan_piccadilly h3 { color:#FFF; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #660066), color-stop(.25, #000099), color-stop(.5, #000099), color-stop(.5, #660066), color-stop(.75, #660066), color-stop(.75, #000099), to(#000099)); background-size: 50px 50px; }
 .route_jubilee_metropolitan h3 { color:#FFF;background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #660066), color-stop(.25, #8F989E), color-stop(.5, #8F989E), color-stop(.5, #660066), color-stop(.75, #660066), color-stop(.75, #8F989E), to(#8F989E)); background-size: 50px 50px; }
 .route_district_piccadilly h3 { color:#FFF;background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #006633), color-stop(.25, #000099), color-stop(.5, #000099), color-stop(.5, #006633), color-stop(.75, #006633), color-stop(.75, #000099), to(#000099)); background-size: 50px 50px; }
 .route_bakerloo_overground h3 { color:#FFF; text-shadow: #554433 0 0 5px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #996633), color-stop(.25, #FF6600), color-stop(.5, #FF6600), color-stop(.5, #996633), color-stop(.75, #996633), color-stop(.75, #FF6600), to(#FF6600)); background-size: 50px 50px; }
-.route_circle_hammersmithcity_metropolitan h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background-size: 50px 50px;
+.route_circle_hammersmith-city_metropolitan h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background-size: 50px 50px;
 background: -webkit-gradient(linear, 0 0, 100% 100%, 
 	color-stop(.15, #660066),
 	color-stop(.15, #CC9999),
@@ -63,7 +64,7 @@ background: -webkit-gradient(linear, 0 0, 100% 100%,
 	to(#FFCC00));  background-size: 50px 50px;
 }
 /* In real life no station serves all three of these lines, but TFL's data isn't real life */
-.route_circle_district_hammersmithcity h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background-size: 50px 50px;
+.route_circle_district_hammersmith-city h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background-size: 50px 50px;
 background: -webkit-gradient(linear, 0 0, 100% 100%, 
 	color-stop(.15, #CC9999),
 	color-stop(.15, #FFCC00),
@@ -77,7 +78,7 @@ background: -webkit-gradient(linear, 0 0, 100% 100%,
 	color-stop(.85, #006633), 
 	to(#006633));  background-size: 50px 50px;
 }
-.route_district_hammersmithcity_metropolitan h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background-size: 50px 50px;
+.route_district_hammersmith-city_metropolitan h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background-size: 50px 50px;
 background: -webkit-gradient(linear, 0 0, 100% 100%, 
 	color-stop(.15, #660066),
 	color-stop(.15, #CC9999),
@@ -91,7 +92,7 @@ background: -webkit-gradient(linear, 0 0, 100% 100%,
 	color-stop(.85, #006633), 
 	to(#006633));  background-size: 50px 50px;
 }
-.route_hammersmithcity_jubilee_metropolitan h3 { color:#FFF; text-shadow: #113B92 0 0 5px; background-size: 50px 50px;
+.route_hammersmith-city_jubilee_metropolitan h3 { color:#FFF; text-shadow: #113B92 0 0 5px; background-size: 50px 50px;
 background: -webkit-gradient(linear, 0 0, 100% 100%, 
 	color-stop(.15, #660066),
 	color-stop(.15, #CC9999),
@@ -111,7 +112,7 @@ body { background: #ccf; margin: 0; min-height: 100%; position: absolute; width:
 .route a, a.route { text-decoration: none; }
 .route h3, .route h1 { text-decoration: none; text-align: center; clear: both; padding: 0; }
 .route .status {font-weight: bold; }
-.route .status, .route .details { margin: 0 2em; }
+.route .status, .route .details { margin: 0 2em; white-space: pre-wrap; }
 .stationlines { overflow: hidden; }
 .stationlines .route { width: 400px; float:left; clear: both; }
 .stationlines .route h3 { margin: 3px; }
@@ -147,6 +148,9 @@ h2, h3{
 .maplink:hover { text-shadow: 0 0 30px black; }
 
 /** Line Pages **/
+
+.stoplist { margin: 0; }
+
 .stoplist li.stop {
 	font-size: 2.5em;
 	zoom: 0.8;
@@ -210,10 +214,10 @@ h2, h3{
 .journey .journeyname { width: 1ex; position: absolute; left: 31px; margin: 0; top: 0.7ex; bottom: 0.9ex; box-sizing: border-box; }
 .journey .journeyname .routename, .journey .continues .destination { display: none; }
 .journey .continues { width: 4ex; overflow: hidden; height: 4ex; position: relative; padding: 0; margin-left: -2.5ex; }
-.journey .continues:after { content: " "; display: block; height: 3ex; width: 3ex; border: solid 1ex; border-top: none; border-left: none; -webkit-transform: rotate(45deg); bottom: 1ex; position: absolute; }
+.journey .continues:after { content: " "; display: block; height: 3ex; width: 3.01ex; border: solid 1ex; border-top: none; border-left: none; -webkit-transform: rotate(45deg); bottom: 1ex; position: absolute; }
 
 /* List of stops */
-.route, .stoplist { margin: 0; list-style-type: none; }
+.route { margin: 0; list-style-type: none; }
 
 /* Normal stops */
 .route > .stop { color: #000099; margin: 3ex 0; font-weight: 550; margin-left: 1.6ex; }
@@ -231,20 +235,21 @@ h2, h3{
 .route > .stop:last-child { margin-bottom: 0; height: 1.2em;}
 .route > .stop:not(.interchange):first-child:before, .route > .stop:not(.interchange):last-child:before { width: 2.32ex; margin-left: -3.26ex; }
 
+.route > .stop:before, .route .continues:after { border-color:#000099;}
 .route_bakerloo .route > .stop:before, .route_bakerloo .continues:after { border-color:#996633; }
 .route_central .route > .stop:before, .route_central .continues:after { border-color:#CC3333; }
 .route_circle .route > .stop:before, .route_circle .continues:after { border-color:#FFCC00; }
 .route_district .route > .stop:before, .route_district .continues:after { border-color:#006633; }
-.route_hammersmithcity .route > .stop:before, .route_hammersmithcity .continues:after { border-color:#CC9999; }
+.route_hammersmith-city .route > .stop:before, .route_hammersmith-city .continues:after { border-color:#CC9999; }
 .route_jubilee .route > .stop:before, .route_jubilee .continues:after{ border-color:#868F98; }
 .route_metropolitan .route > .stop:before, .route_metropolitan .continues:after { border-color:#660066; }
 .route_northern .route > .stop:before, .route_northern .continues:after { border-color:#000000; }
 .route_piccadilly .route > .stop:before, .route_piccadilly .continues:after { border-color:#000099; }
 .route_victoria .route > .stop:before, .route_victoria .continues:after { border-color:#0099CC; }
-.route_waterloocity .route > .stop:before, .route_waterloocity .continues:after { border-color:#66CCCC; }
-.route_overground .route > .stop:before, .route_overground .continues:after { border-color:#FF6600; }
+.route_waterloo-city .route > .stop:before, .route_waterloo-city .continues:after { border-color:#66CCCC; }
+.route_london-overground .route > .stop:before, .route_london-overground .continues:after { border-color:#FF6600; }
 .route_dlr .route > .stop:before, .route_dlr .continues:after { border-color:#009999; }
-.route_tflrail .route > .stop:before, .route_tflrail .continues:after { border-color:#000099; }
+.route_tfl-rail .route > .stop:before, .route_tfl-rail .continues:after { border-color:#000099; }
 
 .symbol { height: 1em; }
 h3 .symbol, h1 .symbol { margin: 0 1em; }
