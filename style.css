@@ -290,8 +290,8 @@ h3 .symbol, h1 .symbol { margin: 0 1em; }
   height: 88px;
   overflow: hidden;
   position: absolute;
-  top: -3px;
-  right: -3px;
+  top: 0;
+  right: 0;
 }
 
 .ribbon {
