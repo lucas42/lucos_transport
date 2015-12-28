@@ -107,6 +107,38 @@ background: -webkit-gradient(linear, 0 0, 100% 100%,
 	to(#868F98));  background-size: 50px 50px;
 }
 
+/** Colours for boats 
+These were collected manually, without taking account of variations in light
+**/
+.vehicle_hurricaneclipper h1, .vehicle_hurricaneclipper .journeyname { color:#FFF; background-color:#5DA269; }
+.vehicle_hurricaneclipper .route > .stop:before, .vehicle_hurricaneclipper .route .continues:after { border-color:#5DA269; }
+.vehicle_auroraclipper h1, .vehicle_auroraclipper .journeyname { color:#000; background-color:#81AFD0; }
+.vehicle_auroraclipper .route > .stop:before, .vehicle_auroraclipper .route .continues:after { border-color:#81AFD0; }
+.vehicle_meteorclipper h1, .vehicle_meteorclipper .journeyname { color:#FFF; background-color:#861D3C; }
+.vehicle_meteorclipper .route > .stop:before, .vehicle_meteorclipper .route .continues:after { border-color:#861D3C; }
+.vehicle_tornadoclipper h1, .vehicle_tornadoclipper .journeyname { color:#FFF; background-color:#40AABA; }
+.vehicle_tornadoclipper .route > .stop:before, .vehicle_tornadoclipper .route .continues:after { border-color:#40AABA; }
+.vehicle_typhoonclipper h1, .vehicle_typhoonclipper .journeyname { color:#FFF; background-color:#8F2877; }
+.vehicle_typhoonclipper .route > .stop:before, .vehicle_typhoonclipper .route .continues:after { border-color:#8F2877; }
+.vehicle_monsoonclipper h1, .vehicle_monsoonclipper .journeyname { color:#000; background-color:#EA306F; }
+.vehicle_monsoonclipper .route > .stop:before, .vehicle_monsoonclipper .route .continues:after { border-color:#EA306F; }
+.vehicle_cycloneclipper h1, .vehicle_cycloneclipper .journeyname { color:#000; background-color:#FF7B47; }
+.vehicle_cycloneclipper .route > .stop:before, .vehicle_cycloneclipper .route .continues:after { border-color:#FF7B47; }
+.vehicle_sunclipper h1, .vehicle_sunclipper .journeyname { color:#FFF; background-color:#948422; }
+.vehicle_sunclipper .route > .stop:before, .vehicle_sunclipper .route .continues:after { border-color:#948422; }
+.vehicle_moonclipper h1, .vehicle_moonclipper .journeyname { color:#FFF; background-color:#B991C5; }
+.vehicle_moonclipper .route > .stop:before, .vehicle_moonclipper .route .continues:after { border-color:#B991C5; }
+.vehicle_starclipper h1, .vehicle_starclipper .journeyname { color:#FFF; background-color:#8D6900; }
+.vehicle_starclipper .route > .stop:before, .vehicle_starclipper .route .continues:after { border-color:#8D6900; }
+.vehicle_skyclipper h1, .vehicle_skyclipper .journeyname { color:#FFF; background-color:#3BBEC6; }
+.vehicle_skyclipper .route > .stop:before, .vehicle_skyclipper .route .continues:after { border-color:#3BBEC6; }
+.vehicle_stormclipper h1, .vehicle_stormclipper .journeyname { color:#FFF; background-color:#; }
+.vehicle_stormclipper .route > .stop:before, .vehicle_stormclipper .route .continues:after { border-color:#; }
+.vehicle_neptuneclipper h1, .vehicle_neptuneclipper .journeyname { color:#FFF; background-color:#; }
+.vehicle_neptuneclipper .route > .stop:before, .vehicle_neptuneclipper .route .continues:after { border-color:#; }
+.vehicle_galaxyclipper h1, .vehicle_galaxyclipper .journeyname { color:#FFF; background-color:#; }
+.vehicle_galaxyclipper .route > .stop:before, .vehicle_galaxyclipper .route .continues:after { border-color:#; }
+
 /** General **/
 body { background: #ccf; margin: 0; min-height: 100%; position: absolute; width: 100%; box-sizing: border-box; }
 .route a, a.route { text-decoration: none; }
