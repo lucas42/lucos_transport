@@ -85,6 +85,12 @@ function loadStation(stop) {
 
 						// Times appear to be London time
 						var validtime = Moment.tz(rawtime, "HH:mm", "Europe/London").toDate();
+
+						// HACK: Can't trust the DLR site's time.
+						// Using the time on this server seems more reliable
+						// Hopefully the weird cache-busting trick above will prevent
+						// caching issues with this approach.
+						var validtime = new Date();
 						var trains = [];
 						var firsttrain = select(platformelement, "#line1")[0].children[0].data.trim();
 						if (firsttrain) trains.push(firsttrain);
