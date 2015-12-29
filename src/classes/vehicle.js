@@ -31,6 +31,7 @@ Vehicle.prototype.getData = function getData() {
 	output.link = this.getLink();
 	output.cssClass = this.getCssClass();
 	output.continues = false;
+	output.routeName = this.getRoute().getQualifiedName();
 	var events = this.getEvents();
 	if (events.length) {
 		output.continues = !(events[events.length-1].isTerminus());

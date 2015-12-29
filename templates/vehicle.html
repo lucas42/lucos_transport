@@ -1,8 +1,7 @@
 	<div id='train' data-line="{{line}}" data-destination="{{destination}}" data-nextstation="{{nextstation}}" data-nexttime="{{nexttime}}" data-nextstationcode="{{nextstationcode}}" class="{{cssClass}}">
 		<div class='destination'>Destination: {{destination}}</div>
-		<!--<div class='location'>Current Location: {{location}}</div>-->
 		<div class='journey'>
-			<h3 class='journeyname'><span class='routename'>{{line}} Line</span></h3>
+			<h3 class='journeyname'><span class='routename'>{{routeName}}</span></h3>
 			<ul class='route'>
 			{{#events}}
 				<li class="stop{{#isinterchange}} interchange{{/isinterchange}}">

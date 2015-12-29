@@ -23,6 +23,17 @@ Route.prototype.getCssClass = function getCssClass() {
 	var code = this.getCode();
 	return "route_"+code;
 }
+Route.prototype.getQualifiedName = function getQualifiedName() {
+	var name = this.getField("title");
+	var network = this.getNetwork().getCode();
+	if (network == "tube") {
+		name += " Line";
+	}
+	if (network == "river-bus" && name.match(/^RB\d/)) {
+		name = "Thames Clipper " + name;
+	}
+	return name;
+}
 Route.getByStop = function getByStop(stop) {
 	return Route.getByRelatedThing('stop', stop).sort(Route.sort);
 }
