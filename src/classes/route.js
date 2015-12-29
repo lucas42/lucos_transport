@@ -14,6 +14,7 @@ Route.prototype.getData = function getData() {
 	output.cssClass = this.getCssClass();
 	output.network = this.getNetwork().getCode();
 	output.symbol = this.getNetwork().getSymbol();
+	output.code = this.getCode();
 	return output;
 }
 Route.prototype.getLink = function getLink() {
