@@ -22,6 +22,7 @@ Route.prototype.getLink = function getLink() {
 }
 Route.prototype.getCssClass = function getCssClass() {
 	var code = this.getCode();
+	if (!code) return "";
 	return "route_"+code;
 }
 Route.prototype.getQualifiedName = function getQualifiedName() {

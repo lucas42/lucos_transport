@@ -1,6 +1,6 @@
 
 {{#routes}}
-	<div class="route {{cssClass}}" id="{{code}}" data-route="{{name}}" data-status="{{status}}" data-details="{{details}}">
+	<div class="route {{cssClass}}"{{#code}} id="{{code}}"{{/code}} data-route="{{name}}" data-status="{{status}}" data-details="{{details}}">
 		<a href="{{link}}"><h3><span class='innertext'>{{name}}{{#symbol}}<img src="{{symbol}}" alt="{{network}}" class="symbol" />{{/symbol}}</span></h3></a>
 		<div class='status'>{{status}}</div>
 		<div class='details'>{{details}}</div>
