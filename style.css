@@ -163,7 +163,7 @@ body { background: #ccf; margin: 0; min-height: 100%; position: absolute; width:
 body{
   	font-family:Verdana, Arial, Helvetica, sans-serif;
 }
-h1 { font-family: Georgia, serif; text-align: center; background: #353535; color: #FFFFE7; }
+h1 { font-family: Georgia, serif; text-align: center; background: #353535; color: #FFFFE7; margin: 0; }
 h2, h3{
   	font-family: Arial, Helvetica, sans-serif;
 }
