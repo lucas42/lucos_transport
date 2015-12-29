@@ -12,13 +12,35 @@ function start() {
 	loadlines();
 }
 var supportedModes = ["tube", "dlr", "river-bus", "tfl-rail", "overground"];
-function loadlines() {
-	req("https://api.tfl.gov.uk/Line/Route", function (err, resp, rawbody) {
+function tflapireq(path, callback) {
+	var parsed;
+	var url = "https://api.tfl.gov.uk"+path;
+	if (url.indexOf('?') > -1) {
+		url += '&';
+	} else {
+		url += '?';
+	}
+	url += "app_id="
+	if (process.env.TFLAPPID) url += encodeURIComponent(process.env.TFLAPPID);
+	url += "&app_key=";
+	if (process.env.TFLAPPKEY) url += encodeURIComponent(process.env.TFLAPPKEY);
+	console.log(url);
+	req(url, function (err, resp, rawbody) {
 		if (err) {
 			console.error(err);
 			return;
 		}
-		var lines = JSON.parse(rawbody);
+		try {
+			parsed = JSON.parse(rawbody);
+		} catch (e) {
+			console.error(url, rawbody);
+			throw e;
+		}
+		callback(parsed);
+	});
+}
+function loadlines() {
+	tflapireq("/Line/Route", function (lines) {
 		var lineids = [];
 		lines.forEach(function (linedata) {
 			if (supportedModes.indexOf(linedata.modeName) == -1) return;
@@ -30,14 +52,7 @@ function loadlines() {
 			route.attemptRefresh();
 			lineids.push(linedata.id);
 		});
-		req("https://api.tfl.gov.uk/Line/"+lineids.join(',')+"/Status", function (err, resp, rawbody) {
-
-			if (err) {
-				console.error(err);
-				return;
-			}
-			var lines = JSON.parse(rawbody);
-
+		tflapireq("/Line/"+lineids.join(',')+"/Status", function (lines) {
 			lines.forEach(function (linedata) {
 				var network = new Network(linedata.modeName);
 				var route = new Route(network, linedata.id);
@@ -63,14 +78,7 @@ function loadlines() {
 }
 function refreshLine(callback) {
 	var route = this;
-	req("https://api.tfl.gov.uk/Line/"+route.getCode()+"/StopPoints", function (err, resp, rawbody) {
-
-		if (err) {
-			console.error(err);
-			return;
-		}
-		var stops = JSON.parse(rawbody);
-
+	tflapireq("/Line/"+route.getCode()+"/StopPoints", function (stops) {
 		stops.forEach(function (stopdata) {
 			var stop = new Stop(route.getNetwork(), stopdata.naptanId);
 			stop.setField('title', stopdata.commonName);
@@ -90,12 +98,7 @@ function refreshLine(callback) {
 
 			route.addStop(stop);
 		});
-		req("https://api.tfl.gov.uk/Line/"+route.getCode()+"/Arrivals", function (err, resp, rawbody) {
-			if (err) {
-				console.error(err);
-				return;
-			}
-			var arrivals = JSON.parse(rawbody);
+		tflapireq("/Line/"+route.getCode()+"/Arrivals", function (arrivals) {
 			arrivals.forEach(function (arrival) {
 				//console.log(arrival);
 				var stop = new Stop(route.getNetwork(), arrival.naptanId);
