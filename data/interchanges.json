@@ -19,12 +19,12 @@
 			"code": "WDN"
 		},
 		{
-			"network": "nr",
+			"network": "national-rail",
 			"code": "WIM",
 			"name": "Wimbledon"
 		},
 		{
-			"network": "tramlink",
+			"network": "tram",
 			"name": "Wimbledon"
 		}
 	],
@@ -38,7 +38,7 @@
 			"code": "HMS"
 		},
 		{
-			"network": "buses",
+			"network": "bus",
 			"name": "Hammersmith"
 		}
 	],
@@ -78,7 +78,7 @@
 			"code": "EUS"
 		},
 		{
-			"network": "nr",
+			"network": "national-rail",
 			"name": "Euston",
 			"code": "EUS"
 		}
@@ -89,7 +89,7 @@
 			"code": "MYB"
 		},
 		{
-			"network": "nr",
+			"network": "national-rail",
 			"name": "Marylebone",
 			"code": "MYB"
 		}
@@ -100,12 +100,12 @@
 			"code": "KXX"
 		},
 		{
-			"network": "nr",
+			"network": "national-rail",
 			"name": "Kings Cross",
 			"code": "KGX"
 		},
 		{
-			"network": "nr",
+			"network": "national-rail",
 			"name": "St Pancras International",
 			"code": "STP"
 		}
@@ -116,8 +116,8 @@
 			"code": "WMS"
 		},
 		{
-			"network": "river",
-			"name": "Westminster Millennium Pier"
+			"network": "river-tour",
+			"code": "930GWMR"
 		}
 	],
 	[
@@ -126,42 +126,34 @@
 			"code": "WLO"
 		},
 		{
-			"network": "river",
-			"name": "London Eye Millennium Pier"
-		}
-	],
-	[
-		{
-			"network": "tube",
-			"code": "WLO"
-		},
-		{
-			"network": "nr",
+			"network": "national-rail",
 			"name": "Waterloo",
 			"code": "WAT"
 		},
 		{
-			"network": "river",
-			"name": "London Eye Millennium Pier"
+			"network": "river-bus",
+			"code": "930GWMP"
 		}
 	],
 	[
-		{
-			"network": "tube",
-			"code": "CHX"
-		},
 		{
 			"network": "tube",
 			"code": "EMB"
 		},
 		{
-			"network": "nr",
-			"name": "Charing Cross",
+			"network": "river-bus",
+			"code": "930GEMB"
+		}
+	],
+	[
+		{
+			"network": "tube",
 			"code": "CHX"
 		},
 		{
-			"network": "river",
-			"name": "Embankment Pier"
+			"network": "national-rail",
+			"name": "Charing Cross",
+			"code": "CHX"
 		}
 	],
 	[
@@ -174,17 +166,17 @@
 			"code": "tog"
 		},
 		{
-			"network": "nr",
+			"network": "national-rail",
 			"name": "Fenchurch Street",
 			"code": "FST"
 		},
 		{
-			"network": "river",
-			"name": "Tower Millennium Pier"
+			"network": "river-bus",
+			"code": "930GTMP"
 		},
 		{
-			"network": "river",
-			"name": "St Katharine\u2019s Pier"
+			"network": "river-tour",
+			"code": "9300STC1"
 		}
 	],
 	[
@@ -193,8 +185,8 @@
 			"code": "cus"
 		},
 		{
-			"network": "river",
-			"name": "Greenwich Pier"
+			"network": "river-bus",
+			"code": "930GGNW"
 		}
 	],
 	[
@@ -203,8 +195,8 @@
 			"code": "NGW"
 		},
 		{
-			"network": "river",
-			"name": "North Greenwich Pier"
+			"network": "river-bus",
+			"code": "930GMIL"
 		}
 	],
 	[
@@ -213,13 +205,13 @@
 			"code": "LON"
 		},
 		{
-			"network": "nr",
+			"network": "national-rail",
 			"name": "London Bridge",
 			"code": "LBG"
 		},
 		{
-			"network": "river",
-			"name": "London Bridge City Pier"
+			"network": "river-bus",
+			"code": "930GLBR"
 		}
 	],
 	[
@@ -228,13 +220,13 @@
 			"code": "BLF"
 		},
 		{
-			"network": "nr",
+			"network": "national-rail",
 			"name": "Blackfriars",
 			"code": "BFR"
 		},
 		{
-			"network": "river",
-			"name": "Blackfriars Millennium Pier"
+			"network": "river-bus",
+			"code": "930GBFR"
 		}
 	],
 	[
@@ -243,13 +235,13 @@
 			"code": "VUX"
 		},
 		{
-			"network": "nr",
+			"network": "national-rail",
 			"name": "Vauxhall",
 			"code": "VXH"
 		},
 		{
-			"network": "river",
-			"name": "St George Wharf Pier"
+			"network": "river-bus",
+			"name": "930GSGW"
 		}
 	],
 	[
@@ -258,13 +250,13 @@
 			"name": "Imperial Wharf"
 		},
 		{
-			"network": "nr",
+			"network": "national-rail",
 			"name": "Imperial Wharf",
 			"code": "IMW"
 		},
 		{
-			"network": "river",
-			"name": "Chelsea Harbour Pier"
+			"network": "river-bus",
+			"code": "930GCHP"
 		}
 	],
 	[
@@ -273,7 +265,7 @@
 			"code": "VIC"
 		},
 		{
-			"network": "nr",
+			"network": "national-rail",
 			"name": "Victoria",
 			"code": "VIC"
 		},
@@ -292,7 +284,7 @@
 			"code": "cat"
 		},
 		{
-			"network": "buses",
+			"network": "bus",
 			"name": "Canning Town"
 		}
 	],
@@ -306,12 +298,12 @@
 			"code": "str"
 		},
 		{
-			"network": "nr",
+			"network": "national-rail",
 			"name": "Stratford",
 			"code": "SRA"
 		},
 		{
-			"network": "buses",
+			"network": "bus",
 			"name": "Stratford"
 		}
 	],
@@ -339,7 +331,7 @@
 			"code": "weh"
 		},
 		{
-			"network": "nr",
+			"network": "national-rail",
 			"name": "West Ham",
 			"code": "WEH"
 		}

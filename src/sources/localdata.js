@@ -19,15 +19,15 @@ function loadLocalData() {
 			}
 			stops.push(stop);
 
-			// For non-tube networks, make sure a route exists
-			/*if (network.getCode() != "tube") {
+			// For networks which aren't retreived elsewhere, make sure a route exists
+			if (["national-rail", "bus", "tram"].indexOf(network.getCode()) != -1) {
 				var route = new Route(network, "");
 				route.setField('network', network);
 				route.setField('routecode', '');
 				route.setField('title', stopdata.network);
 				route.setField('name', stopdata.network);
 				route.addStop(stop);
-			}*/
+			}
 		});
 		stops.forEach(function (stop) {
 			stops.forEach(function (interchange) {

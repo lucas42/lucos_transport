@@ -27,6 +27,7 @@ function loadlines() {
 			route.setField('title', linedata.name);
 			route.setField('name', linedata.name);
 			route.refresh = refreshLine;
+			route.attemptRefresh();
 			lineids.push(linedata.id);
 		});
 		req("https://api.tfl.gov.uk/Line/"+lineids.join(',')+"/Status", function (err, resp, rawbody) {

@@ -27,15 +27,20 @@ Event.prototype.getData = function getData(source) {
 		if (output["humanReadableTime"] == "missed it") output["humanReadableTime"] = "passed it";
 
 		var interchanges = this.getPlatform().getInterchanges(this.getVehicle());
+		console.log(interchanges);
+		var displayednetworks = {};
 
 		// Find where the symbol needs no extra text
 		output['symbols'] = [];
 		interchanges.forEach(function (interchange) {
-			if (!interchange['name'] && interchange['symbol']) {
+			if (interchange['network'] in displayednetworks) {
+				interchange['ignore'] = true;
+			} else if (!interchange['name'] && interchange['symbol']) {
 				output['symbols'].push({
 					src: interchange['symbol'],
 					alt: interchange['network'],
 				});
+				displayednetworks[interchange['network']] = true;
 				interchange['ignore'] = true;
 			}
 		});
