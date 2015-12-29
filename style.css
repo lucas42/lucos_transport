@@ -176,9 +176,6 @@ h2, h3{
 .homepage h1 { text-shadow: rgba(255,255,255,0.6) 2px 2px 0px; color: #000; background: none; }
 .overview { display: inline; padding: 0.2em 0.5em; margin: 0.5em 0; cursor: help; background-color: #ccc; font-weight: bold; float: left; }
 
-.maplink { font-size: 30px; color: #ccc; font-weight: bold; background: url('/maps/img/icon') no-repeat center; float: right; width: 100px; text-align: center; padding: 35px 0; text-shadow: 0 0 10px black; text-decoration: none; margin-right: 100px; }
-.maplink:hover { text-shadow: 0 0 30px black; }
-
 /** Line Pages **/
 
 .stoplist { margin: 0; }
@@ -301,12 +298,6 @@ h3 .symbol, h1 .symbol { margin: 0 1em; }
 /** extlink **/
 .stationextlink { display: block; text-decoration: none; color: inherit; margin: 1em auto 0; }
 .stationextlink .symbol { margin: 0.5ex; vertical-align: middle; }
-
-/** Maps **/
-#maplist { list-style-type: none; }
-#maplist > li {  }
-#maplist a { text-decoration: none; color: inherit; }
-#maplist a:hover { font-weight: bold; }
 
 /** Announcements **/
 .speechcontrol {
