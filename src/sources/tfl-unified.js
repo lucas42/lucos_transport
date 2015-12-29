@@ -24,7 +24,6 @@ function tflapireq(path, callback) {
 	if (process.env.TFLAPPID) url += encodeURIComponent(process.env.TFLAPPID);
 	url += "&app_key=";
 	if (process.env.TFLAPPKEY) url += encodeURIComponent(process.env.TFLAPPKEY);
-	console.log(url);
 	req(url, function (err, resp, rawbody) {
 		if (err) {
 			console.error(err);
