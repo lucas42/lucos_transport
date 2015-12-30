@@ -243,7 +243,7 @@ h2, h3{
 .journey .journeyname { width: 1ex; position: absolute; left: 31px; margin: 0; top: 0.7ex; bottom: 0.9ex; box-sizing: border-box; }
 .journey .journeyname .routename, .journey .continues .destination { display: none; }
 .journey .continues { width: 4ex; overflow: hidden; height: 4ex; position: relative; padding: 0; margin-left: -2.5ex; }
-.journey .continues:after { content: " "; display: block; height: 3ex; width: 3.01ex; border: solid 1ex; border-top: none; border-left: none; -webkit-transform: rotate(45deg); bottom: 1ex; position: absolute; }
+.journey .continues:after { content: " "; display: block; height: 3ex; width: 3.01ex; border: solid 1ex; border-top: none; border-left: none; transform: rotate(45deg); bottom: 1ex; position: absolute; }
 
 /* List of stops */
 .route { margin: 0; list-style-type: none; }
@@ -326,10 +326,7 @@ h3 .symbol, h1 .symbol { margin: 0 1em; }
   font: bold 15px Sans-Serif;
   text-align: center;
   text-shadow: rgba(0,0,0,0.5) 0px 1px 0px;
-  -webkit-transform: rotate(45deg);
-  -moz-transform:    rotate(45deg);
-  -ms-transform:     rotate(45deg);
-  -o-transform:      rotate(45deg);
+  transform:      rotate(45deg);
   position: relative;
   padding: 7px 0;
   left: -5px;
