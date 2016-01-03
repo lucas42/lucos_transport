@@ -86,7 +86,7 @@ app.get('/stop/:network/:id?', function (req, res) {
 	}
 });
 var Vehicle = require('./classes/vehicle');
-app.get('/vehicle/:network/:route?/:code', function (req, res) {
+app.get('/vehicle/:network/:route/:code', function (req, res) {
 	var vehicle = Vehicle.getById([[req.params.network, req.params.route], req.params.code]);
 	if (vehicle) {
 		vehicle.attemptRefresh(function () {
@@ -100,7 +100,7 @@ app.get('/vehicle/:network/:route?/:code', function (req, res) {
 		});
 	} else {
 		res.set('Cache-Control', 'public, maxAge=0');
-		res.status(404).send("Can't find vehicle "+req.params.id);
+		res.status(404).send("Can't find vehicle "+req.params.code);
 	}
 });
 app.get('/resources/style.css', function (req, res) {
