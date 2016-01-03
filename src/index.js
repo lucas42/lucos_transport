@@ -100,7 +100,7 @@ app.get('/resources/style.css', function (req, res) {
 app.get('/resources/fonts/led', function (req, res) {
 	res.sendFile('fonts/led.ttf', {root: __dirname + '/..', maxAge:'30m'});
 });
-app.use('/img', express.static(__dirname + '/../img'));
+app.use('/img', express.static(__dirname + '/../img', {maxAge:'5m'}));
 var server = app.listen(process.env.PORT || 3000, function () {
   console.log('App listening at http://%s:%s', server.address().address, server.address().port);
 });
