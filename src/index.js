@@ -32,7 +32,7 @@ app.get('/', function(req, res) {
 	for (var i in routes) {
 		routedata.push(routes[i].getData());
 	}
-	res.set('Cache-Control', 'public, maxAge=0');
+	res.set('Cache-Control', 'public, max-age=0');
 	res.render('routes', {
 		routes: routedata,
 		cssClass: 'homepage',
@@ -49,15 +49,15 @@ app.get('/route/:network/:id?', function (req, res) {
 				name: 'All Routes',
 			}
 			data.cssClass = 'route '+data.cssClass;
-			res.set('Cache-Control', 'public, maxAge=0');
+			res.set('Cache-Control', 'public, max-age=0');
 			res.render('route', data);
 		});
 	} else {
 		if (!req.params.id) {
-			res.set('Cache-Control', 'public, maxAge=1800');
+			res.set('Cache-Control', 'public, max-age=1800');
 			res.redirect('/');
 		} else {
-			res.set('Cache-Control', 'public, maxAge=0');
+			res.set('Cache-Control', 'public, max-age=0');
 			res.status(404).send("Can't find route "+req.params.id);
 		}
 	}
@@ -72,15 +72,15 @@ app.get('/stop/:network/:id?', function (req, res) {
 				link: '/',
 				name: 'All Routes',
 			}
-			res.set('Cache-Control', 'public, maxAge=0');
+			res.set('Cache-Control', 'public, max-age=0');
 			res.render('station', data);
 		});
 	} else {
 		if (!req.params.id) {
-			res.set('Cache-Control', 'public, maxAge=1800');
+			res.set('Cache-Control', 'public, max-age=1800');
 			res.redirect('/');
 		} else {
-			res.set('Cache-Control', 'public, maxAge=0');
+			res.set('Cache-Control', 'public, max-age=0');
 			res.status(404).send("Can't find stop "+req.params.id);
 		}
 	}
@@ -95,11 +95,11 @@ app.get('/vehicle/:network/:route/:code', function (req, res) {
 				link: '/',
 				name: 'All Routes',
 			}
-			res.set('Cache-Control', 'public, maxAge=0');
+			res.set('Cache-Control', 'public, max-age=0');
 			res.render('vehicle', data);
 		});
 	} else {
-		res.set('Cache-Control', 'public, maxAge=0');
+		res.set('Cache-Control', 'public, max-age=0');
 		res.status(404).send("Can't find vehicle "+req.params.code);
 	}
 });
