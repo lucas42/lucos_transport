@@ -99,7 +99,7 @@ function refreshLine(callback) {
 		});
 		tflapireq("/Line/"+route.getCode()+"/Arrivals", function (arrivals) {
 			arrivals.forEach(function (arrival) {
-				//console.log(arrival);
+				
 				var stop = new Stop(route.getNetwork(), arrival.naptanId);
 				route.addStop(stop);
 
@@ -108,6 +108,7 @@ function refreshLine(callback) {
 					arrival.platformName = null;
 				}
 				var platform = new Platform(stop, arrival.platformName);
+				platform.addRoute(route);
 				var vehicle = new Vehicle(route, arrival.vehicleId);
 				vehicle.setField('destination', arrival.destinationName);
 				var event = new Event(vehicle, platform);

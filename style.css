@@ -107,6 +107,9 @@ background: -webkit-gradient(linear, 0 0, 100% 100%,
 	to(#868F98));  background-size: 50px 50px;
 }
 
+/** Use the "London River Services" colour for all river boat platforms **/
+.route_rb1 .platform_name, .route_rb1_rb2 .platform_name, .route_rb2 .platform_name, .route_rb4 .platform_name, .route_rb5 .platform_name, .route_rb6 .platform_name { color:#FFF!important; background-color:#0099CC!important; }
+
 /** Colours for boats 
 These were collected manually, without taking account of variations in light
 **/
