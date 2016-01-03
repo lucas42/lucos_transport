@@ -95,10 +95,10 @@ app.get('/vehicle/:network/:route?/:code', function (req, res) {
 	}
 });
 app.get('/resources/style.css', function (req, res) {
-	res.sendFile('style.css', {root: __dirname + '/..'});
+	res.sendFile('style.css', {root: __dirname + '/..', maxAge:'2m'});
 });
 app.get('/resources/fonts/led', function (req, res) {
-	res.sendFile('fonts/led.ttf', {root: __dirname + '/..'});
+	res.sendFile('fonts/led.ttf', {root: __dirname + '/..', maxAge:'30m'});
 });
 app.use('/img', express.static(__dirname + '/../img'));
 var server = app.listen(process.env.PORT || 3000, function () {
