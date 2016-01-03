@@ -1,5 +1,6 @@
 var Class = require('./class');
 var Pubsub = require('lucos_pubsub');
+var Route = require('./route');
 var Event = Class("Event", ["vehicle", "platform"], function () {
 	this.getPlatform().addEvent(this);
 	this.getVehicle().addEvent(this);
@@ -26,8 +27,8 @@ Event.prototype.getData = function getData(source) {
 
 		if (output["humanReadableTime"] == "missed it") output["humanReadableTime"] = "passed it";
 
-		var interchanges = this.getPlatform().getInterchanges(this.getVehicle());
-		console.log(interchanges);
+		var interchanges = this.getInterchanges();
+		
 		var displayednetworks = {};
 
 		// Find where the symbol needs no extra text
@@ -97,6 +98,42 @@ function getHumanReadableRelTime(secondsTo) {
 		return minsTo + remainSecondsTo + " mins";
 	}
 }
+
+
+Event.prototype.getInterchanges = function getInterchanges() {
+	var vehicle = this.getVehicle();
+	var stop = this.getPlatform().getStop();
+
+	var interchanges = [];
+	var gotinterchanges = {};
+
+	// Ignore whichever route the vehicle is on.
+	gotinterchanges[vehicle.getRoute().getIndex()] = true;
+
+	// Add any interchanges to other routes on the same network in this station
+	var routes = Route.getByStop(stop);
+	routes.forEach(function (route) {
+		if (route.getIndex() in gotinterchanges) return;
+		interchanges.push(route.getData());
+		gotinterchanges[route.getIndex()] = true;
+	});
+
+	// Get interchanges to stops on other networks and Out of Station Interchanges
+	var externalInterchanges = stop.getExternalInterchanges();
+	externalInterchanges.forEach(function (stop) {
+		var routes = Route.getByStop(stop);
+		routes.forEach(function (route) {
+			if (route.getIndex() in gotinterchanges) return;
+			var routedata = route.getData();
+			delete routedata['name'];
+			interchanges.push(routedata);
+			gotinterchanges[route.getIndex()] = true;
+		});
+	});
+
+	return interchanges;
+}
+
 Event.prototype.updateRelTime = function updateRelTime() {
 	var secondsTo = (this.getField('time') - new Date()) / 1000;
 	var oldSecondsTo = this.getField('secondsTo');
