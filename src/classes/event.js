@@ -28,21 +28,37 @@ Event.prototype.getData = function getData(source) {
 		if (output["humanReadableTime"] == "missed it") output["humanReadableTime"] = "passed it";
 
 		var interchanges = this.getInterchanges();
-		
+
 		var displayednetworks = {};
 
 		// Find where the symbol needs no extra text
 		output['symbols'] = [];
 		interchanges.forEach(function (interchange) {
-			if (interchange['network'] in displayednetworks) {
+
+			// If the stop being interchanged with is the same as the current one,
+			// then disregard its name.
+			if (interchange['stopname'] && stationsMatch(interchange['stopname'], output['stop']['title'])) {
+				delete interchange['stopname'];
+			}
+
+			// For links to other networks in the same station which have a symbol,
+			// just display the symbol and don't differentiate routes
+			if (interchange['symbol']  && interchange['external'] && !interchange['stopname']) {
+				if (!(interchange['network'] in displayednetworks)) {
+					output['symbols'].push({
+						src: interchange['symbol'],
+						alt: interchange['network'],
+					});
+					displayednetworks[interchange['network']] = true;
+				}
 				interchange['ignore'] = true;
-			} else if (!interchange['name'] && interchange['symbol']) {
-				output['symbols'].push({
-					src: interchange['symbol'],
-					alt: interchange['network'],
-				});
-				displayednetworks[interchange['network']] = true;
-				interchange['ignore'] = true;
+			}
+
+			// If an interchange is to a different station and the network has a symbol
+			// then give prominance to the station name.
+			if (interchange['symbol'] && interchange['stopname']) {
+				interchange['title'] = interchange['stopname'];
+				delete interchange['stopname'];
 			}
 		});
 		if (interchanges.length > 0) {
@@ -68,7 +84,8 @@ function stationsMatch(a, b) {
 		.replace(/[\+\&]/, "and")
 		.replace(" Street ", " St ")
 		.replace(/\(.*\)/, '')
-		.replace(/Platform.*/, '')
+		.replace(/\s*Platform.*/, '')
+		.replace(/\s*Pier/, '')
 		.replace(/\s*$/, '')
 		.replace(/^\s*/, '');
 	}
@@ -102,7 +119,7 @@ function getHumanReadableRelTime(secondsTo) {
 
 Event.prototype.getInterchanges = function getInterchanges() {
 	var vehicle = this.getVehicle();
-	var stop = this.getPlatform().getStop();
+	var thisstop = this.getPlatform().getStop();
 
 	var interchanges = [];
 	var gotinterchanges = {};
@@ -111,7 +128,7 @@ Event.prototype.getInterchanges = function getInterchanges() {
 	gotinterchanges[vehicle.getRoute().getIndex()] = true;
 
 	// Add any interchanges to other routes on the same network in this station
-	var routes = Route.getByStop(stop);
+	var routes = Route.getByStop(thisstop);
 	routes.forEach(function (route) {
 		if (route.getIndex() in gotinterchanges) return;
 		interchanges.push(route.getData());
@@ -119,13 +136,14 @@ Event.prototype.getInterchanges = function getInterchanges() {
 	});
 
 	// Get interchanges to stops on other networks and Out of Station Interchanges
-	var externalInterchanges = stop.getExternalInterchanges();
+	var externalInterchanges = thisstop.getExternalInterchanges();
 	externalInterchanges.forEach(function (stop) {
 		var routes = Route.getByStop(stop);
 		routes.forEach(function (route) {
 			if (route.getIndex() in gotinterchanges) return;
 			var routedata = route.getData();
-			delete routedata['name'];
+			routedata['external'] = true;
+			routedata['stopname'] = stop.getField('title');
 			interchanges.push(routedata);
 			gotinterchanges[route.getIndex()] = true;
 		});

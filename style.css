@@ -257,6 +257,7 @@ h2, h3{
 /* Interchanges */
 .route > .stop.interchange { overflow: hidden; }
 .route > .stop.interchange:before { height: 2ex; width: 2ex; background: white; border: solid 0.5ex black!important; border-radius: 1.5ex; margin-left: -3.5ex; position: absolute; margin-top: -0.5ex; }
+.route > .stop.interchange .stopname { display:block; font-size: smaller; font-weight: normal;}
 
 /* Terminuses */
 .route > .stop:not(.interchange):first-child, .route > .stop:not(.interchange):last-child { margin-top: 0; margin-bottom: 0; }
