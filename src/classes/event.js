@@ -86,6 +86,8 @@ function stationsMatch(a, b) {
 		.replace(/\(.*\)/, '')
 		.replace(/\s*Platform.*/, '')
 		.replace(/\s*Pier/, '')
+		.replace(/\s*Rail Station/, '')
+		.replace(/\s*Underground Station/, '')
 		.replace(/\s*$/, '')
 		.replace(/^\s*/, '');
 	}
