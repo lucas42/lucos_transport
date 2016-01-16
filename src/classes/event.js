@@ -15,6 +15,7 @@ var Event = Class("Event", ["vehicle", "platform"], function () {
 Event.prototype.getData = function getData(source) {
 	var output = this.getRawData();
 	output.humanReadableTime = getHumanReadableRelTime(output.secondsTo, source);
+	output.source = source;
 	if (source == "Platform") {
 		var vehicledata = this.getVehicle().getData();
 		for (var i in vehicledata) output[i] = vehicledata[i];
@@ -176,6 +177,7 @@ Event.prototype.updateRelTime = function updateRelTime() {
 		this.getVehicle().removeEvent(this);
 		this.deleteFromAll();
 	}
+	Pubsub.send('updateEventTime', this);
 }
 Event.sortByTime = function sortByTime(a, b) {
 	return a.getField('time') - b.getField('time');
