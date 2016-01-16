@@ -169,6 +169,13 @@ Event.prototype.updateRelTime = function updateRelTime() {
 	} else if (oldSecondsTo >= 30 && secondsTo < 30) {
 		Pubsub.send("stopApproaching", this);
 	}
+
+	// Events which happened more than half a minute ago are irrelevant.
+	if (secondsTo < -30) {
+		this.getPlatform().removeEvent(this);
+		this.getVehicle().removeEvent(this);
+		this.deleteFromAll();
+	}
 }
 Event.sortByTime = function sortByTime(a, b) {
 	return a.getField('time') - b.getField('time');
