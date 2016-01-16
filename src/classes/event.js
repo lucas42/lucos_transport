@@ -14,9 +14,7 @@ var Event = Class("Event", ["vehicle", "platform"], function () {
 
 Event.prototype.getData = function getData(source) {
 	var output = this.getRawData();
-	output.secondsTo = Math.floor((output.time - new Date()) / 1000);
-	if (output.secondsTo < -5) output.passed = true;
-	else if (output.secondsTo < 0) output.now = true;
+	output.humanReadableTime = getHumanReadableRelTime(output.secondsTo, source);
 	if (source == "Platform") {
 		var vehicledata = this.getVehicle().getData();
 		for (var i in vehicledata) output[i] = vehicledata[i];
@@ -25,7 +23,6 @@ Event.prototype.getData = function getData(source) {
 		output["platform"] = this.getPlatform().getData();
 		output["stop"] = this.getPlatform().getStop().getData();
 
-		if (output["humanReadableTime"] == "missed it") output["humanReadableTime"] = "passed it";
 
 		var interchanges = this.getInterchanges();
 
@@ -102,9 +99,15 @@ function stationsMatch(a, b) {
 /**
  * Gets the amount of time until an event in a form which is useful to humans
  */
-function getHumanReadableRelTime(secondsTo) {
+function getHumanReadableRelTime(secondsTo, source) {
 	if (secondsTo < -10) {
-		return "missed it";
+
+		// For events in the past, vary language based on perspective
+		if (source == "Vehicle") {
+			return "passed it";
+		} else {
+			return "missed it";
+		}
 	} else if (secondsTo < 1) {
 		return "now";
 	} else if (secondsTo < 60) {
@@ -158,7 +161,6 @@ Event.prototype.updateRelTime = function updateRelTime() {
 	var secondsTo = (this.getField('time') - new Date()) / 1000;
 	var oldSecondsTo = this.getField('secondsTo');
 	this.setField('secondsTo', secondsTo);
-	this.setField('humanReadableTime', getHumanReadableRelTime(secondsTo));
 
 	// TODO: tidy up event object (this) if it's been gone for 30 seconds
 	this.setField('passed', secondsTo < -30);

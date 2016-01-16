@@ -8,12 +8,12 @@
 			<h3 class='platform_name'><span class='innertext'>{{name}}</span></h3>
 			<table class='departure_board'>
 			<tbody>
-				{{#events}}{{^passed}}
+				{{#events}}
 					<tr class="train{{#ghost}} ghost{{/ghost}}" data-line="{{line}}" data-route="{{route}}">
 						<td><a href="{{link}}">{{destination}}</a></td>
 						<td><a href="{{link}}" class='departtime' data-timestamp='{{timestamp}}'>{{humanReadableTime}}</a></td>
 					</tr>
-				{{/passed}}{{/events}}
+				{{/events}}
 			</tbody>
 			</table>
 		</div>
