@@ -113,6 +113,7 @@ function refreshLine(callback) {
 				vehicle.setField('destination', arrival.destinationName);
 				var event = new Event(vehicle, platform);
 				event.setField('time', new Date(arrival.expectedArrival));
+				event.updateRelTime();
 			});
 			callback();
 		});

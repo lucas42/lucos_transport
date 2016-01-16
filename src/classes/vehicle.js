@@ -38,4 +38,7 @@ Vehicle.prototype.getData = function getData() {
 	}
 	return output;
 }
+Vehicle.prototype.refresh = function refresh(callback) {
+	this.getRoute().attemptRefresh(callback);
+}
 module.exports = Vehicle;
