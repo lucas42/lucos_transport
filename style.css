@@ -252,13 +252,12 @@ h2, h3{
 .route { margin: 0; list-style-type: none; }
 
 /* Normal stops */
-.route > .stop { color: #000099; margin: 3ex 0; font-weight: 550; margin-left: 1.6ex; }
+.route > .stop { color: #000099; margin: 3ex 0; font-weight: 550; margin-left: 1.6ex; clear: both; }
 .route > .stop a { text-decoration: none; color: inherit; }
 .route > .stop:before { content: ' '; height: 0; width: 0.66ex; display: block; border-top: solid 0.66ex; float: left; margin-right: 1ex; margin-top: 0.8ex; position: relative;}
 .route > .stop:not(.interchange):before { margin-left: -1.6ex;}
 
 /* Interchanges */
-.route > .stop.interchange { overflow: hidden; }
 .route > .stop.interchange:before { height: 2ex; width: 2ex; background: white; border: solid 0.5ex black!important; border-radius: 1.5ex; margin-left: -3.5ex; position: absolute; margin-top: -0.5ex; }
 .route > .stop.interchange .stopname { display:block; font-size: smaller; font-weight: normal;}
 
@@ -289,11 +288,10 @@ h3 .symbol, h1 .symbol { margin: 0 1em; }
 .stop .symbols { display: inline; }
 .stop .symbols > .symbol { margin: 0 1ex; }
 
-.interchanges { width: 10ex; font-weight: bold; text-align: center; list-style-type: none; float: right; margin: 0 2ex; padding: 0; }
+.interchanges { width: 10ex; font-weight: bold; text-align: center; list-style-type: none; float: right; margin: 0 2ex 2ex 2ex; padding: 0; }
 .interchanges > li { font-size: 0.5em; line-height: 3ex; border: solid 1px; color: black; background: white; min-height: 1em; padding: 0 1ex; }
 .interchanges > .tube, .interchanges > .dlr, .interchanges > .overground { border: none; }
 .interchanges .symbol { margin: 0.5ex; float: left; }
-.route > .stop:last-child .interchanges { position: absolute; right: 0; } /* In case it overflows its containing box */
 
 /** Navigation **/
 .nav { font-weight: bold; padding: 5px; font-size: 1em; color: #555; border-radius: 10px; display: block; text-decoration: none; margin-bottom: 5px; }
