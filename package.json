@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "mkdir -p bin && browserify src/client.js -o bin/clientscripts.js",
     "start": "node src/index.js"
   },
   "repository": {
@@ -20,6 +21,9 @@
     "url": "https://github.com/lucas42/lucos_transport/issues"
   },
   "homepage": "https://github.com/lucas42/lucos_transport",
+  "devDependencies": {
+    "browserify": "^13.0.0"
+  },
   "dependencies": {
     "express": "^4.13.1",
     "htmlparser2": "^3.8.3",

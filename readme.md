@@ -19,3 +19,7 @@ Currently in alpha, there is a node version of the server.  The file to be run i
 You can also set the following environment variables:
 TFLAPPID and TFLAPPKEY - information about TFL's API can be found at https://api-portal.tfl.gov.uk/docs
 The app appears to run fine without these being set, but registering for an ID and key helps to keep track of which apps are making which requests to the API.
+### Setup
+To set up the node version run:
+```npm install```
+```npm run build```
