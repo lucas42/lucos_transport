@@ -31,11 +31,11 @@ function tflapireq(path, callback) {
 		}
 		try {
 			parsed = JSON.parse(rawbody);
+			callback(parsed);
 		} catch (e) {
 			console.error(url, rawbody);
-			throw e;
+			callback([]);
 		}
-		callback(parsed);
 	});
 }
 function loadlines() {
