@@ -10,6 +10,7 @@ var Event = Class("Event", ["vehicle", "platform"], function () {
 	Pubsub.listen('updateTimes', eventupdates);
 	thisevent.tidyup = function tidyup() {
 		Pubsub.unlisten('updateTimes', eventupdates);
+		Pubsub.send("eventRemoved", thisevent);
 	};
 	thisevent.updateRelTime();
 });
@@ -164,12 +165,11 @@ Event.prototype.updateRelTime = function updateRelTime() {
 	var secondsTo = (this.getField('time') - new Date()) / 1000;
 	var oldSecondsTo = this.getField('secondsTo');
 	this.setField('secondsTo', secondsTo);
-
 	this.setField('passed', secondsTo < -30);
 	if (oldSecondsTo >= 1 && secondsTo < 1) {
-		Pubsub.send("stopArrived", this);
+		Pubsub.send("eventArrived", this);
 	} else if (oldSecondsTo >= 30 && secondsTo < 30) {
-		Pubsub.send("stopApproaching", this);
+		Pubsub.send("eventApproaching", this);
 	}
 
 	// Events which happened more than half a minute ago are irrelevant.

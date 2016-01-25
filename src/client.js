@@ -33,3 +33,18 @@ Pubsub.listen('updateEventTime', function (event) {
 	if (!eventNode) return;
 	eventNode.textContent = event.getData(eventNode.dataset.source).humanReadableTime;
 });
+
+// When an event is removed, remove it from the DOM too.
+Pubsub.listen('eventRemoved', function (event) {
+	var eventNode = event.getField('DOMNode');
+	if (!eventNode) return;
+	if (eventNode.dataset.source == "Vehicle") {
+		var stop = eventNode.parentNode;
+		var route = stop.parentNode;
+		route.removeChild(stop);
+	} else if (eventNode.dataset.source == "Platform") {
+		var vehicle = eventNode.parentNode.parentNode;
+		var boardlist = vehicle.parentNode;
+		boardlist.removeChild(vehicle);
+	}
+});
