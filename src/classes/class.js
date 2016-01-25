@@ -87,6 +87,21 @@ function Class(classname, keynames, constructor) {
 		instance.deleteFromAll = function deleteFromAll() {
 			delete all[index];
 		}
+
+		// Try to delete all references to the instance to avoid memory leaks
+		instance.deleteSelf = function deleteSelf() {
+
+			// Attempt to automatically detach instance from its keys (if they have a relation to this type)
+			for (keyname in keys) {
+				if (keys[keyname] instanceof BaseThing && typeof keys[keyname]["remove"+classname] == "function") {
+					keys[keyname]["remove"+classname](instance);
+				}
+			}
+			delete all[index];
+
+			// For other references which need deleted, allow each class to define its own tidyup functions
+			if (instance.tidyup) instance.tidyup();
+		};
 		var lastRefresh = null;
 		instance.attemptRefresh = function attemptRefresh(callback) {
 			if (!callback) callback = function(){};

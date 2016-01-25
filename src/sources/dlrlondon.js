@@ -78,7 +78,7 @@ function loadStation(stop) {
 
 						// Remove existing events, because data source has no way to identify specific trains
 						platform.getEvents().forEach(function (event) {
-							platform.removeEvent(event);
+							event.deleteSelf();
 						});
 
 						var rawtime = select(platformelement, "#time")[0].children[0].data.trim();

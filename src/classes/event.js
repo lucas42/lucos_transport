@@ -174,10 +174,7 @@ Event.prototype.updateRelTime = function updateRelTime() {
 
 	// Events which happened more than half a minute ago are irrelevant.
 	if (secondsTo < -30) {
-		this.getPlatform().removeEvent(this);
-		this.getVehicle().removeEvent(this);
-		this.deleteFromAll();
-		this.tidyup();
+		this.deleteSelf();
 	}
 	Pubsub.send('updateEventTime', this);
 }

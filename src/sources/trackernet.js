@@ -211,10 +211,9 @@ function createRefresh(linecode) {
 					});
 					var deletevehicle = vehiclepair[allcircle?'handc':'circle'];
 					deletevehicle.getEvents().forEach(function (event) {
-						event.getPlatform().removeEvent(event);
+						event.deleteSelf();
 					});
-					deletevehicle.getRoute().removeVehicle(deletevehicle);
-					deletevehicle.deleteFromAll();
+					deletevehicle.deleteSelf();
 					if (allcircle) vehiclepair.circle.getEvents().forEach(function (event) {
 						event.getPlatform().addRoute(event.getVehicle().getRoute());
 					});
