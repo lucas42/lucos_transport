@@ -6,9 +6,13 @@ var Event = Class("Event", ["vehicle", "platform"], function () {
 	this.getVehicle().addEvent(this);
 
 	var thisevent = this;
-	Pubsub.listen('updateTimes', function () {
+	var eventupdates = function eventupdates() {
 		thisevent.updateRelTime();
-	});
+	};
+	Pubsub.listen('updateTimes', eventupdates);
+	thisevent.tidyup = function tidyup() {
+		Pubsub.unlisten('updateTimes', eventupdates);
+	};
 	thisevent.updateRelTime();
 });
 
@@ -163,7 +167,6 @@ Event.prototype.updateRelTime = function updateRelTime() {
 	var oldSecondsTo = this.getField('secondsTo');
 	this.setField('secondsTo', secondsTo);
 
-	// TODO: tidy up event object (this) if it's been gone for 30 seconds
 	this.setField('passed', secondsTo < -30);
 	if (oldSecondsTo >= 1 && secondsTo < 1) {
 		Pubsub.send("stopArrived", this);
@@ -176,6 +179,7 @@ Event.prototype.updateRelTime = function updateRelTime() {
 		this.getPlatform().removeEvent(this);
 		this.getVehicle().removeEvent(this);
 		this.deleteFromAll();
+		this.tidyup();
 	}
 	Pubsub.send('updateEventTime', this);
 }
