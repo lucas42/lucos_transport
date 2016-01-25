@@ -5,7 +5,6 @@ var Vehicle = Class("Vehicle", ["route", "code"], function () {
 		singular: 'event',
 		sort: Event.sortByTime
 	});
-	this.getRoute().addVehicle(this);
 });
 
 Vehicle.prototype.getLink = function getLink() {

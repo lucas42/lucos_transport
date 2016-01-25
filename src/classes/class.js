@@ -101,6 +101,13 @@ function Class(classname, keynames, constructor) {
 			});
 		};
 		instance.relations = {};
+
+		// Attempt to automatically attach instance to its keys (if they have a relation to this type)
+		for (keyname in keys) {
+			if (keys[keyname] instanceof BaseThing && typeof keys[keyname]["add"+classname] == "function") {
+				keys[keyname]["add"+classname](instance);
+			}
+		}
 		if (constructor) constructor.apply(instance);
 	}
 	SpecificThing.prototype = Object.create(BaseThing.prototype);

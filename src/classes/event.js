@@ -2,8 +2,6 @@ var Class = require('./class');
 var Pubsub = require('lucos_pubsub');
 var Route = require('./route');
 var Event = Class("Event", ["vehicle", "platform"], function () {
-	this.getPlatform().addEvent(this);
-	this.getVehicle().addEvent(this);
 
 	var thisevent = this;
 	var eventupdates = function eventupdates() {

@@ -5,7 +5,6 @@ var Route = Class("Route", ["network", "code"], function () {
 		singular: 'stop',
 		sort: Stop.sort,
 	});
-	this.getNetwork().addRoute(this);
 	this.addRelation('vehicle');
 });
 Route.prototype.getData = function getData() {

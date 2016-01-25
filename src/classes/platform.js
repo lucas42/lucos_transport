@@ -11,7 +11,6 @@ var Platform = Class("Platform", ["stop", "name"], function () {
 		sort: Route.sort,
 		nofollow: true,
 	});
-	this.getStop().addPlatform(this);
 });
 
 
