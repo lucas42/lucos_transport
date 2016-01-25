@@ -98,6 +98,20 @@ function refreshLine(callback) {
 			route.addStop(stop);
 		});
 		tflapireq("/Line/"+route.getCode()+"/Arrivals", function (arrivals) {
+
+			// Find all the platforms serving this line which have ghost trains
+			// And clear them up
+			// NB: this will break if one of these platforms serves multiple routes
+			// but I don't think there are any like that...
+			route.getStops().forEach(function (stop) {
+				stop.getPlatforms().forEach(function (platform) {
+					if (platform.getField('hasghosts')) {
+						platform.getEvents().forEach(function (event) {
+							platform.removeEvent(event);
+						});
+					}
+				});
+			});
 			arrivals.forEach(function (arrival) {
 				
 				var stop = new Stop(route.getNetwork(), arrival.naptanId);
@@ -109,7 +123,17 @@ function refreshLine(callback) {
 				}
 				var platform = new Platform(stop, arrival.platformName);
 				platform.addRoute(route);
-				var vehicle = new Vehicle(route, arrival.vehicleId);
+				var vehicle;
+				if (arrival.vehicleId) {
+					vehicle = new Vehicle(route, arrival.vehicleId);
+
+				// If there's no vehicle ID, then make up a random one and mark it as a ghost
+				} else {
+					vehicle = new Vehicle(route, Math.random());
+					vehicle.setField('ghost', true);
+					platform.setField('hasghosts', true);
+				}
+
 				vehicle.setField('destination', arrival.destinationName);
 				var event = new Event(vehicle, platform);
 				event.setField('time', new Date(arrival.expectedArrival));
