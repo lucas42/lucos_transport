@@ -20,9 +20,11 @@ Route.prototype.getLink = function getLink() {
 	return "/route/"+this.getNetwork().getCode()+"/"+this.getCode();
 }
 Route.prototype.getCssClass = function getCssClass() {
-	var code = this.getCode();
-	if (!code) return "";
-	return "route_"+code;
+	var cssClass, code = this.getCode();
+	if (code) cssClass = "route_"+code;
+	else cssClass = "";
+	cssClass += " "+this.getNetwork().getCssClass();
+	return cssClass;
 }
 Route.prototype.getQualifiedName = function getQualifiedName() {
 	var name = this.getField("title");
