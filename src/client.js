@@ -13,7 +13,8 @@ var route = new Route(network,'null');
 var vehicle = new Vehicle(route, 'null');
 var stop = new Stop(network, 'null');
 var platform = new Platform(stop, null);
-document.addEventListener('DOMContentLoaded', function () {
+
+function pageLoad() {
 	var eventNodes = document.querySelectorAll('.departtime, .stoptime');
 	for (var i=0; i < eventNodes.length; i++) {
 		var eventNode = eventNodes[i];
@@ -25,7 +26,16 @@ document.addEventListener('DOMContentLoaded', function () {
 		event.updateRelTime();
 
 	}
-});
+}
+
+// If the page is still loading, wait till it's done to do stuff
+if (Document.readyState == "loading") {
+	document.addEventListener('DOMContentLoaded', pageLoad);
+
+// If the page has already loaded, do stuff now
+} else {
+	pageLoad();
+}
 
 // When the event's time changes, update the DOM accordingly
 Pubsub.listen('updateEventTime', function (event) {
