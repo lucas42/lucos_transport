@@ -76,8 +76,9 @@ function loadStation(stop) {
 						var platform = new Platform(stop, platformcode);
 						platform.addRoute(route);
 
-						// Remove existing events, because data source has no way to identify specific trains
+						// Remove existing events and trains, because data source has no way to identify specific trains
 						platform.getEvents().forEach(function (event) {
+							event.getVehicle().deleteSelf();
 							event.deleteSelf();
 						});
 

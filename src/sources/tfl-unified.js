@@ -107,6 +107,7 @@ function refreshLine(callback) {
 				stop.getPlatforms().forEach(function (platform) {
 					if (platform.getField('hasghosts')) {
 						platform.getEvents().forEach(function (event) {
+							event.getVehicle().deleteSelf();
 							event.deleteSelf();
 						});
 					}
