@@ -93,7 +93,32 @@ function refreshLine(callback) {
 					stop.addExternalInterchange(interchange);
 				});
 			});
+			stopdata.additionalProperties.forEach(function (additionaldata) {
+				if (additionaldata.key == "WiFi") {
+					stop.setField('wifi', additionaldata.value == "yes");
+				}
+				if (additionaldata.key == "Zone") {
+					stop.setField('zone', additionaldata.value);
+				}
 
+				// There are 2 fields about toilets (presumably from different sources) - try both.
+				if (additionaldata.key == "Toilets" && additionaldata.value.indexOf("yes") == 0) {
+					stop.setField('toilet', true);
+
+					// If there's a note, it follows 'yes', then a space.  It's usually surrounded by brackets
+					if (additionaldata.value.length > 4) {
+						stop.setField('toiletnote', additionaldata.value.substr(4));
+					}
+				}
+				if (additionaldata.key == "Toilet" && additionaldata.value == "Yes") {
+					stop.setField('toilet', true);
+				}
+
+				// TolietNote values are usually surrounded by brackets
+				if (additionaldata.key == "ToiletNote") {
+					stop.setField('toiletnote', additionaldata.value);
+				}
+			});
 
 			route.addStop(stop);
 		});

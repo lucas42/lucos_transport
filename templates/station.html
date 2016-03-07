@@ -19,6 +19,10 @@
 		</div>
 	{{/platforms}}
 
+	{{#zone}} <h2>Zone {{zone}}</h2>{{/zone}}
+	{{#wifi}} <h2>Has WiFi</h2>{{/wifi}}
+	{{#toilet}} <h2>Has Toilet {{toiletnote}}</h2>{{/toilet}}
+
 	{{#hasExternalInterchanges}}<h2>Connections from this stop</h2>{{/hasExternalInterchanges}}
 	{{#externalInterchanges}}
 	<ul class="stoplist">
