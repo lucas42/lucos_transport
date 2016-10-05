@@ -117,7 +117,6 @@ var server = app.listen(process.env.PORT || 3000, function () {
   console.log('App listening at http://%s:%s', server.address().address, server.address().port);
 });
 
-require('./sources/trackernet').start();
 require('./sources/dlrlondon').start();
 require('./sources/tfl-unified').start();
 require('./sources/localdata').start();
