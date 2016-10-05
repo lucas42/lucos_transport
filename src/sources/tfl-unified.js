@@ -79,6 +79,9 @@ function refreshLine(callback) {
 	var route = this;
 	tflapireq("/Line/"+route.getCode()+"/StopPoints", function (stops) {
 		stops.forEach(function (stopdata) {
+
+			// Ignore child stations - currently only piers have these, but arrivals only identify the parent station.
+			if (stopdata.naptanId != stopdata.stationNaptan) return;
 			var stop = new Stop(route.getNetwork(), stopdata.naptanId);
 			stop.setField('title', stopdata.commonName);
 
