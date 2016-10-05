@@ -20,7 +20,7 @@ function loadLocalData() {
 			stops.push(stop);
 
 			// For networks which aren't retreived elsewhere, make sure a route exists
-			if (["national-rail", "bus", "tram"].indexOf(network.getCode()) != -1) {
+			if (["national-rail", "bus"].indexOf(network.getCode()) != -1) {
 				var route = new Route(network, "");
 				route.setField('network', network);
 				route.setField('routecode', '');

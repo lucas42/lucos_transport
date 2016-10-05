@@ -11,7 +11,7 @@ function start() {
 	setInterval(loadlines, 30000);
 	loadlines();
 }
-var supportedModes = ["tube", "dlr", "river-bus", "tfl-rail", "overground"];
+var supportedModes = ["tube", "dlr", "river-bus", "tfl-rail", "overground", "tram"];
 function tflapireq(path, callback) {
 	var parsed;
 	var url = "https://api.tfl.gov.uk"+path;

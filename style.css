@@ -14,6 +14,7 @@
 .route_waterloo-city h3, .route_waterloo-city h1, .route_waterloo-city #lucos_navbar, .route .interchanges .route_waterloo-city { color:#113B92!important; background-color:#66CCCC!important; }
 .route_london-overground h3, .route_london-overground h1, .route_london-overground #lucos_navbar, .route .interchanges .route_london-overground { color:#FFF!important; background-color:#FF6600!important; }
 .route_dlr h3, .route_dlr h1, .route_dlr #lucos_navbar, .route .interchanges .route_dlr { color:#FFF!important; background-color:#009999!important; }
+.network_tram h3, .network_tram h1, .network_tram #lucos_navbar, .route .interchanges .network_tram { color:#113B92!important; background-color:#66cc00!important; }
 
 /** Not defined in colour standard - use Corporate Blue **/
 .route_tfl-rail h3, .route_tfl-rail h1, .route_tfl-rail #lucos_navbar, .route .interchanges .route_tfl-rail { color:#FFF!important; background-color:#000099!important; }
@@ -109,7 +110,6 @@ background: -webkit-gradient(linear, 0 0, 100% 100%,
 
 .route.network_river-bus h3 { color:#FFF!important; background-color:#0099CC!important; }
 .route.network_bus h3 { color:#FFF!important; background-color:#CC3333!important; }
-.route.network_tram h3 { color:#FFF!important; background-color:#66cc00!important; }
 
 /** Use the "London River Services" colour for all river boat platforms **/
 .route_rb1 .platform_name, .route_rb1_rb2 .platform_name, .route_rb2 .platform_name, .route_rb4 .platform_name, .route_rb5 .platform_name, .route_rb6 .platform_name { color:#FFF!important; background-color:#0099CC!important; }
@@ -286,6 +286,7 @@ h2, h3{
 .route_london-overground .route > .stop:before, .route_london-overground .continues:after { border-color:#FF6600; }
 .route_dlr .route > .stop:before, .route_dlr .continues:after { border-color:#009999; }
 .route_tfl-rail .route > .stop:before, .route_tfl-rail .continues:after { border-color:#000099; }
+.network_tram .route > .stop:before, .network_tram .continues:after { border-color:#66cc00; }
 
 .symbol { height: 1em; }
 h3 .symbol, h1 .symbol { margin: 0 1em; }

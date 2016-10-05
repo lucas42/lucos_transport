@@ -16,7 +16,7 @@
 	[
 		{
 			"network": "tube",
-			"code": "WDN"
+			"code": "940GZZLUWIM"
 		},
 		{
 			"network": "national-rail",
@@ -25,7 +25,7 @@
 		},
 		{
 			"network": "tram",
-			"name": "Wimbledon"
+			"code": "940GZZCRWMB"
 		}
 	],
 	[
