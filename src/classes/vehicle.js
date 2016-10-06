@@ -12,9 +12,9 @@ Vehicle.prototype.getLink = function getLink() {
 	// Ghost vehicles don't have links
 	if (this.getField('ghost')) return "";
 	var link = "/vehicle";
-	link += "/"+this.getRoute().getNetwork().getCode();
-	if (this.getRoute().getCode()) link += "/"+this.getRoute().getCode();
-	link += "/"+this.getCode();
+	link += "/"+encodeURIComponent(this.getRoute().getNetwork().getCode());
+	if (this.getRoute().getCode()) link += "/"+encodeURIComponent(this.getRoute().getCode());
+	link += "/"+encodeURIComponent(this.getCode());
 	return link;
 }
 Vehicle.prototype.getCssClass = function getCssClass() {

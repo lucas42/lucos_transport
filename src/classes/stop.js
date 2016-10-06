@@ -7,7 +7,7 @@ var Stop = Class("Stop", ["network", "code"], function () {
 	});
 });
 Stop.prototype.getLink = function getLink() {
-	return "/stop/"+this.getNetwork().getCode()+"/"+this.getCode();
+	return "/stop/"+encodeURIComponent(this.getNetwork().getCode())+"/"+encodeURIComponent(this.getCode());
 }
 Stop.prototype.getCssClass = function getCssClass() {
 	return "stop "+this.getNetwork().getCssClass();
