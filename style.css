@@ -108,11 +108,10 @@ background: -webkit-gradient(linear, 0 0, 100% 100%,
 	to(#868F98));  background-size: 50px 50px;
 }
 
-.route.network_river-bus h3 { color:#FFF!important; background-color:#0099CC!important; }
 .route.network_bus h3 { color:#FFF!important; background-color:#CC3333!important; }
 
-/** Use the "London River Services" colour for all river boat platforms **/
-.route_rb1 .platform_name, .route_rb1_rb2 .platform_name, .route_rb2 .platform_name, .route_rb4 .platform_name, .route_rb5 .platform_name, .route_rb6 .platform_name { color:#FFF!important; background-color:#0099CC!important; }
+/** Use the "London River Services" colour for all river boat routes and platforms **/
+.network_river-bus h3, .network_river-bus h1 { color:#FFF; background-color:#0099CC; }
 
 /** Colours for boats 
 These were collected manually, without taking account of variations in light
