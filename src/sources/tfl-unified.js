@@ -11,7 +11,7 @@ function start() {
 	setInterval(loadlines, 30000);
 	loadlines();
 }
-var supportedModes = ["tube", "dlr", "river-bus", "tfl-rail", "overground", "tram"];
+var supportedModes = ["tube", "dlr", "river-bus", "tflrail", "overground", "tram"];
 function tflapireq(path, callback) {
 	var parsed;
 	var url = "https://api.tfl.gov.uk"+path;
@@ -92,7 +92,8 @@ function refreshLine(callback) {
 				var network = new Network(networkdata.modeName);
 				if (network == route.getNetwork()) return;
 				networkdata.lineIdentifier.forEach(function (lineid) {
-					var interchange = new Stop(network, lineid);
+					var interchange = new Stop(network, stopdata.naptanId);
+					if (!interchange.getField('title')) stop.setField('title', stopdata.commonName);
 					stop.addExternalInterchange(interchange);
 				});
 			});
@@ -144,6 +145,14 @@ function refreshLine(callback) {
 			arrivals.forEach(function (arrival) {
 				
 				var stop = new Stop(route.getNetwork(), arrival.naptanId);
+
+				// Stops which aren't listed in the StopPoints API, but are in the Arrivals API
+				// are a bit weird.  Do the best possible with limited info
+				if (!stop.getField("title")) {
+
+					// Preceding tilte with ¿ will move these stations to the bottom of route lists
+					stop.setField("title", "¿"+arrival.stationName+"?");
+				}
 				route.addStop(stop);
 
 				// API sends the string 'null', rather than a null value
