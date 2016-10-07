@@ -27,7 +27,7 @@ Route.prototype.getCssClass = function getCssClass() {
 	return cssClass;
 }
 Route.prototype.getQualifiedName = function getQualifiedName() {
-	var name = this.getField("title");
+	var name = this.getField("title") || "";
 	var network = this.getNetwork().getCode();
 	if (network == "tube") {
 		name += " Line";
