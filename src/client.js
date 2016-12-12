@@ -58,3 +58,21 @@ Pubsub.listen('eventRemoved', function (event) {
 		boardlist.removeChild(vehicle);
 	}
 });
+
+
+(function swHelperInit() {
+	var registration;
+	if ('serviceWorker' in navigator) {
+		registration = navigator.serviceWorker.register('/serviceworker.js');
+	} else {
+		registration = new Promise(function(resolve, reject) {
+			throw "no service worker support";
+		});
+	}
+	registration.then(function swRegistered(registration) {
+		console.log('ServiceWorker registration successful with scope: ' + registration.scope);
+		registration.update();
+	}).catch(function swError(error) {
+		console.error('ServiceWorker registration failed: ' + error);
+	});
+})();

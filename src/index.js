@@ -112,6 +112,9 @@ app.get('/resources/fonts/led', function (req, res) {
 app.get('/resources/script.js', function (req, res) {
 	res.sendFile('bin/clientscripts.js', {root: __dirname + '/..', maxAge:'2m'});
 });
+app.get('/serviceworker.js', function (req, res) {
+	res.sendFile('bin/serviceworker.js', {root: __dirname + '/..', maxAge:'2m'});
+});
 app.use('/img', express.static(__dirname + '/../img', {maxAge:'5m'}));
 var server = app.listen(process.env.PORT || 3000, function () {
   console.log('App listening at http://%s:%s', server.address().address, server.address().port);
