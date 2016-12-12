@@ -6,6 +6,10 @@ var Route = Class("Route", ["network", "code"], function () {
 		sort: Stop.sort,
 	});
 	this.addRelation('vehicle');
+
+	// Defaut to using the code as the name
+	this.setField('name', this.getCode());
+	this.setField('title', this.getCode());
 });
 Route.prototype.getData = function getData() {
 	var output = this.getRawData();
