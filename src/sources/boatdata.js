@@ -18,7 +18,7 @@ function loadData() {
 	for (var id in boats) {
 		routes.forEach(function (route) {
 			var boat = new Vehicle(route, id);
-			boat.setField("title", boats[id]);
+			boat.setField("title", boats[id]+" ("+route.getField("name")+")");
 		});
 	}
 }
