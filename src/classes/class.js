@@ -37,6 +37,17 @@ function Class(classname, keynames, constructor) {
 		}
 		return output;
 	}
+
+	/**
+	 * Gets serialised representations of all the objects of this type
+	 */
+	function getAllSerialised() {
+		var output = {};
+		getAll().forEach(function (thing) {
+			output[thing.getIndex()] = thing.getRawData();
+		});
+		return output;
+	}
 	function SpecificThing() {
 		var instance = this;
 		var keylist = arguments;
@@ -132,6 +143,7 @@ function Class(classname, keynames, constructor) {
 	SpecificThing.getAll = getAll;
 	SpecificThing.getByRelatedThing = getByRelatedThing;
 	SpecificThing.getCreate = getCreate;
+	SpecificThing.getAllSerialised = getAllSerialised;
 
 	// Attempt to change the name of the constructor, to aid debugging in stacktraces and console output
 	try {

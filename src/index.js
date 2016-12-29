@@ -27,14 +27,9 @@ app.engine('html', wrappedEngine);
 
 var Route = require('./classes/route');
 app.get('/', function(req, res) {
-	var routedata = [];
-	var routes = Route.getAllSorted();
-	for (var i in routes) {
-		routedata.push(routes[i].getData());
-	}
 	res.set('Cache-Control', 'public, max-age=0');
 	res.render('routes', {
-		routes: routedata,
+		routes: Route.getAllData(),
 		cssClass: 'homepage',
 		title: 'TFLuke',
 	});
@@ -103,6 +98,14 @@ app.get('/vehicle/:network/:route/:code', function (req, res) {
 		res.status(404).send("Can't find vehicle "+req.params.code);
 	}
 });
+var Network = require('./classes/network');
+app.get('/data.json', function (req, res) {
+	var output = {
+		networks: Network.getAllSerialised(),
+		routes: Route.getAllSerialised(),
+	};
+	res.send(output);
+});
 app.get('/resources/style.css', function (req, res) {
 	res.sendFile('style.css', {root: __dirname + '/..', maxAge:'2m'});
 });
@@ -116,6 +119,7 @@ app.get('/serviceworker.js', function (req, res) {
 	res.sendFile('bin/serviceworker.js', {root: __dirname + '/..', maxAge:'2m'});
 });
 app.use('/img', express.static(__dirname + '/../img', {maxAge:'5m'}));
+app.use('/resources/templates', express.static(__dirname + '/../templates', {maxAge:'2m'}));
 var server = app.listen(process.env.PORT || 3000, function () {
   console.log('App listening at http://%s:%s', server.address().address, server.address().port);
 });

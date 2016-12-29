@@ -59,7 +59,12 @@ Route.sort = function sortRoutes(a, b) {
 	}
 	return a.getField("title") > b.getField("title") ? 1 : -1;
 }
-Route.getAllSorted = function getAllSorted() {
-	return Route.getAll().sort(Route.sort);
+Route.getAllData = function () {
+	var routedata = [];
+	var routes = Route.getAll().sort(Route.sort);
+	for (var i in routes) {
+		routedata.push(routes[i].getData());
+	}
+	return routedata;
 }
 module.exports = Route;
