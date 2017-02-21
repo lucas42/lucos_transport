@@ -31,9 +31,7 @@ function refreshResources() {
 		});
 	}).catch(function (error) {
 		console.error("Failed to cache templates:", error.message);
-	}).then(serverSource.refresh).catch(function (error) {
-		console.error("Failed to refresh data from server:", error.message);
-	});
+	}).then(serverSource.refresh);
 }
 
 self.addEventListener('fetch', function respondToFetch(event) {
@@ -63,7 +61,9 @@ self.addEventListener('fetch', function respondToFetch(event) {
 			case 'refresh':
 				return refreshResources().then(function () {
 					return new Response(null, {status: 204});
-				});
+				}).catch(function (error) {
+					return new Response(new Blob([error]), {status: 502});
+				})
 		}
 		return fetch(event.request.url);
 	});

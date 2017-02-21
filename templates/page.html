@@ -23,8 +23,7 @@
 		
 		{{{content}}}
 	</div>
-	<footer id='footer'>
-		{{#isServiceWorker}}<button id='refresh'>Refresh</button>{{/isServiceWorker}}
+	<footer id='footer' {{#isServiceWorker}}data-refresh="true"{{/isServiceWorker}}>
 	</footer>
 </body>
 </html>

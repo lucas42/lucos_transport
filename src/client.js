@@ -26,12 +26,16 @@ function pageLoad() {
 		event.updateRelTime();
 
 	}
-	var refreshButton = document.getElementById('refresh');
-	if (refreshButton) {
-		refreshButton.addEventListener('click', refresh);
-		refreshButton.setAttribute('class', 'listening');
-	}
+	(function initFooter() {
+		const footer = document.getElementById('footer');
+
+		// The data-refresh flag should only be set on pages served by service worker
+		if (!footer || !footer.dataset.refresh) return;
+		footer.addEventListener("click", refresh, false);
+		footer.dataset.listening = true;
+	 })();
 }
+
 
 /**
  * Refresh the client-side data
@@ -40,7 +44,18 @@ function pageLoad() {
  * Therefore can make http calls not understood by server
  **/
 function refresh() {
-	fetch('/refresh');
+	var footer = this;
+	footer.dataset.loading = true;
+	fetch('/refresh').then(response => {
+		if (response.status != 204) {
+			footer.dataset.failure = true;
+		} else {
+			delete footer.dataset.failure;
+		}
+		delete footer.dataset.loading;
+
+		// TODO: display timestamp of data validitiy in footer
+	});
 }
 
 // If the page is still loading, wait till it's done to do stuff
