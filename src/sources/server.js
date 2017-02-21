@@ -11,19 +11,25 @@ function loadServerData() {
 		return response.json();
 	}).then(function (data) {
 		for (var index in data.networks) {
-			var netdata = data.networks[index];
+			var network = new Network(index);
+			network.setData(data.networks[index]);
+		}
+		for (var index in data.stops) {
+			var routedata = data.stops[index];
 			var keys = index.split(',');
-			keys.unshift(null);
-			var network = new (Function.prototype.bind.apply(Network, keys));
-			network.setData(netdata);
+			var network = new Network(keys[0]);
+			var route = new Stop(network, keys[1]);
+			route.setData(routedata);
 		}
 		for (var index in data.routes) {
 			var routedata = data.routes[index];
 			var keys = index.split(',');
-			keys.unshift(null);
-			keys[1] = new Network(keys[1]);
-			var route = new (Function.prototype.bind.apply(Route, keys));
+			var network = new Network(keys[0]);
+			var route = new Route(network, keys[1]);
 			route.setData(routedata);
+			routedata.relations.stop.forEach(function (stopid) {
+				route.addStop(Stop.getById(stopid));
+			});
 		}
 	})
 }

@@ -47,6 +47,9 @@ self.addEventListener('fetch', function respondToFetch(event) {
 				});
 			case 'route':
 				var route = Route.getById([tokens[2], tokens[3]]);
+				if (!route) {
+					return(new Response(new Blob(["Can't find route /"+tokens[2]+'/'+tokens[3]])));
+				}
 				var data = route.getDataTree();
 				data.parent = {
 					link: '/',
@@ -54,9 +57,8 @@ self.addEventListener('fetch', function respondToFetch(event) {
 				}
 				data.cssClass = 'route '+data.cssClass;
 				return render('route', data);
-
 		}
-		return fetch(event.request);
+		return fetch(event.request.url);
 	});
 	event.respondWith(responsePromise);
 

@@ -44,7 +44,16 @@ function Class(classname, keynames, constructor) {
 	function getAllSerialised() {
 		var output = {};
 		getAll().forEach(function (thing) {
-			output[thing.getIndex()] = thing.getRawData();
+			var data = thing.getRawData();
+			data.relations = {};
+			for (var i in thing.relations) {
+				data.relations[i] = [];
+				thing.relations[i].get().forEach(function (relatedthing) {
+					data.relations[i].push(relatedthing.getIndex());
+				});
+				
+			}
+			output[thing.getIndex()] = data;
 		});
 		return output;
 	}

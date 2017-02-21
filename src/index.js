@@ -99,10 +99,16 @@ app.get('/vehicle/:network/:route/:code', function (req, res) {
 	}
 });
 var Network = require('./classes/network');
+var Platform = require('./classes/platform');
+var Event = require('./classes/event');
 app.get('/data.json', function (req, res) {
 	var output = {
 		networks: Network.getAllSerialised(),
 		routes: Route.getAllSerialised(),
+		stops: Stop.getAllSerialised(),
+		platforms: Platform.getAllSerialised(),
+		vehicle: Vehicle.getAllSerialised(),
+		events: Event.getAllSerialised(),
 	};
 	res.send(output);
 });
