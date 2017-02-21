@@ -3,6 +3,11 @@
  * for deserialising on the client
  */
 
+function start() {
+	setInterval(loadServerData, 30000);
+	loadServerData();
+}
+
 var Stop = require('../classes/stop');
 var Route = require('../classes/route');
 var Network = require('../classes/network');
@@ -36,7 +41,5 @@ function loadServerData() {
 
 
 module.exports = {
-
-	// Only load data once, because it comes from static files
-	start: loadServerData,
+	start: start,
 }
