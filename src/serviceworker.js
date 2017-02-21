@@ -3,6 +3,7 @@ const TEMPLATE_CACHE = 'templates-v1';
 const TEMPLATE_PATH = '/resources/templates/';
 
 const Route = require('./classes/route'),
+serverSource = require('./sources/server'),
 Mustache = require('mustache');
 
 self.addEventListener('install', function swInstalled(event) {
@@ -30,6 +31,8 @@ function refreshResources() {
 		});
 	}).catch(function (error) {
 		console.error("Failed to cache templates:", error.message);
+	}).then(serverSource.refresh).catch(function (error) {
+		console.error("Failed to refresh data from server:", error.message);
 	});
 }
 
@@ -48,7 +51,7 @@ self.addEventListener('fetch', function respondToFetch(event) {
 			case 'route':
 				var route = Route.getById([tokens[2], tokens[3]]);
 				if (!route) {
-					return(new Response(new Blob(["Can't find route /"+tokens[2]+'/'+tokens[3]])));
+					return(new Response(new Blob(["Can't find route /"+tokens[2]+'/'+tokens[3]])), {status: 404});
 				}
 				var data = route.getDataTree();
 				data.parent = {
@@ -57,15 +60,14 @@ self.addEventListener('fetch', function respondToFetch(event) {
 				}
 				data.cssClass = 'route '+data.cssClass;
 				return render('route', data);
+			case 'refresh':
+				return refreshResources().then(function () {
+					return new Response(null, {status: 204});
+				});
 		}
 		return fetch(event.request.url);
 	});
 	event.respondWith(responsePromise);
-
-	// When the main page is requested, try updating the resources from the network asynchronously.
-	if (event.request.url.pathname == "/") {
-		responsePromise.then(refreshResources);
-	}
 });
 
 function populateTemplate(templateid, data) {
@@ -85,6 +87,7 @@ function populateTemplate(templateid, data) {
 	});
 }
 function render(templateid, options) {
+	options.isServiceWorker = true;
 	return populateTemplate(templateid, options).then(content => {
 		options.content = content;
 		if (options.title && options.title != "TFLuke") {
@@ -99,4 +102,4 @@ function render(templateid, options) {
 }
 
 
-require('./sources/server').start();
+serverSource.start();

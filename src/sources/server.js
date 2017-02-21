@@ -12,7 +12,7 @@ var Stop = require('../classes/stop');
 var Route = require('../classes/route');
 var Network = require('../classes/network');
 function loadServerData() {
-	fetch('/data.json').then(function (response) {
+	return fetch('/data.json').then(function (response) {
 		return response.json();
 	}).then(function (data) {
 		for (var index in data.networks) {
@@ -42,4 +42,5 @@ function loadServerData() {
 
 module.exports = {
 	start: start,
+	refresh: loadServerData,
 }

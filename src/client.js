@@ -26,6 +26,21 @@ function pageLoad() {
 		event.updateRelTime();
 
 	}
+	var refreshButton = document.getElementById('refresh');
+	if (refreshButton) {
+		refreshButton.addEventListener('click', refresh);
+		refreshButton.setAttribute('class', 'listening');
+	}
+}
+
+/**
+ * Refresh the client-side data
+ *
+ * Should only be available on pages served by service worker
+ * Therefore can make http calls not understood by server
+ **/
+function refresh() {
+	fetch('/refresh');
 }
 
 // If the page is still loading, wait till it's done to do stuff
