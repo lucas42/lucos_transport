@@ -38,7 +38,7 @@ Event.prototype.getData = function getData(source) {
 
 			// If the stop being interchanged with is the same as the current one,
 			// then disregard its name.
-			if (interchange['stopname'] && stationsMatch(interchange['stopname'], output['stop']['title'])) {
+			if (interchange['stopname'] && stationsMatch(interchange['stopname'], output['stop']['simpleName'])) {
 				delete interchange['stopname'];
 			}
 
@@ -70,8 +70,8 @@ Event.prototype.getData = function getData(source) {
 	return output;
 }
 Event.prototype.isTerminus = function isTerminus() {
-	var destination = this.getVehicle().getField("destination");
-	var stopname = this.getPlatform().getStop().getField("title");
+	var destination = this.getVehicle().getSimpleDestination();
+	var stopname = this.getPlatform().getStop().getSimpleName();
 	return stationsMatch(stopname, destination);
 }
 
@@ -84,11 +84,8 @@ function stationsMatch(a, b) {
 		return stationname.replace(/via .*/, '')
 		.replace(/[\+\&]/, "and")
 		.replace(" Street ", " St ")
+		.replace("'", "")
 		.replace(/\(.*\)/, '')
-		.replace(/\s*Platform.*/, '')
-		.replace(/\s*Pier/, '')
-		.replace(/\s*Rail Station/, '')
-		.replace(/\s*Underground Station/, '')
 		.replace(/\s*$/, '')
 		.replace(/^\s*/, '');
 	}
@@ -152,7 +149,7 @@ Event.prototype.getInterchanges = function getInterchanges() {
 			if (route.getIndex() in gotinterchanges) return;
 			var routedata = route.getData();
 			routedata['external'] = true;
-			routedata['stopname'] = stop.getField('title');
+			routedata['stopname'] = stop.getSimpleName();
 			interchanges.push(routedata);
 			gotinterchanges[route.getIndex()] = true;
 		});

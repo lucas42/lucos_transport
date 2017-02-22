@@ -10,7 +10,7 @@
 			<tbody>
 				{{#events}}
 					<tr class="vehicle{{#ghost}} ghost{{/ghost}}" data-line="{{line}}" data-route="{{route}}">
-						<td><a href="{{link}}">{{destination}}</a></td>
+						<td><a href="{{link}}">{{simpleDestination}}</a></td>
 						<td><a href="{{link}}" class='departtime' data-time='{{time}}' data-source='{{source}}'>{{humanReadableTime}}</a></td>
 					</tr>
 				{{/events}}

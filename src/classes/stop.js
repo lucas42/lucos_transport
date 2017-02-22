@@ -12,6 +12,9 @@ Stop.prototype.getLink = function getLink() {
 Stop.prototype.getCssClass = function getCssClass() {
 	return "stop "+this.getNetwork().getCssClass();
 }
+Stop.prototype.getSimpleName = function getSimpleName() {
+	return Stop.simplifyName(this.getField("title"));
+}
 Stop.prototype.getData = function getData(source) {
 	var output = this.getRawData();
 	output.link = this.getLink();
@@ -19,9 +22,19 @@ Stop.prototype.getData = function getData(source) {
 	output.hasExternalInterchanges = this.getExternalInterchanges().length > 0;
 	output.symbol = this.getNetwork().getSymbol();
 	output.cssClass = this.getCssClass();
+	output.simpleName = this.getSimpleName();
 	return output;
 }
 Stop.sort = function sortStops(a, b) {
 	return a.getField("title") > b.getField("title") ? 1 : -1;
+}
+Stop.simplifyName = function simplifyName(name) {
+	if (!name) return null;
+	return name
+		.replace(/\s*Platform.*/, '')
+		.replace(/\s*Pier/, '')
+		.replace(/\s*Rail Station/, '')
+		.replace(/\s*Underground Station/, '')
+		.replace(/\s*DLR Station/, '');
 }
 module.exports = Stop;

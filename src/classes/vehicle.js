@@ -1,5 +1,6 @@
 var Class = require('./class');
 var Event = require('./event');
+var Stop = require('./stop');
 var Vehicle = Class("Vehicle", ["route", "code"], function () {
 	this.addRelation({
 		singular: 'event',
@@ -25,12 +26,16 @@ Vehicle.prototype.getCssClass = function getCssClass() {
 	}
 	return cssclass;
 }
+Vehicle.prototype.getSimpleDestination = function getSimpleDestination() {
+	return Stop.simplifyName(this.getField("destination"));
+}
 Vehicle.prototype.getData = function getData() {
 	var output = this.getRawData();
 	output.link = this.getLink();
 	output.cssClass = this.getCssClass();
 	output.continues = false;
 	output.routeName = this.getRoute().getQualifiedName();
+	output.simpleDestination = this.getSimpleDestination();
 	var events = this.getEvents();
 	if (events.length) {
 		output.continues = !(events[events.length-1].isTerminus());
