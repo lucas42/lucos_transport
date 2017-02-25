@@ -159,7 +159,7 @@ Event.prototype.getInterchanges = function getInterchanges() {
 }
 
 Event.prototype.updateRelTime = function updateRelTime() {
-	var secondsTo = (this.getField('time') - new Date()) / 1000;
+	var secondsTo = (new Date(this.getField('time')) - new Date()) / 1000;
 	var oldSecondsTo = this.getField('secondsTo');
 	this.setField('secondsTo', secondsTo);
 	this.setField('passed', secondsTo < -30);
@@ -176,7 +176,7 @@ Event.prototype.updateRelTime = function updateRelTime() {
 	Pubsub.send('updateEventTime', this);
 }
 Event.sortByTime = function sortByTime(a, b) {
-	return a.getField('time') - b.getField('time');
+	return new Date(a.getField('time')) - new Date(b.getField('time'));
 }
 
 var timestimeout;

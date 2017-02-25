@@ -107,7 +107,7 @@ app.get('/data.json', function (req, res) {
 		routes: Route.getAllSerialised(),
 		stops: Stop.getAllSerialised(),
 		platforms: Platform.getAllSerialised(),
-		vehicle: Vehicle.getAllSerialised(),
+		vehicles: Vehicle.getAllSerialised(),
 		events: Event.getAllSerialised(),
 	};
 	res.send(output);

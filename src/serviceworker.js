@@ -3,6 +3,7 @@ const TEMPLATE_CACHE = 'templates-v1';
 const TEMPLATE_PATH = '/resources/templates/';
 
 const Route = require('./classes/route'),
+Stop = require('./classes/stop'),
 serverSource = require('./sources/server'),
 Mustache = require('mustache');
 
@@ -61,6 +62,20 @@ self.addEventListener('fetch', function respondToFetch(event) {
 				}
 				data.cssClass = 'route '+data.cssClass;
 				return render('route', data);
+			case 'stop':
+				if (!tokens[2]) {
+					return Response.redirect('/');
+				}
+				var stop = Stop.getById([tokens[2], tokens[3]]);
+				if (!stop) {
+					return new Response(new Blob(["Can't find stop /"+tokens[2]+'/'+tokens[3]]), {status: 404});
+				}
+				var data = stop.getDataTree();
+				data.parent = {
+					link: '/',
+					name: 'All Routes',
+				}
+				return render('station', data);
 			case 'refresh':
 				return refreshResources().then(function () {
 					return new Response(null, {status: 204});
