@@ -1,6 +1,9 @@
 var Class = require('./class');
 var Stop = Class("Stop", ["network", "code"], function () {
-	this.addRelation('platform');
+	this.addRelation({
+		singular: 'platform',
+		sort: platformSort,
+	});
 	this.addRelation({
 		singular: 'externalInterchange',
 		symmetrical: true,
@@ -36,5 +39,11 @@ Stop.simplifyName = function simplifyName(name) {
 		.replace(/\s*Rail Station/, '')
 		.replace(/\s*Underground Station/, '')
 		.replace(/\s*DLR Station/, '');
+}
+
+function platformSort(a, b) {
+	var aval = parseInt(a.getName().replace(/\D/g, ''));
+	var bval = parseInt(b.getName().replace(/\D/g, ''));
+	return aval - bval;
 }
 module.exports = Stop;
