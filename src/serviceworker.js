@@ -47,6 +47,9 @@ self.addEventListener('fetch', function respondToFetch(event) {
 					title: 'TFLuke',
 				});
 			case 'route':
+				if (!tokens[2]) {
+					return Response.redirect('/');
+				}
 				var route = Route.getById([tokens[2], tokens[3]]);
 				if (!route) {
 					return new Response(new Blob(["Can't find route /"+tokens[2]+'/'+tokens[3]]), {status: 404});
