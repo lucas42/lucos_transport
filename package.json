@@ -28,6 +28,7 @@
     "express": "^4.13.1",
     "htmlparser2": "^3.8.3",
     "lucos_pubsub": "0.x",
+    "mespeak": "^2.0.1",
     "moment-timezone": "^0.4.0",
     "mustache": "^2.1.2",
     "mustache-express": "^1.2.1",

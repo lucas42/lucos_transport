@@ -5,6 +5,11 @@ var Network = require('./classes/network');
 var Stop = require('./classes/stop');
 var Platform = require('./classes/platform');
 var Pubsub = require('lucos_pubsub');
+var speech = require("mespeak");
+
+// Setup voice module
+speech.loadConfig(require("mespeak/src/mespeak_config.json"));
+speech.loadVoice(require("mespeak/voices/en/en-rp.json"));
 
 
 // HACK: make up stub objects because all we care about is events for now
@@ -56,6 +61,8 @@ function refresh() {
 
 		// TODO: display timestamp of data validitiy in footer
 	});
+
+	speech.speak("Please mind the gap between the train and the platform.");
 }
 
 // If the page is still loading, wait till it's done to do stuff
