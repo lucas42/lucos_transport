@@ -42,8 +42,15 @@ Stop.simplifyName = function simplifyName(name) {
 }
 
 function platformSort(a, b) {
-	var aval = parseInt(a.getName().replace(/\D/g, ''));
-	var bval = parseInt(b.getName().replace(/\D/g, ''));
+	function platformNum(platform) {
+		var name = platform.getName();
+		if (!name) return Infinity;
+		var num = name.replace(/\D/g, '');
+		if (!num) return Infinity;
+		return parseInt(num);
+	}
+	var aval = platformNum(a);
+	var bval = platformNum(b);
 	return aval - bval;
 }
 module.exports = Stop;
