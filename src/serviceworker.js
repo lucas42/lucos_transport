@@ -4,6 +4,7 @@ const TEMPLATE_PATH = '/resources/templates/';
 
 const Route = require('./classes/route'),
 Stop = require('./classes/stop'),
+Vehicle = require('./classes/vehicle'),
 serverSource = require('./sources/server'),
 Mustache = require('mustache');
 
@@ -76,6 +77,17 @@ self.addEventListener('fetch', function respondToFetch(event) {
 					name: 'All Routes',
 				}
 				return render('station', data);
+			case 'vehicle':
+				var vehicle = Vehicle.getById([[tokens[2], tokens[3]], tokens[4]]);
+				if (!vehicle) {
+					return new Response(new Blob(["Can't find vehicle "+tokens[4]]), {status: 404});
+				}
+				var data = vehicle.getDataTree();
+				data.parent = {
+					link: '/',
+					name: 'All Routes',
+				}
+				return render('vehicle', data);
 			case 'refresh':
 				return refreshResources().then(function () {
 					return new Response(null, {status: 204});
