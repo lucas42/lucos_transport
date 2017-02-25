@@ -49,7 +49,7 @@ self.addEventListener('fetch', function respondToFetch(event) {
 			case 'route':
 				var route = Route.getById([tokens[2], tokens[3]]);
 				if (!route) {
-					return(new Response(new Blob(["Can't find route /"+tokens[2]+'/'+tokens[3]])), {status: 404});
+					return new Response(new Blob(["Can't find route /"+tokens[2]+'/'+tokens[3]]), {status: 404});
 				}
 				var data = route.getDataTree();
 				data.parent = {
