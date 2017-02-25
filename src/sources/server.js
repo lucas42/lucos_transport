@@ -15,6 +15,10 @@ function loadServerData() {
 	return fetch('/data.json').then(function (response) {
 		return response.json();
 	}).then(function (data) {
+		if (!data) {
+			console.error("no data on refresh");
+			return;
+		}
 		for (var index in data.networks) {
 			var network = new Network(index);
 			network.setData(data.networks[index]);
