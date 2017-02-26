@@ -56,13 +56,13 @@ function refresh() {
 			footer.dataset.failure = true;
 		} else {
 			delete footer.dataset.failure;
+			speech.speak("Please mind the gap between the train and the platform.");
 		}
 		delete footer.dataset.loading;
 
 		// TODO: display timestamp of data validitiy in footer
 	});
 
-	speech.speak("Please mind the gap between the train and the platform.");
 }
 
 // If the page is still loading, wait till it's done to do stuff
