@@ -34,8 +34,8 @@ function pageLoad() {
 	(function initFooter() {
 		const footer = document.getElementById('footer');
 
-		// The data-refresh flag should only be set on pages served by service worker
-		if (!footer || !footer.dataset.refresh) return;
+		// The data-refreshable flag should only be set on pages served by service worker
+		if (!footer || !footer.dataset.refreshable) return;
 		footer.addEventListener("click", refresh, false);
 		footer.dataset.listening = true;
 	 })();
