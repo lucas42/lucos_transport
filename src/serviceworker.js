@@ -12,7 +12,6 @@ self.addEventListener('install', function swInstalled(event) {
 	event.waitUntil(refreshResources());
 });
 
-
 function refreshResources() {
 	return caches.open(RESOURCE_CACHE).then(function addUrlsToCache(cache) {
 		return cache.addAll([
@@ -29,6 +28,10 @@ function refreshResources() {
 		caches.open(TEMPLATE_CACHE).then(function addTemplateUrlsToCache(cache) {
 			return cache.addAll([
 				TEMPLATE_PATH + 'page.html',
+				TEMPLATE_PATH + 'routes.html',
+				TEMPLATE_PATH + 'route.html',
+				TEMPLATE_PATH + 'station.html',
+				TEMPLATE_PATH + 'vehicle.html',
 			]);
 		});
 	}).catch(function (error) {
@@ -40,62 +43,68 @@ self.addEventListener('fetch', function respondToFetch(event) {
 	var url = new URL(event.request.url);
 	var responsePromise = caches.match(event.request).then(function serveFromCache(response) {
 		if (response) return response;
-		var tokens = url.pathname.split('/');
-		switch (tokens[1]){
-			case '':
-				return render('routes', {
-					routes: Route.getAllData(),
-					cssClass: 'homepage',
-					title: 'TFLuke',
-				});
-			case 'route':
-				if (!tokens[2]) {
-					return Response.redirect('/');
-				}
-				var route = Route.getById([tokens[2], tokens[3]]);
-				if (!route) {
-					return new Response(new Blob(["Can't find route /"+tokens[2]+'/'+tokens[3]]), {status: 404});
-				}
-				var data = route.getDataTree();
-				data.parent = {
-					link: '/',
-					name: 'All Routes',
-				}
-				data.cssClass = 'route '+data.cssClass;
-				return render('route', data);
-			case 'stop':
-				if (!tokens[2]) {
-					return Response.redirect('/');
-				}
-				var stop = Stop.getById([tokens[2], tokens[3]]);
-				if (!stop) {
-					return new Response(new Blob(["Can't find stop /"+tokens[2]+'/'+tokens[3]]), {status: 404});
-				}
-				var data = stop.getDataTree();
-				data.parent = {
-					link: '/',
-					name: 'All Routes',
-				}
-				return render('station', data);
-			case 'vehicle':
-				var vehicle = Vehicle.getById([[tokens[2], tokens[3]], tokens[4]]);
-				if (!vehicle) {
-					return new Response(new Blob(["Can't find vehicle "+tokens[4]]), {status: 404});
-				}
-				var data = vehicle.getDataTree();
-				data.parent = {
-					link: '/',
-					name: 'All Routes',
-				}
-				return render('vehicle', data);
-			case 'refresh':
-				return refreshResources().then(function () {
-					return new Response(null, {status: 204});
-				}).catch(function (error) {
-					return new Response(new Blob([error]), {status: 502});
-				})
-		}
-		return fetch(event.request.url);
+
+		return serverSource.loadFromCache().then(() => {
+			var tokens = url.pathname.split('/');
+			switch (tokens[1]){
+				case '':
+					return render('routes', {
+						routes: Route.getAllData(),
+						cssClass: 'homepage',
+						title: 'TFLuke',
+					});
+				case 'route':
+					if (!tokens[2]) {
+						return Response.redirect('/');
+					}
+					var route = Route.getById([tokens[2], tokens[3]]);
+					if (!route) {
+						return new Response(new Blob(["Can't find route /"+tokens[2]+'/'+tokens[3]]), {status: 404});
+					}
+					var data = route.getDataTree();
+					data.parent = {
+						link: '/',
+						name: 'All Routes',
+					}
+					data.cssClass = 'route '+data.cssClass;
+					return render('route', data);
+				case 'stop':
+					if (!tokens[2]) {
+						return Response.redirect('/');
+					}
+					var stop = Stop.getById([tokens[2], tokens[3]]);
+					if (!stop) {
+						return new Response(new Blob(["Can't find stop /"+tokens[2]+'/'+tokens[3]]), {status: 404});
+					}
+					var data = stop.getDataTree();
+					data.parent = {
+						link: '/',
+						name: 'All Routes',
+					}
+					return render('station', data);
+				case 'vehicle':
+					var vehicle = Vehicle.getById([[tokens[2], tokens[3]], tokens[4]]);
+					if (!vehicle) {
+						return new Response(new Blob(["Can't find vehicle "+tokens[4]]), {status: 404});
+					}
+					var data = vehicle.getDataTree();
+					data.parent = {
+						link: '/',
+						name: 'All Routes',
+					}
+					return render('vehicle', data);
+				case 'refresh':
+					return refreshResources().then(function () {
+						return new Response(null, {status: 204});
+					}).catch(function (error) {
+						return new Response(new Blob([error]), {status: 502});
+					})
+			}
+			return fetch(event.request.url);
+		});
+	}).catch(error => {
+		console.error("Can't do response", error);
+		return new Response(new Blob(["An unknown error occured"]), {status: 500});
 	});
 	event.respondWith(responsePromise);
 });
@@ -130,6 +139,3 @@ function render(templateid, options) {
 		return new Response(new Blob([html]));
 	});
 }
-
-
-serverSource.start();
