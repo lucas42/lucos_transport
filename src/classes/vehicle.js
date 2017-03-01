@@ -42,6 +42,8 @@ Vehicle.prototype.getData = function getData() {
 	}
 	if (output.name) {
 		output.title = output.name + " (" + this.getRoute().getField("name") + ")";
+	} else {
+		output.title = this.getRoute().getQualifiedName() + " " + this.getCode();
 	}
 	return output;
 }
