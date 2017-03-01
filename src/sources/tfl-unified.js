@@ -184,4 +184,5 @@ function refreshLine(callback) {
 
 module.exports = {
 	start: start,
+	refresh: loadlines,
 }

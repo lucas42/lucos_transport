@@ -111,6 +111,7 @@ app.get('/data.json', function (req, res) {
 		events: Event.getAllSerialised(),
 	};
 	res.send(output);
+	require('./sources/tfl-unified').refresh();
 });
 app.get('/resources/style.css', function (req, res) {
 	res.sendFile('style.css', {root: __dirname + '/..', maxAge:'2m'});
