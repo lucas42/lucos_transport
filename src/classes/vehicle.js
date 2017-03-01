@@ -20,9 +20,9 @@ Vehicle.prototype.getLink = function getLink() {
 }
 Vehicle.prototype.getCssClass = function getCssClass() {
 	var cssclass = this.getRoute().getCssClass();
-	var title = this.getField('title')
-	if (title) {
-		cssclass += " vehicle_"+title.toLowerCase().replace(' ', '');
+	var name = this.getField('name')
+	if (name) {
+		cssclass += " vehicle_"+name.toLowerCase().replace(' ', '');
 	}
 	return cssclass;
 }
@@ -39,6 +39,9 @@ Vehicle.prototype.getData = function getData() {
 	var events = this.getEvents();
 	if (events.length) {
 		output.continues = !(events[events.length-1].isTerminus());
+	}
+	if (output.name) {
+		output.title = output.name + " (" + this.getRoute().getField("name") + ")";
 	}
 	return output;
 }
