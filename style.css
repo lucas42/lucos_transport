@@ -156,11 +156,11 @@ body { background: #ccf; margin: 0; min-height: 100%; position: absolute; width:
 .stationlines .route h3 { margin: 3px; }
 #footer { background: #999; color: #fff; bottom: 0; left: 0; right: 0; padding: 0.5em 1em; max-height: 1em; position: absolute; }
 #footer[data-refreshable] { min-height: 1em; }
-#footer[data-refreshable]:not([data-listening]) { background: #99C; }
-#footer[data-listening] { cursor:pointer; }
+#footer[data-listening] { cursor:pointer; background: #99C; }
 #footer:not([data-loading]) { -webkit-transition: background 1s; -moz-transition: background 1s; }
 #footer[data-loading] { background: #c90; }
 #footer[data-failure] { background: #900; }
+#footer #lastUpdated { float: right; font-size: smaller; font-family: monospace; }
 #content { margin: 1em; }
 
 /* buttons */

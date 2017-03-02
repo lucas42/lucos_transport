@@ -31,15 +31,15 @@ function tflapireq(path, callback) {
 		}
 		try {
 			parsed = JSON.parse(rawbody);
-			callback(parsed);
+			callback(parsed, resp.headers.date);
 		} catch (e) {
 			console.error(url, rawbody);
-			callback([]);
+			callback([], resp.headers.date);
 		}
 	});
 }
 function loadlines() {
-	tflapireq("/Line/Route", function (lines) {
+	tflapireq("/Line/Route", function (lines, date) {
 		var lineids = [];
 		lines.forEach(function (linedata) {
 			if (supportedModes.indexOf(linedata.modeName) == -1) return;
@@ -47,6 +47,7 @@ function loadlines() {
 			var route = new Route(network, linedata.id);
 			route.setField('title', linedata.name);
 			route.setField('name', linedata.name);
+			route.setField('lastUpdated', date);
 			route.refresh = refreshLine;
 			route.attemptRefresh();
 			lineids.push(linedata.id);
@@ -77,14 +78,14 @@ function loadlines() {
 }
 function refreshLine(callback) {
 	var route = this;
-	tflapireq("/Line/"+route.getCode()+"/StopPoints", function (stops) {
+	tflapireq("/Line/"+route.getCode()+"/StopPoints", function (stops, date) {
 		stops.forEach(function (stopdata) {
 
 			// Ignore child stations - currently only piers have these, but arrivals only identify the parent station.
 			if (stopdata.naptanId != stopdata.stationNaptan) return;
 			var stop = new Stop(route.getNetwork(), stopdata.naptanId);
 			stop.setField('title', stopdata.commonName);
-
+			stop.setField('lastUpdated', date);
 
 			// Add all interchanges for this stop (even if there's no trains on departure boards)
 			stopdata.lineModeGroups.forEach(function (networkdata) {
@@ -126,7 +127,7 @@ function refreshLine(callback) {
 
 			route.addStop(stop);
 		});
-		tflapireq("/Line/"+route.getCode()+"/Arrivals", function (arrivals) {
+		tflapireq("/Line/"+route.getCode()+"/Arrivals", function (arrivals, date) {
 
 			// Find all the platforms serving this line which have ghost trains
 			// And clear them up
@@ -173,8 +174,10 @@ function refreshLine(callback) {
 				}
 
 				vehicle.setField('destination', arrival.destinationName);
+				vehicle.setField('lastUpdated', date);
 				var event = new Event(vehicle, platform);
 				event.setField('time', new Date(arrival.expectedArrival));
+				event.setField('lastUpdated', date);
 				event.updateRelTime();
 			});
 			callback();

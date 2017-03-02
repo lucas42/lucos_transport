@@ -24,6 +24,7 @@
 		{{{content}}}
 	</div>
 	<footer id='footer' {{#isServiceWorker}}data-refreshable="true"{{/isServiceWorker}}>
+		{{#lastUpdated}}<time id='lastUpdated' datetime="{{lastUpdate}}">{{lastUpdated}}</span>{{/lastUpdated}}
 	</footer>
 </body>
 </html>
