@@ -139,3 +139,5 @@ function render(templateid, options) {
 		return new Response(new Blob([html]));
 	});
 }
+
+serverSource.start();
