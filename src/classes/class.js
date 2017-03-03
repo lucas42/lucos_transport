@@ -59,10 +59,13 @@ function Class(classname, keynames, constructor) {
 	}
 	function SpecificThing() {
 		var instance = this;
-		var keylist = arguments;
+		var keylist = [];
 		var index = [];
 		var keys = {};
 
+		for (var i in arguments) {
+			keylist[i] = arguments[i];
+		}
 		keynames.forEach(function(keyname, i) {
 			var key = keylist[i];
 			if (typeof key == "undefined") throw new Error("Missing "+keyname+" argument for "+classname);
