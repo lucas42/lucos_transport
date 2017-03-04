@@ -56,7 +56,7 @@ function refresh() {
 			footer.dataset.failure = true;
 		} else {
 			delete footer.dataset.failure;
-			speech.speak("Please mind the gap between the train and the platform.");
+			speech.speak("Updated.");
 		}
 		delete footer.dataset.loading;
 
