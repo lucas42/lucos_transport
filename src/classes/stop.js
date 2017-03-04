@@ -38,7 +38,11 @@ Stop.simplifyName = function simplifyName(name) {
 		.replace(/\s*Pier/, '')
 		.replace(/\s*Rail Station/, '')
 		.replace(/\s*Underground Station/, '')
-		.replace(/\s*DLR Station/, '');
+		.replace(/\s*DLR Station/, '')
+
+		// Usually brackets can be ignored.  
+		// Except in the case of Olympia where the most important bit of the name is in brackets
+		.replace(/\s*\((?!Olympia).*\)/, '');
 }
 
 function platformSort(a, b) {
