@@ -81,17 +81,29 @@ Event.prototype.isTerminus = function isTerminus() {
  */
 function stationsMatch(a, b) {
 	function normalise(stationname) {
-		return stationname.replace(/via .*/, '')
+		return stationname.toLowerCase()
+		.replace(/via .*/, '')
 		.replace(/[\+\&]/, "and")
-		.replace(" Street ", " St ")
+		.replace(" street ", " st ")
 		.replace("'", "")
 		.replace(/\(.*\)/, '')
 		.replace(/\s*$/, '')
 		.replace(/^\s*/, '');
 	}
+
+	// For important strings, check if one station has them and not the other
+	function varyBy(varystring) {
+		if (a.indexOf(varystring) > -1 && b.indexOf(varystring) == -1) return true;
+		if (a.indexOf(varystring) == -1 && b.indexOf(varystring) > -1) return true;
+		return false;
+	}
 	if (!a || !b) return false;
 	a = normalise(a);
 	b = normalise(b);
+	if (varyBy("north")) return false;
+	if (varyBy("south")) return false;
+	if (varyBy("east")) return false;
+	if (varyBy("west")) return false;
 	if (a.indexOf(b) > -1) return true;
 	if (b.indexOf(a) > -1) return true;
 	return false;
