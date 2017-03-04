@@ -22,7 +22,7 @@
 						{{/interchanges}}
 						</ul>
 					{{/isinterchange}}
-					{{#platform}}<a href="{{link}}" class='stoptime' data-time='{{time}}' data-source='{{source}}'>{{humanReadableTime}}</a><a href="{{link}}"> &gt; {{#stop}}{{simpleName}}{{/stop}} {{name}}</a>{{/platform}}
+					{{#platform}}<a href="{{link}}" class='stoptime' data-time='{{time}}' data-source='{{source}}'>{{humanReadableTime}}</a><a href="{{link}}"> &gt; {{#stop}}{{simpleName}}{{/stop}} {{platform.name}}</a>{{/platform}}
 					<div class='symbols'>
 					{{#symbols}}
 						<img src="{{src}}" alt="{{alt}}" title="{{alt}}" class="symbol" />
