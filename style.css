@@ -298,6 +298,7 @@ h3 .symbol, h1 .symbol { margin: 0 1em; }
 
 .interchanges { width: 12ex; font-weight: bold; text-align: center; list-style-type: none; float: right; margin: 0 2ex 2ex 2ex; padding: 0; }
 .interchanges > li { font-size: 0.5em; line-height: 3ex; border: solid 1px; color: black; background: white; min-height: 1em; padding: 0 1ex; }
+.interchanges > li > a { display: block; }
 .interchanges > .tube, .interchanges > .dlr, .interchanges > .overground { border: none; }
 .interchanges .symbol { margin: 0.5ex; float: left; }
 

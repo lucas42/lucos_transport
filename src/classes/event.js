@@ -34,6 +34,7 @@ Event.prototype.getData = function getData(source) {
 
 		// Find where the symbol needs no extra text
 		output['symbols'] = [];
+
 		interchanges.forEach(function (interchange) {
 
 			// If the stop being interchanged with is the same as the current one,
@@ -152,7 +153,8 @@ Event.prototype.getInterchanges = function getInterchanges() {
 
 		// If the vehicle's route and the interchange's route only vary by a trailing 'x', then one's just an express route, don't show as interchange.
 		if (route.getCode().replace(/x$/, '') == vehicle.getRoute().getCode().replace(/x$/, '')) return;
-		interchanges.push(route.getData());
+		var interchangedata = route.getData();
+		interchangedata['link'] = thisstop.getLink();
 		gotinterchanges[route.getIndex()] = true;
 	});
 
@@ -162,14 +164,14 @@ Event.prototype.getInterchanges = function getInterchanges() {
 		var routes = Route.getByStop(stop);
 		routes.forEach(function (route) {
 			if (route.getIndex() in gotinterchanges) return;
-			var routedata = route.getData();
-			routedata['external'] = true;
-			routedata['stopname'] = stop.getSimpleName();
-			interchanges.push(routedata);
+			var interchangedata = route.getData();
+			interchangedata['external'] = true;
+			interchangedata['stopname'] = stop.getSimpleName();
+			interchangedata['link'] = stop.getLink();
+			interchanges.push(interchangedata);
 			gotinterchanges[route.getIndex()] = true;
 		});
 	});
-
 	return interchanges;
 }
 

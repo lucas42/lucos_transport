@@ -10,13 +10,15 @@
 						{{#interchanges}}
 							{{^ignore}}
 							<li class="{{network}} {{cssClass}}">
-								{{#symbol}}
-									<img src="{{symbol}}" alt="{{network}}" class="symbol" />
-								{{/symbol}}
-								{{title}}
-								{{#stopname}}
-									<span class='stopname'>{{stopname}}</span>
-								{{/stopname}}
+								<a href="{{link}}">
+									{{#symbol}}
+										<img src="{{symbol}}" alt="{{network}}" class="symbol" />
+									{{/symbol}}
+									{{title}}
+									{{#stopname}}
+										<span class='stopname'>{{stopname}}</span>
+									{{/stopname}}
+								</a>
 							</li>
 							{{/ignore}}
 						{{/interchanges}}
