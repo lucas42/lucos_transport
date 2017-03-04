@@ -61,6 +61,13 @@ function parseData(data) {
 		network = new Network(keys[0]);
 		stop = new Stop(network, keys[1]);
 		stop.setData(stopdata);
+		stopdata.relations.externalInterchange.forEach(function (interchangeid) {
+			var interchange = Stop.getById(interchangeid);
+
+			// If the other stop doesn't exist, ignre.  It's a symetrical relationship so will get added be the 2nd stop
+			if (!interchange) return;
+			stop.addExternalInterchange(interchange);
+		});
 	}
 	for (index in data.routes) {
 		routedata = data.routes[index];
