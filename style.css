@@ -112,6 +112,7 @@ background: -webkit-gradient(linear, 0 0, 100% 100%,
 
 /** Use the "London River Services" colour for all river boat routes and platforms **/
 .network_river-bus h3, .network_river-bus h1 { color:#FFF; background-color:#0099CC; }
+.network_river-bus .route > .stop:before, .network_river-bus .route .continues:after { border-color:#0099CC;}
 
 /** Colours for boats 
 These were collected manually, without taking account of variations in light
