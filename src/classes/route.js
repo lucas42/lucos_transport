@@ -67,4 +67,14 @@ Route.getAllData = function () {
 	}
 	return routedata;
 }
+Route.getOldestUpdateTime = function () {
+	var oldest = null;
+	Route.getAll().forEach(function (route) {
+		var lastUpdated = new Date(route.getField("lastUpdated"));
+		if (!oldest || lastUpdated < oldest) {
+			oldest = lastUpdated;
+		}
+	});
+	return oldest;
+}
 module.exports = Route;
