@@ -61,9 +61,9 @@ Event.prototype.getData = function getData(source) {
 				interchange['title'] = interchange['stopname'];
 				delete interchange['stopname'];
 			}
+			if (!interchange['ignore']) output['isinterchange'] = true;
 		});
-		if (interchanges.length > 0) {
-			output['isinterchange'] = true;
+		if (output['isinterchange']) {
 			output['interchanges'] = interchanges;
 		}
 	}
@@ -137,6 +137,9 @@ Event.prototype.getInterchanges = function getInterchanges() {
 	var routes = Route.getByStop(thisstop);
 	routes.forEach(function (route) {
 		if (route.getIndex() in gotinterchanges) return;
+
+		// If the vehicle's route and the interchange's route only vary by a trailing 'x', then one's just an express route, don't show as interchange.
+		if (route.getCode().replace(/x$/, '') == vehicle.getRoute().getCode().replace(/x$/, '')) return;
 		interchanges.push(route.getData());
 		gotinterchanges[route.getIndex()] = true;
 	});
