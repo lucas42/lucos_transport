@@ -155,13 +155,26 @@ body { background: #ccf; margin: 0; min-height: 100%; position: absolute; width:
 .stationlines { overflow: hidden; }
 .stationlines .route { width: 400px; float:left; clear: both; }
 .stationlines .route h3 { margin: 3px; }
-#footer { background: #999; color: #fff; bottom: 0; left: 0; right: 0; padding: 0.5em 1em; height: 1em; position: absolute; }
-#footer[data-listening] { cursor:pointer; background: #99C; }
-#footer:not([data-loading]) { -webkit-transition: background 1s; -moz-transition: background 1s; }
-#footer[data-loading] { background: #c90; }
+#content { margin: 1em; }
+
+/** Footer **/
+#footer { background: #999; color: #fff; bottom: 0; left: 0; right: 0; padding: 0.5em 1em; height: 1em; position: absolute; transition: background 1s; }
+#footer[data-listening] { cursor:pointer; background: #99c; }
+#footer[data-loading] {
+	background: linear-gradient(90deg, #99c, #99c 25%, #c95 50%, #99c 75%, #c95);
+	background-size: 400%;
+	animation: startloading 1s linear, loading 2s 1s linear infinite;
+}
+@keyframes startloading {
+    0%{ background-position: left; }
+    100%{ background-position: 25%; }
+}
+@keyframes loading {
+    0%{ background-position: 25%; }
+    100%{ background-position: right; }
+}
 #footer[data-failure] { background: #900; }
 #footer #lastUpdated { float: right; font-size: smaller; font-family: monospace; }
-#content { margin: 1em; }
 
 /* buttons */
 .innertext { display: block; }
