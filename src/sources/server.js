@@ -6,8 +6,8 @@
  const DATA_URL = '/data.json';
 
 function start() {
-	setInterval(loadFromServer, 30000);
-	loadFromServer();
+	setInterval(attemptServerLoad, 30000);
+	loadFromServer().catch(loadFromCache);
 }
 
 const Stop = require('../classes/stop'),
@@ -26,7 +26,10 @@ function loadFromServer() {
 		}).then(() => {
 			return response.json();
 		});
-	}).then(parseData).catch(error => {
+	}).then(parseData);
+}
+function attemptServerLoad() {
+	loadFromServer().catch(error => {
 		console.error("Can't load data from server", error);
 	});
 }

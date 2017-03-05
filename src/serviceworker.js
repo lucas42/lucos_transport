@@ -13,6 +13,7 @@ self.addEventListener('install', function swInstalled(event) {
 });
 
 function refreshResources() {
+	let errors = [];
 	return caches.open(RESOURCE_CACHE).then(function addUrlsToCache(cache) {
 		return cache.addAll([
 			'/resources/style.css',
@@ -23,9 +24,9 @@ function refreshResources() {
 			'/img/roundel-overground.png',
 		]);
 	}).catch(function (error) {
-		console.error("Failed to cache resources:", error.message);
+		errors.push("resources");
 	}).then(function () {
-		caches.open(TEMPLATE_CACHE).then(function addTemplateUrlsToCache(cache) {
+		return caches.open(TEMPLATE_CACHE).then(function addTemplateUrlsToCache(cache) {
 			return cache.addAll([
 				TEMPLATE_PATH + 'page.html',
 				TEMPLATE_PATH + 'routes.html',
@@ -35,8 +36,12 @@ function refreshResources() {
 			]);
 		});
 	}).catch(function (error) {
-		console.error("Failed to cache templates:", error.message);
-	}).then(serverSource.refresh);
+		errors.push("templates");
+	}).then(serverSource.refresh).catch(function (error) {
+		errors.push("data");
+	}).then(function () {
+		if (errors.length) throw "Failed to update "+errors.join()+".";
+	})
 }
 
 self.addEventListener('fetch', function respondToFetch(event) {

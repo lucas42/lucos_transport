@@ -54,13 +54,14 @@ function refresh() {
 	fetch('/refresh').then(response => {
 		if (response.status != 204) {
 			footer.dataset.failure = true;
+			response.text().then(text => {
+				console.error(text);
+			});
 		} else {
 			delete footer.dataset.failure;
 			speech.speak("Updated.");
 		}
 		delete footer.dataset.loading;
-
-		// TODO: display timestamp of data validitiy in footer
 	});
 
 }
