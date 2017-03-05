@@ -155,6 +155,7 @@ Event.prototype.getInterchanges = function getInterchanges() {
 		if (route.getCode().replace(/x$/, '') == vehicle.getRoute().getCode().replace(/x$/, '')) return;
 		var interchangedata = route.getData();
 		interchangedata['link'] = thisstop.getLink();
+		interchanges.push(interchangedata);
 		gotinterchanges[route.getIndex()] = true;
 	});
 
