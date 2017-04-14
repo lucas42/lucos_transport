@@ -158,7 +158,7 @@ body { background: #ccf; margin: 0; min-height: 100%; position: absolute; width:
 #content { margin: 1em; }
 
 /** Footer **/
-#footer { background: #999; color: #fff; bottom: 0; left: 0; right: 0; padding: 0.5em 1em; height: 1em; position: absolute; transition: background 1s; }
+#footer { background: #999; color: #fff; bottom: 0; left: 0; right: 0; height: 2em; position: absolute; transition: background 1s; }
 #footer[data-listening] { cursor:pointer; background: #99c; }
 #footer[data-loading] {
 	background: linear-gradient(90deg, #99c, #99c 25%, #c95 50%, #99c 75%, #c95);
@@ -174,7 +174,11 @@ body { background: #ccf; margin: 0; min-height: 100%; position: absolute; width:
     100%{ background-position: right; }
 }
 #footer[data-failure] { background: #900; }
-#footer #lastUpdated { float: right; font-size: smaller; font-family: monospace; }
+#footer #lastUpdated { float: right; font-size: smaller; font-family: monospace; margin: 0.8em; }
+
+.soundButton { float: left; border-radius: 1em; color: white; font-size: 1.5em; border: none; padding: 0 0.5em; background: none; }
+.soundButton:before { content:"🔇"; }
+.soundButton[data-enabled]:before { content: "🔊"; }
 
 /* buttons */
 .innertext { display: block; }

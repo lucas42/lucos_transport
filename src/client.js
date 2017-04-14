@@ -1,19 +1,31 @@
 const Pubsub = require('lucos_pubsub'),
-speech = require("mespeak");
-
-// Setup voice module
-speech.loadConfig(require("mespeak/src/mespeak_config.json"));
-speech.loadVoice(require("mespeak/voices/en/en-rp.json"));
+	Announcements = require('./announcements');
 
 function pageLoad() {
 	(function initFooter() {
 		const footer = document.getElementById('footer');
+
+		const soundButton = document.createElement("button");
+		soundButton.setAttribute("class", "soundButton");
+		soundButton.addEventListener("click", toggleSound);
+		footer.appendChild(soundButton);
 
 		// The data-refreshable flag should only be set on pages served by service worker
 		if (!footer || !footer.dataset.refreshable) return;
 		footer.addEventListener("click", refresh, false);
 		footer.dataset.listening = true;
 	 })();
+}
+
+function toggleSound(event) {
+	if (this.dataset.enabled) {
+		Announcements.disable();
+		delete this.dataset.enabled;
+	} else {
+		Announcements.enable();
+		this.dataset.enabled = true;
+	}
+	event.stopPropagation();
 }
 
 
@@ -34,7 +46,7 @@ function refresh() {
 			});
 		} else {
 			delete footer.dataset.failure;
-			speech.speak("Updated.");
+			Pubsub.send('refreshComplete');
 		}
 		delete footer.dataset.loading;
 	});
