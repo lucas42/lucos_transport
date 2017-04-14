@@ -20,12 +20,15 @@ Event.prototype.getData = function getData(source) {
 	output.stationReadableTime = getHumanReadableRelTime(output.secondsTo, "Platform");
 	output.vehicleReadableTime = getHumanReadableRelTime(output.secondsTo, "Vehicle");
 	output.source = source;
-	output.id = "event-" + this.getIndex();
-	if (source == "Platform") {
+	if (source == "Platform" || source == "Both") {
 		var vehicledata = this.getVehicle().getData();
-		for (var i in vehicledata) output[i] = vehicledata[i];
+		for (var i in vehicledata) {
+			if (i == "classID" || i == "classType") continue;
+			output[i] = vehicledata[i];
+		}
+		output.vehicle = vehicledata;
 	}
-	if (source == "Vehicle") {
+	if (source == "Vehicle" || source == "Both") {
 		output["platform"] = this.getPlatform().getData();
 		output["stop"] = this.getPlatform().getStop().getData();
 
@@ -184,9 +187,9 @@ Event.prototype.updateRelTime = function updateRelTime() {
 	this.setField('secondsTo', secondsTo);
 	this.setField('passed', secondsTo < -30);
 	if (oldSecondsTo >= 1 && secondsTo < 1) {
-		Pubsub.send("eventArrived", this);
+		Pubsub.clientBroadcast("eventArrived", this.getData("Both"));
 	} else if (oldSecondsTo >= 30 && secondsTo < 30) {
-		Pubsub.send("eventApproaching", this);
+		Pubsub.clientBroadcast("eventApproaching", this.getData("Both"));
 	}
 
 	// Events which happened more than half a minute ago are irrelevant.

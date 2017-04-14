@@ -10,11 +10,6 @@ function speak(message) {
 speech.loadConfig(require("mespeak/src/mespeak_config.json"));
 speech.loadVoice(require("mespeak/voices/en/en-rp.json"));
 
-Pubsub.listen('refreshComplete', function () {
-	speak("Updated.");
-})
-
-
 module.exports = {
 	enable: function () {
 		localStorage.setItem("enabled", true);
@@ -26,3 +21,26 @@ module.exports = {
 		return !!localStorage.getItem("enabled");
 	}
 }
+
+
+
+
+Pubsub.listen('refreshComplete', function () {
+	speak("Updated.");
+});
+
+switch(document.body.dataset.classtype) {
+	case "Stop":
+		Pubsub.listen('eventApproaching', function (data) {
+			if (document.body.dataset.classid != data.stop.classID) return;
+			speak("The next vehicle arriving at "+data.platform.name+" is for "+data.vehicle.simpleDestination);
+		});
+		break;
+	case "Vehicle":
+		Pubsub.listen('eventApproaching', function (data) {
+			if (document.body.dataset.classid != data.vehicle.classID) return;
+			speak("The next stop is "+data.stop.simpleName);
+		});
+		break;
+}
+

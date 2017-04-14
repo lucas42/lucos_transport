@@ -89,7 +89,10 @@ function Class(classname, keynames, constructor) {
 			data = newdata;
 		};
 		instance.getRawData = function getRawData() {
-			var output = {};
+			var output = {
+				classType: classname,
+				classID: classname+'-'+this.getIndex(),
+			};
 			for (var i in data) {
 				output[i] = data[i];
 			}

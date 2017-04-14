@@ -4,12 +4,12 @@
 		{{/lines}}
 	</div>-->
 	{{#platforms}}
-		<div class="route {{cssClass}}" data-platformid="{{id}}">
+		<div class="route {{cssClass}}" data-platformid="{{classID}}">
 			<h3 class='platform_name'><span class='innertext'>{{name}}</span></h3>
 			<table class='departure_board'>
 			<tbody>
 				{{#events}}
-					<tr class="vehicle{{#ghost}} ghost{{/ghost}}" data-line="{{line}}" data-route="{{route}}" id="{{id}}" data-eventtype="station">
+					<tr class="vehicle{{#ghost}} ghost{{/ghost}}" data-line="{{line}}" data-route="{{route}}" id="{{classID}}" data-eventtype="station">
 						<td><a href="{{link}}">{{simpleDestination}}</a></td>
 						<td><a href="{{link}}" class='departtime' data-time='{{time}}' data-source='{{source}}'>{{stationReadableTime}}</a></td>
 					</tr>
