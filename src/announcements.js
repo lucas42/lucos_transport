@@ -33,7 +33,7 @@ switch(document.body.dataset.classtype) {
 	case "Stop":
 		Pubsub.listen('eventApproaching', function (data) {
 			if (document.body.dataset.classid != data.stop.classID) return;
-			speak("The next vehicle arriving at "+data.platform.name+" is for "+data.vehicle.simpleDestination);
+			speak("The next "+data.vehicle.vehicleType+" arriving at "+data.platform.simpleName+" is for "+data.vehicle.simpleDestination);
 		});
 		break;
 	case "Vehicle":

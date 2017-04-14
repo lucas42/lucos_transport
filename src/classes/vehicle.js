@@ -29,6 +29,24 @@ Vehicle.prototype.getCssClass = function getCssClass() {
 Vehicle.prototype.getSimpleDestination = function getSimpleDestination() {
 	return Stop.simplifyName(this.getField("destination"));
 }
+Vehicle.prototype.getVehicleType = function getType() {
+	switch (this.getRoute().getNetwork().getCode()) {
+		case "dlr":
+		case "tube":
+		case "tflrail":
+		case "overground":
+		case "national-rail":
+			return "train";
+		case "river-bus":
+			return "boat";
+		case "tram":
+			return "tram";
+		case "bus":
+			return "bus";
+		default:
+			return "vehicle";
+	}
+}
 Vehicle.prototype.getData = function getData() {
 	var output = this.getRawData();
 	output.link = this.getLink();
@@ -45,6 +63,7 @@ Vehicle.prototype.getData = function getData() {
 	} else {
 		output.title = this.getRoute().getQualifiedName() + " " + this.getCode();
 	}
+	output.vehicleType = this.getVehicleType();
 	return output;
 }
 Vehicle.prototype.refresh = function refresh(callback) {

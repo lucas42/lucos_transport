@@ -31,6 +31,11 @@ Platform.prototype.getData = function getData() {
 	output.title = output.name;
 	output.link = this.getLink();
 	output.cssClass = this.getCssClass();
+	output.simpleName = this.getSimpleName();
 	return output;
+}
+Platform.prototype.getSimpleName = function getSimpleName() {
+	var name = this.getName() || "";
+	return name.replace(/.*\- */, '');
 }
 module.exports = Platform;
