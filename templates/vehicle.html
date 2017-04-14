@@ -4,7 +4,7 @@
 			<h3 class='journeyname'><span class='routename'>{{routeName}}</span></h3>
 			<ul class='route'>
 			{{#events}}
-				<li class="stop{{#isinterchange}} interchange{{/isinterchange}}">
+				<li class="stop{{#isinterchange}} interchange{{/isinterchange}}" id="{{id}}" data-eventtype="vehicle">
 					{{#isinterchange}}
 						<ul class='interchanges'>
 						{{#interchanges}}
@@ -24,7 +24,7 @@
 						{{/interchanges}}
 						</ul>
 					{{/isinterchange}}
-					{{#platform}}<a href="{{link}}" class='stoptime' data-time='{{time}}' data-source='{{source}}'>{{humanReadableTime}}</a><a href="{{link}}"> &gt; {{#stop}}{{simpleName}}{{/stop}} {{platform.name}}</a>{{/platform}}
+					{{#platform}}<a href="{{link}}" class='stoptime' data-time='{{time}}' data-source='{{source}}'>{{vehicleReadableTime}}</a><a href="{{link}}"> &gt; {{#stop}}{{simpleName}}{{/stop}} {{platform.name}}</a>{{/platform}}
 					<div class='symbols'>
 					{{#symbols}}
 						<img src="{{src}}" alt="{{alt}}" title="{{alt}}" class="symbol" />

@@ -1,36 +1,11 @@
-var Event = require('./classes/event');
-var Vehicle = require('./classes/vehicle');
-var Route = require('./classes/route');
-var Network = require('./classes/network');
-var Stop = require('./classes/stop');
-var Platform = require('./classes/platform');
-var Pubsub = require('lucos_pubsub');
-var speech = require("mespeak");
+const Pubsub = require('lucos_pubsub'),
+speech = require("mespeak");
 
 // Setup voice module
 speech.loadConfig(require("mespeak/src/mespeak_config.json"));
 speech.loadVoice(require("mespeak/voices/en/en-rp.json"));
 
-
-// HACK: make up stub objects because all we care about is events for now
-var network = new Network('null');
-var route = new Route(network,'null');
-var vehicle = new Vehicle(route, 'null');
-var stop = new Stop(network, 'null');
-var platform = new Platform(stop, null);
-
 function pageLoad() {
-	var eventNodes = document.querySelectorAll('.departtime, .stoptime');
-	for (var i=0; i < eventNodes.length; i++) {
-		var eventNode = eventNodes[i];
-
-		// HACK: just make up a new vehicle for each event on the page for now
-		var event = new Event(new Vehicle(route, i), platform);
-		event.setField('time', new Date(eventNode.dataset.time));
-		event.setField('DOMNode', eventNode);
-		event.updateRelTime();
-
-	}
 	(function initFooter() {
 		const footer = document.getElementById('footer');
 
@@ -76,25 +51,21 @@ if (Document.readyState == "loading") {
 }
 
 // When the event's time changes, update the DOM accordingly
-Pubsub.listen('updateEventTime', function (event) {
-	var eventNode = event.getField('DOMNode');
-	if (!eventNode) return;
-	eventNode.textContent = event.getData(eventNode.dataset.source).humanReadableTime;
+Pubsub.listen('updateEventTime', function (eventData) {
+	var DOMNode = document.getElementById(eventData.id);
+	if (!DOMNode) return;
+	if (DOMNode.dataset.eventtype == "vehicle") {
+		DOMNode.querySelector('.stoptime').textContent = eventData.vehicleReadableTime;
+	} else if (DOMNode.dataset.eventtype == "station") {
+		DOMNode.querySelector('.departtime').textContent = eventData.stationReadableTime;
+	}
 });
 
 // When an event is removed, remove it from the DOM too.
-Pubsub.listen('eventRemoved', function (event) {
-	var eventNode = event.getField('DOMNode');
-	if (!eventNode) return;
-	if (eventNode.dataset.source == "Vehicle") {
-		var stop = eventNode.parentNode;
-		var route = stop.parentNode;
-		route.removeChild(stop);
-	} else if (eventNode.dataset.source == "Platform") {
-		var vehicle = eventNode.parentNode.parentNode;
-		var boardlist = vehicle.parentNode;
-		boardlist.removeChild(vehicle);
-	}
+Pubsub.listen('eventRemoved', function (eventData) {
+	var DOMNode = document.getElementById(eventData.id);
+	if (!DOMNode) return;
+	DOMNode.parentNode.removeChild(DOMNode);
 });
 
 

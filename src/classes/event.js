@@ -10,15 +10,17 @@ var Event = Class("Event", ["vehicle", "platform"], function () {
 	Pubsub.listen('updateTimes', eventupdates);
 	thisevent.tidyup = function tidyup() {
 		Pubsub.unlisten('updateTimes', eventupdates);
-		Pubsub.send("eventRemoved", thisevent);
+		Pubsub.clientBroadcast("eventRemoved", thisevent.getData());
 	};
 	thisevent.updateRelTime();
 });
 
 Event.prototype.getData = function getData(source) {
 	var output = this.getRawData();
-	output.humanReadableTime = getHumanReadableRelTime(output.secondsTo, source);
+	output.stationReadableTime = getHumanReadableRelTime(output.secondsTo, "Platform");
+	output.vehicleReadableTime = getHumanReadableRelTime(output.secondsTo, "Vehicle");
 	output.source = source;
+	output.id = "event-" + this.getIndex();
 	if (source == "Platform") {
 		var vehicledata = this.getVehicle().getData();
 		for (var i in vehicledata) output[i] = vehicledata[i];
@@ -191,7 +193,7 @@ Event.prototype.updateRelTime = function updateRelTime() {
 	if (secondsTo < -30) {
 		this.deleteSelf();
 	}
-	Pubsub.send('updateEventTime', this);
+	Pubsub.clientBroadcast('updateEventTime', this.getData());
 }
 Event.sortByTime = function sortByTime(a, b) {
 	return new Date(a.getField('time')) - new Date(b.getField('time'));

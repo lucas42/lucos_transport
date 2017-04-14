@@ -9,9 +9,9 @@
 			<table class='departure_board'>
 			<tbody>
 				{{#events}}
-					<tr class="vehicle{{#ghost}} ghost{{/ghost}}" data-line="{{line}}" data-route="{{route}}">
+					<tr class="vehicle{{#ghost}} ghost{{/ghost}}" data-line="{{line}}" data-route="{{route}}" id="{{id}}" data-eventtype="station">
 						<td><a href="{{link}}">{{simpleDestination}}</a></td>
-						<td><a href="{{link}}" class='departtime' data-time='{{time}}' data-source='{{source}}'>{{humanReadableTime}}</a></td>
+						<td><a href="{{link}}" class='departtime' data-time='{{time}}' data-source='{{source}}'>{{stationReadableTime}}</a></td>
 					</tr>
 				{{/events}}
 			</tbody>
