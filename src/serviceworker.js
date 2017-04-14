@@ -142,7 +142,9 @@ function render(templateid, options) {
 		}
 		return populateTemplate('page', options);
 	}).then(html => {
-		return new Response(new Blob([html]));
+		return new Response(new Blob([html]), {
+			headers: { "Content-Type": "text/html; charset=utf-8" }
+		});
 	});
 }
 

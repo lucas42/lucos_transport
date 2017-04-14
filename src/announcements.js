@@ -1,10 +1,8 @@
 const speech = require("mespeak"),
 	Pubsub = require('lucos_pubsub');
 
-var enabled = false;
-
 function speak(message) {
-	if (!enabled) return;
+	if (!localStorage.getItem("enabled")) return;
 	speech.speak(message);
 }
 
@@ -19,9 +17,12 @@ Pubsub.listen('refreshComplete', function () {
 
 module.exports = {
 	enable: function () {
-		enabled = true;
+		localStorage.setItem("enabled", true);
 	},
 	disable: function () {
-		enabled = false;
+		localStorage.removeItem("enabled");
 	},
+	isEnabled: function () {
+		return !!localStorage.getItem("enabled");
+	}
 }

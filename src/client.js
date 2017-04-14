@@ -8,6 +8,7 @@ function pageLoad() {
 		const soundButton = document.createElement("button");
 		soundButton.setAttribute("class", "soundButton");
 		soundButton.addEventListener("click", toggleSound);
+		updateSoundButton(soundButton);
 		footer.appendChild(soundButton);
 
 		// The data-refreshable flag should only be set on pages served by service worker
@@ -20,14 +21,23 @@ function pageLoad() {
 function toggleSound(event) {
 	if (this.dataset.enabled) {
 		Announcements.disable();
-		delete this.dataset.enabled;
 	} else {
 		Announcements.enable();
-		this.dataset.enabled = true;
 	}
+	updateSoundButton(this);
 	event.stopPropagation();
 }
-
+function updateSoundButton(soundButton) {
+	if (Announcements.isEnabled()) {
+		soundButton.dataset.enabled = true;
+		soundButton.setAttribute("title", "Sound Enabled");
+		soundButton.textContent = "🔊";
+	} else {
+		delete soundButton.dataset.enabled;
+		soundButton.setAttribute("title", "Sound Muted");
+		soundButton.textContent = "🔇";
+	}
+}
 
 /**
  * Refresh the client-side data
