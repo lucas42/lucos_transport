@@ -1,9 +1,21 @@
 const speech = require("mespeak"),
 	Pubsub = require('lucos_pubsub');
 
+var queue = [];
+var isSpeaking = false;
 function speak(message) {
 	if (!localStorage.getItem("enabled")) return;
-	speech.speak(message);
+	if (isSpeaking) {
+		queue.push(message);
+		return;
+	}
+	isSpeaking = true;
+	speech.speak(message, {}, function doneSpeaking() {
+		isSpeaking = false;
+		if (queue.length) {
+			speak(queue.shift());
+		}
+	});
 }
 
 // Setup voice module
