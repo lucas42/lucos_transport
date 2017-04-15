@@ -55,8 +55,10 @@ self.addEventListener('fetch', function respondToFetch(event) {
 				case '':
 					return render('routes', {
 						routes: Route.getAllData(),
+						routeData: JSON.stringify(Route.getAllData()),
 						lastUpdated: Route.getOldestUpdateTime(),
 						cssClass: 'homepage',
+						classType: 'RouteList',
 						title: 'TFLuke',
 					});
 				case 'route':

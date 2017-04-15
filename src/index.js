@@ -30,8 +30,10 @@ app.get('/', function(req, res) {
 	res.set('Cache-Control', 'public, max-age=0');
 	res.render('routes', {
 		routes: Route.getAllData(),
+		routeData: JSON.stringify(Route.getAllData()),
 		lastUpdated: Route.getOldestUpdateTime(),
 		cssClass: 'homepage',
+		classType: 'RouteList',
 		title: 'TFLuke',
 	});
 });
