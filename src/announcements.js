@@ -72,8 +72,13 @@ function init(type, id, extraData, callback) {
 		var maxstate = {count: 0, name: 'nError'};
 		for (let status in states) {
 			if (states[status].count > maxstate.count) {
-				maxstate = {count: states[status].length, name: status}
+				maxstate = {count: states[status].count, name: status}
 			}
+		}
+
+		// If all no state has a count of more than 0, then there's no point proceeding
+		if (maxstate.count == 0) {
+			return "Unable to Retrieve Status Updates";
 		}
 		let midList = false;
 

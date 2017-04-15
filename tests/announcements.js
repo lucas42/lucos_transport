@@ -13,3 +13,9 @@ test('Good Service Homepage Announcment', test => {
 		test.is(text, "There is a Good Service on all London Underground Lines, the DLR, London Overground, all River Bus Services, TfL Rail and London Trams.");
 	});
 });
+test('Blank Data Announcment', test => {
+	var routeData = [{"name":"dlr","network":"dlr"},{"name":"bus","network":"bus"},{"name":"national-rail","network":"national-rail"},{"name":"rb1","network":"river-bus"},{"name":"rb1x","network":"river-bus"},{"name":"rb2","network":"river-bus"},{"name":"rb4","network":"river-bus"},{"name":"rb5","network":"river-bus"},{"name":"rb6","network":"river-bus"}];
+		Announcements('RouteList', null, {routes: routeData}, text => {
+		test.is(text, "Unable to Retrieve Status Updates");
+	});
+});
