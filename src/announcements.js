@@ -110,7 +110,6 @@ function init(type, id, extraData, callback) {
 			function listRoutes(routes, listLength) {
 				routes.forEach(route => {
 					appendConjuction(routeCount, listLength);
-					if (route.name == "Overground" && listLength == 1) text += "London ";
 					text += route.name;
 					midList = true;
 					routeCount++;
@@ -127,7 +126,17 @@ function init(type, id, extraData, callback) {
 			let numRoutes = states[maxstate.name].networks[network].length;
 			appendConjuction(networkCount, numNetworks);
 			if (networkTotals[network] == 1) {
-				text += "the " + network;
+				if (networkTotals[network] == 1) {
+					if (network == "dlr") {
+						text += "the DLR";
+					} else if (network == "tram") {
+						text += "London Trams";
+					} else {
+						text += states[maxstate.name].networks[network][0].name
+					}
+				} else {
+					text += "the " + network;
+				}
 			} else {
 				if (numRoutes == networkTotals[network]) {
 					text += "all ";
