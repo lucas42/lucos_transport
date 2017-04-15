@@ -4,7 +4,7 @@
   "description": "Travel App",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "ava",
     "build": "mkdir -p bin && browserify src/client.js -o bin/clientscripts.js && browserify src/serviceworker.js -o bin/serviceworker.js",
     "start": "node src/index.js"
   },
@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/lucas42/lucos_transport",
   "devDependencies": {
+    "ava": "^0.19.1",
     "browserify": "^13.0.0"
   },
   "dependencies": {
@@ -38,5 +39,10 @@
   },
   "engines": {
     "node": "0.10.x"
+  },
+  "ava": {
+    "files": [
+      "tests/*.js"
+    ]
   }
 }
