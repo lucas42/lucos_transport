@@ -1,5 +1,5 @@
 const Pubsub = require('lucos_pubsub'),
-	Announcements = require('./announcements');
+	Sound = require('./sound');
 
 function pageLoad() {
 	(function initFooter() {
@@ -20,15 +20,15 @@ function pageLoad() {
 
 function toggleSound(event) {
 	if (this.dataset.enabled) {
-		Announcements.disable();
+		Sound.disable();
 	} else {
-		Announcements.enable();
+		Sound.enable();
 	}
 	updateSoundButton(this);
 	event.stopPropagation();
 }
 function updateSoundButton(soundButton) {
-	if (Announcements.isEnabled()) {
+	if (Sound.isEnabled()) {
 		soundButton.dataset.enabled = true;
 		soundButton.setAttribute("title", "Sound Enabled");
 		soundButton.textContent = "🔊";
