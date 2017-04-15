@@ -54,8 +54,8 @@ self.addEventListener('fetch', function respondToFetch(event) {
 			switch (tokens[1]){
 				case '':
 					return render('routes', {
-						routes: Route.getAllData(),
-						routeData: JSON.stringify(Route.getAllData()),
+						routes: Route.getRouteList(),
+						routeData: JSON.stringify(Route.getRouteList(true)),
 						lastUpdated: Route.getOldestUpdateTime(),
 						cssClass: 'homepage',
 						classType: 'RouteList',

@@ -20,6 +20,13 @@ Route.prototype.getData = function getData() {
 	output.code = this.getCode();
 	return output;
 }
+Route.prototype.getLiteData = function getLiteData() {
+	return {
+		status: this.getField("status"),
+		name: this.getField("name"),
+		network: this.getNetwork().getCode(),
+	};
+}
 Route.prototype.getLink = function getLink() {
 	return "/route/"+encodeURIComponent(this.getNetwork().getCode())+"/"+encodeURIComponent(this.getCode());
 }
@@ -59,12 +66,12 @@ Route.sort = function sortRoutes(a, b) {
 	}
 	return a.getField("title") > b.getField("title") ? 1 : -1;
 }
-Route.getAllData = function () {
+Route.getRouteList = function (liteData) {
 	var routedata = [];
 	var routes = Route.getAll().sort(Route.sort);
-	for (var i in routes) {
-		routedata.push(routes[i].getData());
-	}
+	routes.forEach(function (route) {
+		routedata.push(liteData ? route.getLiteData() : route.getData());
+	});
 	return routedata;
 }
 Route.getOldestUpdateTime = function () {
