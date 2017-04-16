@@ -51,7 +51,8 @@ self.addEventListener('fetch', function respondToFetch(event) {
 		if (response) return response;
 		var tokens = url.pathname.split('/');
 		if (tokens[1] == 'refresh') {
-			return refreshResources().then(function () {
+			var refreshCommand = (tokens[2] == 'all') ? refreshResources : serverSource.refresh;
+			return refreshCommand().then(function () {
 				return new Response(null, {status: 204});
 			}).catch(function (error) {
 				return new Response(new Blob([error]), {status: 502});
