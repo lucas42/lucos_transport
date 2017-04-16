@@ -4,57 +4,49 @@ const Pubsub = require("lucos_pubsub");
 
 test('Easter Homepage Announcement', test => {
 	var routeData = [{"status":"Good Service","name":"Bakerloo","network":"tube"},{"status":"Good Service","name":"Central","network":"tube"},{"status":"Part Closure","name":"Circle","network":"tube"},{"status":"Part Closure","name":"District","network":"tube"},{"status":"Part Closure","name":"Hammersmith & City","network":"tube"},{"status":"Good Service","name":"Jubilee","network":"tube"},{"status":"Part Closure","name":"Metropolitan","network":"tube"},{"status":"Good Service","name":"Northern","network":"tube"},{"status":"Good Service","name":"Piccadilly","network":"tube"},{"status":"Good Service","name":"Victoria","network":"tube"},{"status":"Good Service","name":"Waterloo & City","network":"tube"},{"status":"Part Closure","name":"DLR","network":"dlr"},{"status":"Part Closure","name":"London Overground","network":"overground"},{"status":"Good Service","name":"RB1","network":"river-bus"},{"status":"Good Service","name":"RB1X","network":"river-bus"},{"status":"Good Service","name":"RB2","network":"river-bus"},{"status":"Good Service","name":"RB4","network":"river-bus"},{"status":"Good Service","name":"RB5","network":"river-bus"},{"status":"Good Service","name":"RB6","network":"river-bus"},{"status":"Minor Delays","name":"TfL Rail","network":"tflrail"},{"status":"Part Closure","name":"Tram","network":"tram"},{"status":"Good Service","name":"Woolwich Ferry","network":"river-bus"},{"name":"bus","network":"bus"},{"name":"national-rail","network":"national-rail"}];
-	Announcements('RouteList', null, {routes: routeData}, text => {
+	Announcements('RouteList', {routes: routeData}, text => {
 		test.is(text, "There is a Part Closure on the Circle, District, Hammersmith & City and Metropolitan Lines.  There is also a Part Closure on the DLR, London Overground and London Trams.  There are Minor Delays on TfL Rail.  There is a Good Service on other London Underground Lines and all River Bus Services.");
 	});
 });
 test('Good Service Homepage Announcement', test => {
 	var routeData = [{"status":"Good Service","name":"Bakerloo","network":"tube"},{"status":"Good Service","name":"Central","network":"tube"},{"status":"Good Service","name":"Circle","network":"tube"},{"status":"Good Service","name":"District","network":"tube"},{"status":"Good Service","name":"Hammersmith & City","network":"tube"},{"status":"Good Service","name":"Jubilee","network":"tube"},{"status":"Good Service","name":"Metropolitan","network":"tube"},{"status":"Good Service","name":"Northern","network":"tube"},{"status":"Good Service","name":"Piccadilly","network":"tube"},{"status":"Good Service","name":"Victoria","network":"tube"},{"status":"Good Service","name":"Waterloo & City","network":"tube"},{"status":"Good Service","name":"DLR","network":"dlr"},{"status":"Good Service","name":"London Overground","network":"overground"},{"status":"Good Service","name":"RB1","network":"river-bus"},{"status":"Good Service","name":"RB1X","network":"river-bus"},{"status":"Good Service","name":"RB2","network":"river-bus"},{"status":"Good Service","name":"RB4","network":"river-bus"},{"status":"Good Service","name":"RB5","network":"river-bus"},{"status":"Good Service","name":"RB6","network":"river-bus"},{"status":"Good Service","name":"TfL Rail","network":"tflrail"},{"status":"Good Service","name":"Tram","network":"tram"},{"status":"Good Service","name":"Woolwich Ferry","network":"river-bus"},{"name":"bus","network":"bus"},{"name":"national-rail","network":"national-rail"}];
-	Announcements('RouteList', null, {routes: routeData}, text => {
+	Announcements('RouteList', {routes: routeData}, text => {
 		test.is(text, "There is a Good Service on all London Underground Lines, the DLR, London Overground, all River Bus Services, TfL Rail and London Trams.");
 	});
 });
 test('Blank Data Announcement', test => {
 	var routeData = [{"name":"dlr","network":"dlr"},{"name":"bus","network":"bus"},{"name":"national-rail","network":"national-rail"},{"name":"rb1","network":"river-bus"},{"name":"rb1x","network":"river-bus"},{"name":"rb2","network":"river-bus"},{"name":"rb4","network":"river-bus"},{"name":"rb5","network":"river-bus"},{"name":"rb6","network":"river-bus"}];
-		Announcements('RouteList', null, {routes: routeData}, text => {
+		Announcements('RouteList', {routes: routeData}, text => {
 		test.is(text, "Unable to Retrieve Status Updates");
 	});
 });
 test('Night Tube Announcement', test => {
 	var routeData = [{"status":"Service Closed","name":"Bakerloo","network":"tube"},{"status":"Good Service","name":"Central","network":"tube"},{"status":"Part Closure","name":"Circle","network":"tube"},{"status":"Part Closure","name":"District","network":"tube"},{"status":"Part Closure","name":"Hammersmith & City","network":"tube"},{"status":"Good Service","name":"Jubilee","network":"tube"},{"status":"Part Closure","name":"Metropolitan","network":"tube"},{"status":"Good Service","name":"Northern","network":"tube"},{"status":"Good Service","name":"Piccadilly","network":"tube"},{"status":"Severe Delays","name":"Victoria","network":"tube"},{"status":"Service Closed","name":"Waterloo & City","network":"tube"},{"status":"Part Closure","name":"DLR","network":"dlr"},{"status":"Part Closure","name":"London Overground","network":"overground"},{"status":"Good Service","name":"RB1","network":"river-bus"},{"status":"Good Service","name":"RB1X","network":"river-bus"},{"status":"Good Service","name":"RB2","network":"river-bus"},{"status":"Good Service","name":"RB4","network":"river-bus"},{"status":"Good Service","name":"RB5","network":"river-bus"},{"status":"Good Service","name":"RB6","network":"river-bus"},{"status":"Severe Delays","name":"TfL Rail","network":"tflrail"},{"status":"Part Closure","name":"Tram","network":"tram"},{"status":"Good Service","name":"Woolwich Ferry","network":"river-bus"},{"name":"bus","network":"bus"},{"name":"national-rail","network":"national-rail"}];
-	Announcements('RouteList', null, {routes: routeData}, text => {
+	Announcements('RouteList', {routes: routeData}, text => {
 		test.is(text, "The Baykerloo and Waterloo & City Lines are closed.  There is a Part Closure on the Circle, District, Hammersmith & City and Metropolitan Lines.  There is also a Part Closure on the DLR, London Overground and London Trams.  There are Severe Delays on the Victoria Line and TfL Rail.  There is a Good Service on other London Underground Lines and all River Bus Services.");
 	});
 });
 test('All Closed Homepage Announcement', test => {
 	var routeData = [{"status":"Service Closed","name":"Bakerloo","network":"tube"},{"status":"Service Closed","name":"Central","network":"tube"},{"status":"Service Closed","name":"Circle","network":"tube"},{"status":"Service Closed","name":"District","network":"tube"},{"status":"Service Closed","name":"Hammersmith & City","network":"tube"},{"status":"Service Closed","name":"Jubilee","network":"tube"},{"status":"Service Closed","name":"Metropolitan","network":"tube"},{"status":"Service Closed","name":"Northern","network":"tube"},{"status":"Service Closed","name":"Piccadilly","network":"tube"},{"status":"Service Closed","name":"Victoria","network":"tube"},{"status":"Service Closed","name":"Waterloo & City","network":"tube"},{"status":"Service Closed","name":"DLR","network":"dlr"},{"status":"Service Closed","name":"London Overground","network":"overground"},{"status":"Service Closed","name":"RB1","network":"river-bus"},{"status":"Service Closed","name":"RB1X","network":"river-bus"},{"status":"Service Closed","name":"RB2","network":"river-bus"},{"status":"Service Closed","name":"RB4","network":"river-bus"},{"status":"Service Closed","name":"RB5","network":"river-bus"},{"status":"Service Closed","name":"RB6","network":"river-bus"},{"status":"Service Closed","name":"TfL Rail","network":"tflrail"},{"status":"Service Closed","name":"Tram","network":"tram"},{"status":"Service Closed","name":"Woolwich Ferry","network":"river-bus"},{"name":"bus","network":"bus"},{"name":"national-rail","network":"national-rail"}];
-	Announcements('RouteList', null, {routes: routeData}, text => {
+	Announcements('RouteList', {routes: routeData}, text => {
 		test.is(text, "All London Underground Lines, the DLR, London Overground, all River Bus Services, TfL Rail and London Trams are closed.");
 	});
 });
 test('Planned Closure and Service Closed Announcement', test => {
 	var routeData = [{"status":"Good Service","name":"Bakerloo","network":"tube"},{"status":"Good Service","name":"Central","network":"tube"},{"status":"Part Closure","name":"Circle","network":"tube"},{"status":"Part Closure","name":"District","network":"tube"},{"status":"Part Closure","name":"Hammersmith & City","network":"tube"},{"status":"Good Service","name":"Jubilee","network":"tube"},{"status":"Part Closure","name":"Metropolitan","network":"tube"},{"status":"Good Service","name":"Northern","network":"tube"},{"status":"Good Service","name":"Piccadilly","network":"tube"},{"status":"Planned Closure","name":"Victoria","network":"tube"},{"status":"Service Closed","name":"Waterloo & City","network":"tube"},{"status":"Part Closure","name":"DLR","network":"dlr"},{"status":"Part Closure","name":"London Overground","network":"overground"},{"status":"Good Service","name":"RB1","network":"river-bus"},{"status":"Good Service","name":"RB1X","network":"river-bus"},{"status":"Good Service","name":"RB2","network":"river-bus"},{"status":"Good Service","name":"RB4","network":"river-bus"},{"status":"Good Service","name":"RB5","network":"river-bus"},{"status":"Good Service","name":"RB6","network":"river-bus"},{"status":"Planned Closure","name":"TfL Rail","network":"tflrail"},{"status":"Part Closure","name":"Tram","network":"tram"},{"status":"Good Service","name":"Woolwich Ferry","network":"river-bus"},{"name":"bus","network":"bus"},{"name":"national-rail","network":"national-rail"}];
-	Announcements('RouteList', null, {routes: routeData}, text => {
+	Announcements('RouteList', {routes: routeData}, text => {
 		test.is(text, "There is a Part Closure on the Circle, District, Hammersmith & City and Metropolitan Lines.  There is also a Part Closure on the DLR, London Overground and London Trams.  The Victoria Line, Waterloo & City Line and TfL Rail are closed.  There is a Good Service on other London Underground Lines and all River Bus Services.");
 	});
 });
 test('Refresh Announcement', test => {
-	Announcements(null, null, null, text => {
+	Announcements(null, null, text => {
 		test.is(text, "Updated.");
 	});
 	Pubsub.send('refreshComplete');
 });
 test('Train - approaching station Announcement', test => {
-	Announcements("Vehicle", 'id123', null, text => {
+	Announcements("Vehicle", null, text => {
 		test.is(text, "The next stop is Uxbridge");
-	});
-	Pubsub.send('eventApproaching', {
-		vehicle: {
-			classID: 'id246',
-		},
-		stop: {
-			simpleName: 'Upminster'
-		}
 	});
 	Pubsub.send('eventApproaching', {
 		vehicle: {
@@ -66,23 +58,8 @@ test('Train - approaching station Announcement', test => {
 	});
 });
 test('Pier - boat arrived Announcement', test => {
-	Announcements("Stop", 'id987', null, text => {
+	Announcements("Stop", null, text => {
 		test.is(text, "The boat at Pier C is an RB1X boat to North Greenwich");
-	});
-	Pubsub.send('eventArrived', {
-		vehicle: {
-			classID: 'id246',
-			vehicleType: 'hovercraft',
-			routeName: 'HC3',
-			simpleDestination: "Hogwarts",
-			},
-		stop: {
-			classID: 'id234',
-			simpleName: 'Upminster',
-		},
-		platform: {
-			simpleName: "Platform 9 and three quarters",
-		}
 	});
 	Pubsub.send('eventArrived', {
 		vehicle: {
@@ -101,7 +78,7 @@ test('Pier - boat arrived Announcement', test => {
 	});
 });
 test('Platform - train approaching Announcement', test => {
-	Announcements("Stop", 'id846', null, text => {
+	Announcements("Stop", null, text => {
 		test.is(text, "The next train at Platform 9¾ will be a Baykerloo Line train to Hogsmeade");
 	});
 	Pubsub.send('eventApproaching', {

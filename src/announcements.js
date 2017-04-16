@@ -1,5 +1,5 @@
 const Pubsub = require('lucos_pubsub');
-function init(type, id, extraData, callback) {
+function init(type, extraData, callback) {
 
 
 	Pubsub.listen('refreshComplete', function () {
@@ -9,27 +9,23 @@ function init(type, id, extraData, callback) {
 	switch(type) {
 		case "Stop":
 			Pubsub.listen('eventApproaching', function (data) {
-				if (id != data.stop.classID) return;
 				callback(getStopAnnouncement(data, false));
 			});
 			Pubsub.listen('eventArrived', function (data) {
-				if (id != data.stop.classID) return;
 				callback(getStopAnnouncement(data, true));
 			});
 			break;
 		case "Vehicle":
 			Pubsub.listen('eventApproaching', function (data) {
-				if (id != data.vehicle.classID) return;
 				callback("The next stop is "+fixStationName(data.stop.simpleName));
 			});
 			Pubsub.listen('eventArrived', function (data) {
-				if (id != data.vehicle.classID) return;
 				callback("This is "+fixStationName(data.stop.simpleName));
 			});
 			break;
 
 		case 'RouteList':
-			if (!('routes' in extraData) || !extraData.routes.length) break;
+			if (!extraData || !('routes' in extraData) || !extraData.routes.length) break;
 			callback(getStatusSummary(extraData.routes));
 			break;
 	}
