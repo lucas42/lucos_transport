@@ -10,19 +10,11 @@ function init(type, id, extraData, callback) {
 		case "Stop":
 			Pubsub.listen('eventApproaching', function (data) {
 				if (id != data.stop.classID) return;
-				var text = "The next "+data.vehicle.vehicleType+" at "+data.platform.simpleName+" will be ";
-				text += (data.vehicle.routeName.match(/^[aoeuiAOEUI]|^R[A-Z]/)) ? "an " : "a ";
-				text += data.vehicle.routeName+" "+data.vehicle.vehicleType;
-				if (data.vehicle.simpleDestination) text += " to "+fixStationName(data.vehicle.simpleDestination);
-				callback(text);
+				callback(getStopAnnouncement(data, false));
 			});
 			Pubsub.listen('eventArrived', function (data) {
 				if (id != data.stop.classID) return;
-				var text = "The "+data.vehicle.vehicleType+" at "+data.platform.simpleName+" is ";
-				text += (data.vehicle.routeName.match(/^[aoeuiAOEUI]|^R[A-Z]/)) ? "an " : "a ";
-				text += data.vehicle.routeName+" "+data.vehicle.vehicleType;
-				if (data.vehicle.simpleDestination) text += " to "+fixStationName(data.vehicle.simpleDestination);
-				callback(text);
+				callback(getStopAnnouncement(data, true));
 			});
 			break;
 		case "Vehicle":
@@ -40,6 +32,16 @@ function init(type, id, extraData, callback) {
 			if (!('routes' in extraData) || !extraData.routes.length) break;
 			callback(getStatusSummary(extraData.routes));
 			break;
+	}
+	function getStopAnnouncement(data, arrived) {
+		var text = "The "
+		if (!arrived) text += "next ";
+		text += data.vehicle.vehicleType+" at "+data.platform.simpleName;
+		text += arrived ? " is " : " will be ";
+		text += (data.vehicle.routeName.match(/^[aoeuiAOEUI]|^R[A-Z]/)) ? "an " : "a ";
+		text += data.vehicle.routeName+" "+data.vehicle.vehicleType;
+		if (data.vehicle.simpleDestination) text += " to "+fixStationName(data.vehicle.simpleDestination);
+		return text;
 	}
 	function getStatusSummary(routeData) {
 		var text = "";
