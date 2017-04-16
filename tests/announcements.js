@@ -102,13 +102,13 @@ test('Pier - boat arrived Announcement', test => {
 });
 test('Platform - train approaching Announcement', test => {
 	Announcements("Stop", 'id846', null, text => {
-		test.is(text, "The next train at Platform 9¾ will be a District Line train to Hogsmeade");
+		test.is(text, "The next train at Platform 9¾ will be a Baykerloo Line train to Hogsmeade");
 	});
 	Pubsub.send('eventApproaching', {
 		vehicle: {
 			classID: 'id246',
 			vehicleType: 'train',
-			routeName: 'District Line',
+			routeName: 'Bakerloo Line',
 			simpleDestination: "Hogsmeade",
 			},
 		stop: {

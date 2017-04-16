@@ -39,7 +39,7 @@ function init(type, id, extraData, callback) {
 		text += data.vehicle.vehicleType+" at "+data.platform.simpleName;
 		text += arrived ? " is " : " will be ";
 		text += (data.vehicle.routeName.match(/^[aoeuiAOEUI]|^R[A-Z]/)) ? "an " : "a ";
-		text += data.vehicle.routeName+" "+data.vehicle.vehicleType;
+		text += fixRouteName(data.vehicle.routeName)+" "+data.vehicle.vehicleType;
 		if (data.vehicle.simpleDestination) text += " to "+fixStationName(data.vehicle.simpleDestination);
 		return text;
 	}
@@ -145,7 +145,7 @@ function init(type, id, extraData, callback) {
 						midSentence = true;
 					}
 					appendConjuction(routeCount, listLength);
-					text += fixRouteName(route.network, route.name, !midSentence);
+					text += fixRouteName(route.name, route.network, !midSentence);
 					if (routeSuffix) text += routeSuffix;
 					midList = true;
 					midSentence = true;
@@ -166,7 +166,7 @@ function init(type, id, extraData, callback) {
 			let numRoutes = states[maxstate.name].networks[network].length;
 			appendConjuction(networkCount, numNetworks);
 			if (networkTotals[network] == 1) {
-				text += fixRouteName(network, states[maxstate.name].networks[network][0].name, !midSentence);
+				text += fixRouteName(states[maxstate.name].networks[network][0].name, network, !midSentence);
 				midSentence = true;
 			} else {
 				if (numRoutes == networkTotals[network]) {
@@ -212,35 +212,31 @@ function init(type, id, extraData, callback) {
 	function fixStationName(name) {
 		if (!name) return 
 		return name
-		.replace("via T4 Loop", "Terminal 4")
-		.replace("1-2-3", "1, 2 and 3")
-		.replace("123 + 5", "1, 2, 3 and 5")
-		.replace("CX", "Charing Cross")
-		.replace("Arsn", "Arsenal")
-		.replace(" St ", " Street ")
-		.replace("Southwark", "Suthirck")
-		.replace("Fulham", "Fullam")
-		.replace(/int$/i, "International")
-		.replace(/\(.*\)/, "");
+			.replace("via T4 Loop", "Terminal 4")
+			.replace("1-2-3", "1, 2 and 3")
+			.replace("123 + 5", "1, 2, 3 and 5")
+			.replace("CX", "Charing Cross")
+			.replace("Arsn", "Arsenal")
+			.replace(" St ", " Street ")
+			.replace("Southwark", "Suthirck")
+			.replace("Fulham", "Fullam")
+			.replace(/int$/i, "International")
+			.replace(/\(.*\)/, "");
 	}
 
 	/**
 	 * Make route names more pronouncable
 	 */
-	function fixRouteName(network, routename, captialise) {
+	function fixRouteName(routename, network, captialise) {
 		switch (network) {
 			case 'dlr':
 				return captialise ? "The DLR" : "the DLR";
 			case 'tram':
 				return "London Trams";
 		}
-		switch (routename) {
-			case 'Bakerloo':
-				return "Baykerloo";
-			default:
-				if (captialise) return routename.charAt(0).toUpperCase() + routename.slice(1);
-				return routename;
-		}
+		if (captialise) routename = routename.charAt(0).toUpperCase() + routename.slice(1);
+		return routename
+			.replace('Bakerloo', "Baykerloo");
 	}
 }
 
