@@ -135,13 +135,7 @@ function init(type, id, extraData, callback) {
 					// Overgound should start with "the" if at the beginning of a list, but not mid-List
 					if (!midList && route.network == 'overground') text += "the ";
 					appendConjuction(routeCount, listLength);
-					if (route.network == "dlr") {
-						text += "the DLR";
-					} else if (route.network == "tram") {
-						text += "London Trams";
-					} else {
-						text += route.name;
-					}
+					text += fixRouteName(route.network, route.name);
 					midList = true;
 					routeCount++;
 				});
@@ -159,17 +153,7 @@ function init(type, id, extraData, callback) {
 			let numRoutes = states[maxstate.name].networks[network].length;
 			appendConjuction(networkCount, numNetworks);
 			if (networkTotals[network] == 1) {
-				if (networkTotals[network] == 1) {
-					if (network == "dlr") {
-						text += "the DLR";
-					} else if (network == "tram") {
-						text += "London Trams";
-					} else {
-						text += states[maxstate.name].networks[network][0].name
-					}
-				} else {
-					text += "the " + network;
-				}
+				text += fixRouteName(network, states[maxstate.name].networks[network][0].name);
 			} else {
 				if (numRoutes == networkTotals[network]) {
 					text += "all ";
@@ -221,6 +205,24 @@ function init(type, id, extraData, callback) {
 		.replace("Fulham", "Fullam")
 		.replace(/int$/i, "International")
 		.replace(/\(.*\)/, "");
+	}
+
+	/**
+	 * Make route names more pronouncable
+	 */
+	function fixRouteName(network, routename) {
+		switch (network) {
+			case 'dlr':
+				return "the DLR";
+			case 'tram':
+				return "London Trams";
+		}
+		switch (routename) {
+			case 'Bakerloo':
+				return "Baykerloo";
+			default:
+				return routename;
+		}
 	}
 }
 
