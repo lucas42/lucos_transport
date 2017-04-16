@@ -19,6 +19,8 @@ Event.prototype.getData = function getData(source) {
 	var output = this.getRawData();
 	output.stationReadableTime = getHumanReadableRelTime(output.secondsTo, "Platform");
 	output.vehicleReadableTime = getHumanReadableRelTime(output.secondsTo, "Vehicle");
+	output.vehiclelink = this.getVehicle().getLink();
+	output.platformlink = this.getPlatform().getLink();
 	output.source = source;
 	if (source == "Platform" || source == "Both") {
 		var vehicledata = this.getVehicle().getData();

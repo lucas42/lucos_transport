@@ -24,7 +24,7 @@ function speak(message) {
 let extraData = {};
 if (typeof routeData !== "undefined") extraData.routes = routeData;
 
-Announcements(document.body.dataset.classtype, document.body.dataset.classtype, extraData, speak);
+Announcements(document.body.dataset.classtype, document.body.dataset.classid, extraData, speak);
 
 module.exports = {
 	enable: function () {

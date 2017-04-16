@@ -6,7 +6,8 @@ const Route = require('./classes/route'),
 Stop = require('./classes/stop'),
 Vehicle = require('./classes/vehicle'),
 serverSource = require('./sources/server'),
-Mustache = require('mustache');
+Mustache = require('mustache'),
+Pubsub = require('lucos_pubsub');
 
 self.addEventListener('install', function swInstalled(event) {
 	event.waitUntil(refreshResources());
@@ -158,5 +159,15 @@ function render(templateid, options, headers) {
 		return new Response(new Blob([html]), {headers: headers});
 	});
 }
-
+Pubsub.filterBroadcasts((type, msg, client) => {
+	var url = new URL(client.url);
+	switch (type) {
+		case 'eventApproaching':
+		case 'eventArrived':
+		case 'updateEventTime':
+			return (url.pathname == msg.vehiclelink || url.pathname == msg.platformlink);
+		default:
+			return false;
+	}
+});
 serverSource.start();
