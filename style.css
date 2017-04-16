@@ -385,4 +385,5 @@ h3 .symbol, h1 .symbol { margin: 0 1em; }
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 100;
 }

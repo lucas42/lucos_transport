@@ -18,6 +18,10 @@ Platform = require('../classes/platform'),
 Event = require('../classes/event');
 
 let dataLoaded = false;
+let loading = null;
+function isLoaded() {
+	return dataLoaded;
+}
 
 function loadFromServer() {
 	return fetch(DATA_URL).then(response => {
@@ -34,17 +38,20 @@ function attemptServerLoad() {
 	});
 }
 function loadFromCache() {
-	if (dataLoaded) return Promise.resolve(null);
-	return caches.open(DATA_CACHE).then(cache => {
-		return cache.match(DATA_URL);
-	}).then(response => {
-		if (!response) {
-			debugger;
-			console.error("Data not found in cache");
-			return;
-		}
-		return response.json().then(parseData);
-	});
+	if (isLoaded()) return Promise.resolve(null);
+	if (!loading) {
+		loading = caches.open(DATA_CACHE).then(cache => {
+			return cache.match(DATA_URL);
+		}).then(response => {
+			if (!response) {
+				debugger;
+				console.error("Data not found in cache");
+				return;
+			}
+			return response.json().then(parseData);
+		});
+	}
+	return loading;
 }
 
 
@@ -120,4 +127,5 @@ module.exports = {
 	start: start,
 	refresh: loadFromServer,
 	loadFromCache: loadFromCache,
+	isLoaded: isLoaded,
 }
