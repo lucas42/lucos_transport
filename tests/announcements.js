@@ -26,6 +26,12 @@ test('Night Tube Announcement', test => {
 		test.is(text, "the Bakerloo and Waterloo & City Lines are closed.  There is a Part Closure on the Circle, District, Hammersmith & City and Metropolitan Lines.  There is also a Part Closure on the DLR, London Overground and London Trams.  There is a Planned Closure on the Victoria Line and TfL Rail.  There is a Good Service on other London Underground Lines and all River Bus Services.");
 	});
 });
+test('All Closed Homepage Announcement', test => {
+	var routeData = [{"status":"Service Closed","name":"Bakerloo","network":"tube"},{"status":"Service Closed","name":"Central","network":"tube"},{"status":"Service Closed","name":"Circle","network":"tube"},{"status":"Service Closed","name":"District","network":"tube"},{"status":"Service Closed","name":"Hammersmith & City","network":"tube"},{"status":"Service Closed","name":"Jubilee","network":"tube"},{"status":"Service Closed","name":"Metropolitan","network":"tube"},{"status":"Service Closed","name":"Northern","network":"tube"},{"status":"Service Closed","name":"Piccadilly","network":"tube"},{"status":"Service Closed","name":"Victoria","network":"tube"},{"status":"Service Closed","name":"Waterloo & City","network":"tube"},{"status":"Service Closed","name":"DLR","network":"dlr"},{"status":"Service Closed","name":"London Overground","network":"overground"},{"status":"Service Closed","name":"RB1","network":"river-bus"},{"status":"Service Closed","name":"RB1X","network":"river-bus"},{"status":"Service Closed","name":"RB2","network":"river-bus"},{"status":"Service Closed","name":"RB4","network":"river-bus"},{"status":"Service Closed","name":"RB5","network":"river-bus"},{"status":"Service Closed","name":"RB6","network":"river-bus"},{"status":"Service Closed","name":"TfL Rail","network":"tflrail"},{"status":"Service Closed","name":"Tram","network":"tram"},{"status":"Service Closed","name":"Woolwich Ferry","network":"river-bus"},{"name":"bus","network":"bus"},{"name":"national-rail","network":"national-rail"}];
+	Announcements('RouteList', null, {routes: routeData}, text => {
+		test.is(text, "all London Underground Lines, the DLR, London Overground, all River Bus Services, TfL Rail and London Trams are closed.");
+	});
+});
 test('Refresh Announcement', test => {
 	Announcements(null, null, null, text => {
 		test.is(text, "Updated.");

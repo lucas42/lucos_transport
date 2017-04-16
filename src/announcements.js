@@ -149,7 +149,9 @@ function init(type, id, extraData, callback) {
 		}
 
 		// Handle the state with the most routes
-		text += "There "+((maxstate.name[maxstate.name.length-1] == 's')?"are ":"is a ")+maxstate.name+" on ";
+		if (maxstate.name != "Service Closed") {
+			text += "There "+((maxstate.name[maxstate.name.length-1] == 's')?"are ":"is a ")+maxstate.name+" on ";
+		}
 		midList = false;
 		let numNetworks = states[maxstate.name].networkcount;
 		let networkCount = 0;
@@ -184,6 +186,10 @@ function init(type, id, extraData, callback) {
 			}
 			midList = true;
 			networkCount++;
+		}
+		if (maxstate.name == "Service Closed") {
+			text += (maxstate.count == 1) ? " is" : " are";
+			text += " closed";
 		}
 		text += ".";
 		return text;
