@@ -16,6 +16,36 @@ function pageLoad() {
 		footer.addEventListener("click", refresh, false);
 		footer.dataset.listening = true;
 	 })();
+			/**
+	 * Adds a click handler to all links in a DOMElement
+	 * 
+	 * @param {DOMElement} parent The parent of all the links
+	 */
+	(function addOnClick(parent) {
+		if (!parent.getElementsByTagName) return;
+		var links = parent.getElementsByTagName('a');
+		var linksList = Array.prototype.slice.call(links);
+		linksList.forEach(link => {
+			if (link.dataset.gotloadlistener) return;
+			link.addEventListener('click', function (event) {
+
+				// Only handle left clicks
+				if (event.button !== 0) return;
+				
+				// Allow target=_blank to do their own thing
+				if (this.getAttribute("target") == "_blank") return;
+
+				// If the next page doesn't load in half a second, show loading div
+				window.setTimeout(() => {
+					let loadingDiv = document.createElement("div");
+					loadingDiv.id = "loading";
+					loadingDiv.textContent = "Loading ...";
+					document.body.appendChild(loadingDiv);
+				}, 500);
+			}, false);
+			link.dataset.gotloadlistener = true;
+		});
+	})(document.body);
 }
 
 function toggleSound(event) {

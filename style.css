@@ -369,3 +369,20 @@ h3 .symbol, h1 .symbol { margin: 0 1em; }
   -moz-box-shadow:    0px 0px 3px rgba(0,0,0,0.3);
   box-shadow:         0px 0px 3px rgba(0,0,0,0.3);
 }
+
+/* Loading overlay */
+#loading {
+	position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    background: rgba(100, 100, 100, 0.5);
+    color: #fff;
+    font-size: 2em;
+    text-shadow: #555 -3px 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
