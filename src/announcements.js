@@ -87,7 +87,9 @@ function init(type, id, extraData, callback) {
 		// Handle all the states which except the one with most routes
 		for (let status in states) {
 			if (status == maxstate.name) continue;
-			text += "There "+((status[status.length-1] == 's')?"are ":"is a ")+status+" on ";
+			if (status != "Service Closed") {
+				text += "There "+((status[status.length-1] == 's')?"are ":"is a ")+status+" on ";
+			}
 			midList = false;
 			let numRoutes = states[status].count;
 			let numTubes = (states[status].networks.tube) ? states[status].networks.tube.length : 0;
@@ -96,28 +98,50 @@ function init(type, id, extraData, callback) {
 			if (numTubes == 1 || (hasNonTubeRoutes && numTubes >= 1 && numTubes <= 3)) {
 				text += "the ";
 				listRoutes(states[status].networks.tube, numRoutes);
+				text += (numTubes == 1) ? " Line" : " Lines";
+				if (status == "Service Closed") {
+					text += (numTubes == 1) ? " is" : " are";
+					text += " closed";
+				}
 			} else if (numTubes) {
 				text += "the ";
 				listRoutes(states[status].networks.tube, numTubes);
 				text += " Lines";
+				if (status == "Service Closed") {
+					text += (numTubes == 1) ? " is" : " are";
+					text += " closed";
+				}
 				if (hasNonTubeRoutes) {
-					text += ".  There "+((status[status.length-1] == 's')?"are also ":"is also a ")+status+" on ";
+					if (status == "Service Closed") {
+						text += ".  The ";
+					} else {
+						text += ".  There "+((status[status.length-1] == 's')?"are also ":"is also a ")+status+" on ";
+					}
 					midList = false;
 				}
 			}
 			for (let network in states[status].networks) {
 				if (network == "tube") continue; // Already done tube, ignore.
-				appendConjuction(routeCount, numRoutes); // Extra conjunction to handle tricky cases with "the"
-				if (network == "dlr" || network == "overground") {
-					text += "the ";
-				}
 				listRoutes(states[status].networks[network], numRoutes);
+			}
+			if (status == "Service Closed"  && hasNonTubeRoutes) {
+				text += ((numRoutes - numTubes) == 1) ? " is" : " are";
+				text += " closed";
 			}
 			text += ".  ";
 			function listRoutes(routes, listLength) {
 				routes.forEach(route => {
+
+					// Overgound should start with "the" if at the beginning of a list, but not mid-List
+					if (!midList && route.network == 'overground') text += "the ";
 					appendConjuction(routeCount, listLength);
-					text += route.name;
+					if (route.network == "dlr") {
+						text += "the DLR";
+					} else if (route.network == "tram") {
+						text += "London Trams";
+					} else {
+						text += route.name;
+					}
 					midList = true;
 					routeCount++;
 				});
