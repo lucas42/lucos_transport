@@ -11,7 +11,7 @@ function init(type, id, extraData, callback) {
 			Pubsub.listen('eventApproaching', function (data) {
 				if (id != data.stop.classID) return;
 				var text = "The next "+data.vehicle.vehicleType+" at "+data.platform.simpleName+" will be ";
-				text += (data.vehicle.routeName.charAt(0).match(/[aoeui]/)) ? "an " : "a ";
+				text += (data.vehicle.routeName.match(/^[aoeuiAOEUI]|^R[A-Z]/)) ? "an " : "a ";
 				text += data.vehicle.routeName+" "+data.vehicle.vehicleType;
 				if (data.vehicle.simpleDestination) text += " to "+fixStationName(data.vehicle.simpleDestination);
 				callback(text);
@@ -19,7 +19,7 @@ function init(type, id, extraData, callback) {
 			Pubsub.listen('eventArrived', function (data) {
 				if (id != data.stop.classID) return;
 				var text = "The "+data.vehicle.vehicleType+" at "+data.platform.simpleName+" is ";
-				text += (data.vehicle.routeName.charAt(0).match(/[aoeui]/)) ? "an " : "a ";
+				text += (data.vehicle.routeName.match(/^[aoeuiAOEUI]|^R[A-Z]/)) ? "an " : "a ";
 				text += data.vehicle.routeName+" "+data.vehicle.vehicleType;
 				if (data.vehicle.simpleDestination) text += " to "+fixStationName(data.vehicle.simpleDestination);
 				callback(text);

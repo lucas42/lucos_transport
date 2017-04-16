@@ -49,7 +49,7 @@ test('Train - approaching station Announcement', test => {
 });
 test('Pier - boat arrived Announcement', test => {
 	Announcements("Stop", 'id987', null, text => {
-		test.is(text, "The boat at Pier C is a RB1X boat to North Greenwich");
+		test.is(text, "The boat at Pier C is an RB1X boat to North Greenwich");
 	});
 	Pubsub.send('eventArrived', {
 		vehicle: {
@@ -79,6 +79,26 @@ test('Pier - boat arrived Announcement', test => {
 		},
 		platform: {
 			simpleName: "Pier C",
+		}
+	});
+});
+test('Platform - train approaching Announcement', test => {
+	Announcements("Stop", 'id846', null, text => {
+		test.is(text, "The next train at Platform 9¾ will be a District Line train to Hogsmeade");
+	});
+	Pubsub.send('eventApproaching', {
+		vehicle: {
+			classID: 'id246',
+			vehicleType: 'train',
+			routeName: 'District Line',
+			simpleDestination: "Hogsmeade",
+			},
+		stop: {
+			classID: 'id846',
+			simpleName: 'Upminster',
+		},
+		platform: {
+			simpleName: "Platform 9¾",
 		}
 	});
 });
