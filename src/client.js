@@ -46,6 +46,7 @@ function pageLoad() {
 			link.dataset.gotloadlistener = true;
 		});
 	})(document.body);
+	Sound.load();
 }
 
 function toggleSound(event) {
