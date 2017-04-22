@@ -38,6 +38,12 @@ test('Planned Closure and Service Closed Announcement', test => {
 		test.is(text, "There is a Part Closure on the Circle, District, Hammersmith & City and Metropolitan Lines.  There is also a Part Closure on the DLR, London Overground and London Trams.  The Victoria Line, Waterloo & City Line and TfL Rail are closed.  There is a Good Service on other London Underground Lines and all River Bus Services.");
 	});
 });
+test('Part Suspended Announcement', test => {
+	var routeData = [{"status":"Good Service","name":"Bakerloo","network":"tube"},{"status":"Good Service","name":"Central","network":"tube"},{"status":"Part Closure","name":"Circle","network":"tube"},{"status":"Good Service","name":"District","network":"tube"},{"status":"Part Closure","name":"Hammersmith & City","network":"tube"},{"status":"Good Service","name":"Jubilee","network":"tube"},{"status":"Good Service","name":"Metropolitan","network":"tube"},{"status":"Good Service","name":"Northern","network":"tube"},{"status":"Good Service","name":"Piccadilly","network":"tube"},{"status":"Good Service","name":"Victoria","network":"tube"},{"status":"Good Service","name":"Waterloo & City","network":"tube"},{"status":"Part Suspended","name":"DLR","network":"dlr"},{"status":"Part Suspended","name":"London Overground","network":"overground"},{"status":"Good Service","name":"RB1","network":"river-bus"},{"status":"Good Service","name":"RB1X","network":"river-bus"},{"status":"Good Service","name":"RB2","network":"river-bus"},{"status":"Good Service","name":"RB4","network":"river-bus"},{"status":"Good Service","name":"RB5","network":"river-bus"},{"status":"Good Service","name":"RB6","network":"river-bus"},{"status":"Part Closure","name":"TfL Rail","network":"tflrail"},{"status":"Good Service","name":"Tram","network":"tram"},{"status":"Good Service","name":"Woolwich Ferry","network":"river-bus"},{"name":"bus","network":"bus"},{"name":"national-rail","network":"national-rail"}];
+	Announcements('RouteList', {routes: routeData}, text => {
+		test.is(text, "There is a Part Closure on the Circle Line, Hammersmith & City Line and TfL Rail.  The DLR and London Overground are Part Suspended.  There is a Good Service on other London Underground Lines, all River Bus Services and London Trams.");
+	});
+});
 test('Refresh Announcement', test => {
 	Announcements(null, null, text => {
 		test.is(text, "Updated.");

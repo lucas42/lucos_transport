@@ -53,6 +53,7 @@ function init(type, extraData, callback) {
 					count: 0,
 					networks: {},
 					networkcount: 0,
+					statusAfter: (route.status == 'closed' || route.status.match(/Suspended$/)),
 				}
 			}
 			if (!(route.network in states[route.status].networks)) {
@@ -68,10 +69,10 @@ function init(type, extraData, callback) {
 		});
 
 		// Work out which state is the most common, and don't read out all the lines in this state
-		var maxstate = {count: 0, name: 'nError'};
+		var maxstate = {count: 0, name: 'nError', statusAfter: false};
 		for (let status in states) {
 			if (states[status].count > maxstate.count) {
-				maxstate = {count: states[status].count, name: status}
+				maxstate = {count: states[status].count, name: status, statusAfter: states[status].statusAfter}
 			}
 		}
 
@@ -85,7 +86,8 @@ function init(type, extraData, callback) {
 		// Handle all the states which except the one with most routes
 		for (let status in states) {
 			if (status == maxstate.name) continue;
-			if (status != "closed") {
+			let statusAfter = states[status].statusAfter;
+			if (!statusAfter) {
 				text += "There "+((status[status.length-1] == 's')?"are ":"is a ")+status+" on ";
 				midSentence = true;
 			}
@@ -98,21 +100,21 @@ function init(type, extraData, callback) {
 				text += midSentence ? "the " : "The " ;
 				midSentence = true;
 				listRoutes(states[status].networks.tube, numRoutes, " Line");
-				if (!hasNonTubeRoutes && status == "closed") {
-					text += (numTubes == 1) ? " is" : " are";
-					text += " closed";
+				if (!hasNonTubeRoutes && statusAfter) {
+					text += (numTubes == 1) ? " is " : " are ";
+					text += status;
 				}
 			} else if (numTubes) {
 				text += midSentence ? "the " : "The " ;
 				midSentence = true;
 				listRoutes(states[status].networks.tube, numTubes);
 				text += " Lines";
-				if (status == "closed") {
-					text += (numTubes == 1) ? " is" : " are";
-					text += " closed";
+				if (statusAfter) {
+					text += (numTubes == 1) ? " is " : " are ";
+					text += status;
 				}
 				if (hasNonTubeRoutes) {
-					if (status == "closed") {
+					if (statusAfter) {
 						text += ".  The ";
 					} else {
 						text += ".  There "+((status[status.length-1] == 's')?"are also ":"is also a ")+status+" on ";
@@ -126,9 +128,9 @@ function init(type, extraData, callback) {
 				if (network == "tube") continue; // Already done tube, ignore.
 				listRoutes(states[status].networks[network], numRoutes);
 			}
-			if (status == "closed"  && hasNonTubeRoutes) {
-				text += (routeCount == 1) ? " is" : " are";
-				text += " closed";
+			if (statusAfter  && hasNonTubeRoutes) {
+				text += (routeCount == 1) ? " is " : " are ";
+				text += status;
 			}
 			text += ".  ";
 			midSentence = false;
@@ -151,7 +153,7 @@ function init(type, extraData, callback) {
 		}
 
 		// Handle the state with the most routes
-		if (maxstate.name != "closed") {
+		if (!maxstate.statusAfter) {
 			text += "There "+((maxstate.name[maxstate.name.length-1] == 's')?"are ":"is a ")+maxstate.name+" on ";
 			midSentence = true;
 		}
@@ -183,9 +185,9 @@ function init(type, extraData, callback) {
 			midList = true;
 			networkCount++;
 		}
-		if (maxstate.name == "closed") {
-			text += (maxstate.count == 1) ? " is" : " are";
-			text += " closed";
+		if (maxstate.statusAfter) {
+			text += (maxstate.count == 1) ? " is " : " are ";
+			text += maxstate.name;
 		}
 		text += ".";
 		midSentence = true;
