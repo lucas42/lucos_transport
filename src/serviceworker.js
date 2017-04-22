@@ -5,6 +5,7 @@ const TEMPLATE_PATH = '/resources/templates/';
 const Route = require('./classes/route'),
 Stop = require('./classes/stop'),
 Vehicle = require('./classes/vehicle'),
+Event = require('./classes/event'),
 serverSource = require('./sources/server'),
 Mustache = require('mustache'),
 Pubsub = require('lucos_pubsub');
@@ -46,7 +47,28 @@ function refreshResources() {
 	})
 }
 
+/**
+ * Keep track of whether there are any ongoing fetches
+ * Event updates are processor intensive, so only enable them when there are no fetches
+ */
+var fetchCounter = (function () {
+	var currentFetches = 0;
+	return {
+		increment: function increment() {
+			currentFetches++;
+			Event.setUpdatesEnabled(false);
+		},
+		decrement: function decrement() {
+			currentFetches--;
+			setTimeout(() => {
+				if (currentFetches == 0) Event.setUpdatesEnabled(true);
+			}, 300);
+		},
+	}
+})();
+
 self.addEventListener('fetch', function respondToFetch(event) {
+	fetchCounter.increment();
 	var url = new URL(event.request.url);
 	var responsePromise = caches.match(event.request).then(function serveFromCache(response) {
 		if (response) return response;
@@ -123,7 +145,11 @@ self.addEventListener('fetch', function respondToFetch(event) {
 		console.error("Can't do response", error);
 		return new Response(new Blob(["An unknown error occured"]), {status: 500});
 	});
-	event.respondWith(responsePromise);
+	var tidyUpResponsePromise = responsePromise.then(response => {
+		setTimeout(fetchCounter.decrement, 0);
+		return response;
+	})
+	event.respondWith(tidyUpResponsePromise);
 });
 
 function populateTemplate(templateid, data) {

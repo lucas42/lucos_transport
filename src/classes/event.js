@@ -184,6 +184,7 @@ Event.prototype.getInterchanges = function getInterchanges() {
 }
 
 Event.prototype.updateRelTime = function updateRelTime() {
+	if (!updatesEnabled) return;
 	var secondsTo = (new Date(this.getField('time')) - new Date()) / 1000;
 	var oldSecondsTo = this.getField('secondsTo');
 	this.setField('secondsTo', secondsTo);
@@ -205,15 +206,25 @@ Event.sortByTime = function sortByTime(a, b) {
 }
 
 var timestimeout;
+var updatesEnabled = true;
 /**
  * Keep all times update-to-date (once a second)
  */
 function updateTimes() {
 	if (timestimeout) clearTimeout(timestimeout);
+	if (!updatesEnabled) return;
 	Pubsub.send("updateTimes");
 
 	// TODO: use lucos_time for current time
 	timestimeout=setTimeout(updateTimes, 1000-(new Date().getMilliseconds()));
 }
 updateTimes();
+
+/**
+ * Allow serivce worker a way to prevent proccessing intensive actions when it's trying to do something else
+ **/
+Event.setUpdatesEnabled = function setUpdatesEnabled(enabled) {
+	updatesEnabled = !!enabled;
+	if (updatesEnabled) setTimeout(updateTimes, 0);
+}
 module.exports = Event;
