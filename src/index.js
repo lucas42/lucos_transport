@@ -8,7 +8,7 @@ const Controller = require('./controller')(templateid => {
 	return readFile(templatePath, "utf-8");
 });
 app.get('*', function(req, res, next) {
-	Controller.process(req.path).then(result => {
+	Controller.process(req.path, {accept: req.get("accept")}).then(result => {
 		switch (result.action) {
 			case 'response':
 				res.set(result.headers).send(result.body);

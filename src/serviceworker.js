@@ -92,15 +92,12 @@ self.addEventListener('fetch', function respondToFetch(event) {
 				return new Response(new Blob([error]), {status: 502});
 			});
 		}
+		var path = url.pathname
 		if (!serverSource.isLoaded()) {
 			serverSource.loadFromCache();
-			return render('loading', {}, {
-
-				// Use a really fast meta-refresh to check for changes
-				'refresh': '0.01',
-			});
+			path = '/loading';
 		}
-		return Controller.process(url.pathname).then(result => {
+		return Controller.process(path, {accept: event.request.headers.get("accept")}).then(result => {
 			switch (result.action) {
 				case 'response':
 					return new Response(new Blob([result.body]), {headers: result.headers});

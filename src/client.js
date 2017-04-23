@@ -35,8 +35,50 @@ function pageLoad() {
 				// Allow target=_blank to do their own thing
 				if (this.getAttribute("target") == "_blank") return;
 
+				var loading = true;
+				let path = this.getAttribute("href");
+				if (path.charAt(0) == '/') {
+					event.preventDefault();
+
+					(function inlineFetch() {
+						var responseHeaders = {};
+						fetch(path, {
+							headers: {
+								accept: 'text/partial-html'
+							}
+						}).then(response => {
+							responseHeaders = response.headers;
+							return response.text();
+						}).then(content => {
+							loading = false;
+							let contentDiv = document.getElementById("content");
+							contentDiv.innerHTML = content;
+							addOnClick(contentDiv);
+							document.getElementById("pagetitle").textContent = responseHeaders.get("title");
+							document.getElementById("lastUpdated").textContent = responseHeaders.get("lastUpdated");
+							document.body.setAttribute("class", responseHeaders.get("cssClass"));
+
+							let extraData = {
+								routes: JSON.parse(responseHeaders.get("routeData")),
+							};
+							Sound.load(responseHeaders.get("classType"), extraData);
+							history.pushState({}, responseHeaders.get("title"), path);
+
+							// If there's a refresh header, then retry the request in the appropriate amount of time
+							if (responseHeaders.get("refresh")) {
+								var interval = responseHeaders.get("refresh") * 1000;
+								window.setTimeout(inlineFetch, interval);
+							} else {
+								let loadingDiv = document.getElementById('loading');
+								if (loadingDiv) loadingDiv.parentNode.removeChild(loadingDiv);
+							}
+						});
+					}());
+				}
+
 				// If the next page doesn't load in half a second, show loading div
 				window.setTimeout(() => {
+					if (!loading) return;
 					let loadingDiv = document.createElement("div");
 					loadingDiv.id = "loading";
 					loadingDiv.textContent = "Loading ...";
@@ -46,7 +88,10 @@ function pageLoad() {
 			link.dataset.gotloadlistener = true;
 		});
 	})(document.body);
-	Sound.load();
+
+	let extraData = {};
+	if (typeof routeData !== "undefined") extraData.routes = routeData;
+	Sound.load(document.body.dataset.classtype, extraData);
 }
 
 function toggleSound(event) {

@@ -5,7 +5,8 @@ Mustache = require('mustache');
 
 function Controller (getTemplate, isServiceWorker) {
 	if (typeof getTemplate != 'function') throw "Needs getTemplate function";
-	function process (path) {
+	function process (path, requestHeaders) {
+		if (!requestHeaders) requestHeaders = {};
 		var tokens = path.split('/');
 		switch (tokens[1]){
 			case '':
@@ -28,10 +29,6 @@ function Controller (getTemplate, isServiceWorker) {
 					return Promise.resolve({action:'notfound', message:`Can't find route /${tokens[2]}/${tokens[3]}`});
 				}
 				var data = route.getDataTree();
-				data.parent = {
-					link: '/',
-					name: 'All Routes',
-				}
 				data.cssClass = 'route '+data.cssClass;
 				return render('route', data, {
 					'Cache-Control': 'public, max-age=0'
@@ -45,10 +42,6 @@ function Controller (getTemplate, isServiceWorker) {
 					return Promise.resolve({action:'notfound', message:`Can't find stop /${tokens[2]}/${tokens[3]}`});
 				}
 				var data = stop.getDataTree();
-				data.parent = {
-					link: '/',
-					name: 'All Routes',
-				}
 				return render('station', data, {
 					'Cache-Control': 'public, max-age=0'
 				});
@@ -61,12 +54,20 @@ function Controller (getTemplate, isServiceWorker) {
 					return Promise.resolve({action:'notfound', message:`Can't find vehicle ${tokens[4]}`});
 				}
 				var data = vehicle.getDataTree();
-				data.parent = {
-					link: '/',
-					name: 'All Routes',
-				}
 				return render('vehicle', data, {
 					'Cache-Control': 'public, max-age=0'
+				});
+			case 'loading':
+
+				// No point showing the loading page on server rendered pages.
+				if (!isServiceWorker) {
+					return Promise.resolve({action:'redirect', path:'/'});
+				}
+				return render('loading', null, {
+					'Cache-Control': 'public, max-age=0',
+
+					// Use a really fast meta-refresh to check for changes
+					'refresh': '0.01',
 				});
 			default:
 				return Promise.resolve({action:'unknown'});
@@ -76,24 +77,32 @@ function Controller (getTemplate, isServiceWorker) {
 				return Mustache.render(template, data);
 			});
 		}
-		function render(templateid, options, headers) {
+		function render(templateid, options, responseHeaders) {
 			if (!options) options = {};
-			if (!headers) headers = {};
+			if (!responseHeaders) responseHeaders = {};
 			options.isServiceWorker = !!isServiceWorker;
 			return populateTemplate(templateid, options).then(content => {
-				options.content = content;
-				if (options.title && options.title != "TFLuke") {
-					options.headtitle = "TFLuke - " + options.title;
+				if (requestHeaders.accept == "text/partial-html") {
+					['title','classID','classType','cssClass','lastUpdated', 'routeData'].forEach(field => {
+						if (field in options) responseHeaders[field] = options[field];
+					});
+					responseHeaders['Content-Type'] = "text/partial-html; charset=utf-8";
+					return content;
 				} else {
-					options.headtitle = "TFLuke";
+					options.content = content;
+					if (options.title && options.title != "TFLuke") {
+						options.headtitle = "TFLuke - " + options.title;
+					} else {
+						options.headtitle = "TFLuke";
+					}
+					return populateTemplate('page', options);
 				}
-				return populateTemplate('page', options);
 			}).then(html => {
-				if (!headers['Content-Type']) headers['Content-Type'] = "text/html; charset=utf-8";
+				if (!responseHeaders['Content-Type']) responseHeaders['Content-Type'] = "text/html; charset=utf-8";
 				return {
 					action: 'response',
 					body: html,
-					headers: headers,
+					headers: responseHeaders,
 				};
 			});
 		}

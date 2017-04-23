@@ -318,8 +318,9 @@ h3 .symbol, h1 .symbol { margin: 0 1em; }
 .interchanges .symbol { margin: 0.5ex; float: left; }
 
 /** Navigation **/
-.nav { font-weight: bold; padding: 5px; font-size: 1em; color: #555; border-radius: 10px; display: block; text-decoration: none; margin-bottom: 5px; }
-.nav:hover { text-decoration: underline overline; }
+.backtoall { font-weight: bold; padding: 5px; font-size: 1em; color: #555; border-radius: 10px; display: block; text-decoration: none; margin-bottom: 5px; }
+.backtoall:hover { text-decoration: underline overline; }
+.homepage .backtoall { display: none; }
 
 /** extlink **/
 .stationextlink { display: block; text-decoration: none; color: inherit; margin: 1em auto 0; }

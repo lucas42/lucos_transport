@@ -1,11 +1,12 @@
-var loadStarted = false;
+var speak;
+var currentClassType;
+var currentExtraData;
+const Announcements = require("./announcements");
 
 // Lazy load sound, only when needed
-function load() {
-	if (loadStarted) return;
+function preload() {
 	loadStarted = true;
-	const speech = require("mespeak"),
-		Announcements = require("./announcements");
+	const speech = require("mespeak");
 
 	// Setup voice module
 	speech.loadConfig(require("mespeak/src/mespeak_config.json"));
@@ -13,7 +14,7 @@ function load() {
 
 	var queue = [];
 	var isSpeaking = false;
-	function speak(message) {
+	speak = function speak(message) {
 		if (!soundIsEnabled()) return;
 		if (isSpeaking) {
 			queue.push(message);
@@ -27,28 +28,31 @@ function load() {
 			}
 		});
 	}
-	let extraData = {};
-	if (typeof routeData !== "undefined") extraData.routes = routeData;
+}
+function load() {
 
-	Announcements(document.body.dataset.classtype, extraData, speak);
+	// Only bother really loading if sound is enabled
+	if (!soundIsEnabled()) return;
+	if (!speak) preload();
+	Announcements(currentClassType, currentExtraData, speak);
 }
 
 function soundIsEnabled() {
 	return !!localStorage.getItem("soundEnabled");
 }
 module.exports = {
-	enable: function () {
+	enable: () => {
 		localStorage.setItem("soundEnabled", true);
-		window.setTimeout(load, 0);
+		setTimeout(load, 0);
 	},
-	disable: function () {
+	disable: () => {
 		localStorage.removeItem("soundEnabled");
 	},
 	isEnabled: soundIsEnabled,
-	load: function () {
-		// Only bother really loading if sound is enabled,
-		// Otherwise load when enabled
-		if (soundIsEnabled()) window.setTimeout(load, 0);
+	load: (classType, extraData) => {
+		currentClassType = classType;
+		currentExtraData = extraData || {};
+		setTimeout(load, 0);
 	}
 }
 

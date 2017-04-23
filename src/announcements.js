@@ -1,25 +1,41 @@
 const Pubsub = require('lucos_pubsub');
+
+// Keep track of the announcment listeners, so we can easily remove them
+var listeners = [];
+function listen(type, callback) {
+	listeners.push({
+		type: type,
+		callback: callback,
+	});
+	Pubsub.listen(type, callback);
+}
+function unlistenAll() {
+	listeners.forEach(listener => {
+		Pubsub.unlisten(listener.type, listener.callback);
+	});
+	listeners = [];
+}
 function init(type, extraData, callback) {
+	unlistenAll();
 
-
-	Pubsub.listen('refreshComplete', function () {
+	listen('refreshComplete', function () {
 		callback("Updated.");
 	});
 
 	switch(type) {
 		case "Stop":
-			Pubsub.listen('eventApproaching', function (data) {
+			listen('eventApproaching', function (data) {
 				callback(getStopAnnouncement(data, false));
 			});
-			Pubsub.listen('eventArrived', function (data) {
+			listen('eventArrived', function (data) {
 				callback(getStopAnnouncement(data, true));
 			});
 			break;
 		case "Vehicle":
-			Pubsub.listen('eventApproaching', function (data) {
+			listen('eventApproaching', function (data) {
 				callback("The next stop is "+fixStationName(data.stop.simpleName));
 			});
-			Pubsub.listen('eventArrived', function (data) {
+			listen('eventArrived', function (data) {
 				callback("This is "+fixStationName(data.stop.simpleName));
 			});
 			break;

@@ -13,18 +13,15 @@
 <body{{#cssClass}} class='{{cssClass}}'{{/cssClass}}{{#classType}} data-classtype='{{classType}}'{{/classType}}{{#classID}} data-classid='{{classID}}'{{/classID}}>
 	
 	
-	<h1><span class="innertext">{{title}}</span></h1>
+	<h1><span class="innertext" id="pagetitle">{{title}}</span></h1>
 	
 	<div class="ribbon-wrapper"><div class="ribbon">Beta</div></div>
+	<a href="/" class='backtoall'>&lt; Back to All Routes</a>
 	<div id='content'>
-		{{#parent}}
-			<a href="{{link}}" class='nav'>&lt; Back to {{name}}</a>
-		{{/parent}}
-		
 		{{{content}}}
 	</div>
 	<footer id='footer' {{#isServiceWorker}}data-refreshable="true"{{/isServiceWorker}}>
-		{{#lastUpdated}}<time id='lastUpdated' datetime="{{lastUpdate}}">{{lastUpdated}}</span>{{/lastUpdated}}
+		{{#lastUpdated}}<time id='lastUpdated'>{{lastUpdated}}</span>{{/lastUpdated}}
 	</footer>
 </body>
 </html>
