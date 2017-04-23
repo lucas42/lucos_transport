@@ -8,18 +8,24 @@ const Controller = require('./controller')(templateid => {
 	return readFile(templatePath, "utf-8");
 });
 app.get('*', function(req, res, next) {
-	Controller.serve({
-		response200: (html, headers) => {
-			res.set(headers).send(html);
-		},
-		response404: message => {
-			if (message == "Page not found") next();
-			else res.status(404).send(message);
-		},
-		redirect: path => {
-			res.redirect(path);
+	Controller.process(req.path).then(result => {
+		switch (result.action) {
+			case 'response':
+				res.set(result.headers).send(result.body);
+				break;
+			case 'redirect':
+				res.redirect(result.path);
+				break;
+			case 'notfound':
+				res.status(404).send(result.message);
+				break;
+			case 'unknown':
+				next();
+				break;
+			default:
+				throw `Unexpected action from controller ${result.action}`;
 		}
-	}, req.path);
+	});
 });
 var Route = require('./classes/route');
 var Stop = require('./classes/stop');

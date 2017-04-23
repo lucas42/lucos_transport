@@ -5,18 +5,7 @@ Mustache = require('mustache');
 
 function Controller (getTemplate, isServiceWorker) {
 	if (typeof getTemplate != 'function') throw "Needs getTemplate function";
-	function serve (functions, path) {
-		if (typeof functions != 'object') throw "Needs utility functions"
-		var utilityfunctions = {};
-		["response200","response404","redirect"].forEach(funcname => {
-			if (typeof functions[funcname] != 'function') throw `Needs {funcname} function`;
-
-			// Wrap the output of each function in a promise
-			utilityfunctions[funcname] = function () {
-				var response = functions[funcname].apply(null, arguments);
-				return Promise.resolve(response);
-			};
-		});
+	function process (path) {
 		var tokens = path.split('/');
 		switch (tokens[1]){
 			case '':
@@ -32,11 +21,11 @@ function Controller (getTemplate, isServiceWorker) {
 				});
 			case 'route':
 				if (!tokens[2]) {
-					return utilityfunctions.redirect('/');
+					return Promise.resolve({action:'redirect', path:'/'});
 				}
 				var route = Route.getById([tokens[2], tokens[3]]);
 				if (!route) {
-					return utilityfunctions.response404(`Can't find route /${tokens[2]}/${tokens[3]}`);
+					return Promise.resolve({action:'notfound', message:`Can't find route /${tokens[2]}/${tokens[3]}`});
 				}
 				var data = route.getDataTree();
 				data.parent = {
@@ -49,11 +38,11 @@ function Controller (getTemplate, isServiceWorker) {
 				});
 			case 'stop':
 				if (!tokens[2]) {
-					return utilityfunctions.redirect('/');
+					return Promise.resolve({action:'redirect', path:'/'});
 				}
 				var stop = Stop.getById([tokens[2], tokens[3]]);
 				if (!stop) {
-					return utilityfunctions.response404(`Can't find stop /${tokens[2]}/${tokens[3]}`);
+					return Promise.resolve({action:'notfound', message:`Can't find stop /${tokens[2]}/${tokens[3]}`});
 				}
 				var data = stop.getDataTree();
 				data.parent = {
@@ -65,11 +54,11 @@ function Controller (getTemplate, isServiceWorker) {
 				});
 			case 'vehicle':
 				if (!tokens[2]) {
-					return utilityfunctions.redirect('/');
+					return Promise.resolve({action:'redirect', path:'/'});
 				}
 				var vehicle = Vehicle.getById([[tokens[2], tokens[3]], tokens[4]]);
 				if (!vehicle) {
-					return utilityfunctions.response404(`Can't find vehicle ${tokens[4]}`);
+					return Promise.resolve({action:'notfound', message:`Can't find vehicle ${tokens[4]}`});
 				}
 				var data = vehicle.getDataTree();
 				data.parent = {
@@ -80,7 +69,7 @@ function Controller (getTemplate, isServiceWorker) {
 					'Cache-Control': 'public, max-age=0'
 				});
 			default:
-				return utilityfunctions.response404(`Page not found`);
+				return Promise.resolve({action:'unknown'});
 		}
 		function populateTemplate(templateid, data) {
 			return getTemplate(templateid).then(template => {
@@ -101,12 +90,16 @@ function Controller (getTemplate, isServiceWorker) {
 				return populateTemplate('page', options);
 			}).then(html => {
 				if (!headers['Content-Type']) headers['Content-Type'] = "text/html; charset=utf-8";
-				return utilityfunctions.response200(html, headers);
+				return {
+					action: 'response',
+					body: html,
+					headers: headers,
+				};
 			});
 		}
 	}
 	return {
-		serve: serve,
+		process: process,
 	}
 }
 module.exports = Controller;

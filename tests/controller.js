@@ -21,22 +21,17 @@ test.cb('Homepage Render', test => {
 		if (id == "routes") return Promise.resolve("homepage");
 		test.fail(`Unexpected template id '${id}' used`);
 	}
-	Controller(getTemplate).serve({
-		response200: (html, headers) => {
-			test.is(html, 'StartPage homepage EndPage TFLuke/TFLuke');
-			test.deepEqual(headers, {
-				'Cache-Control': 'public, max-age=0',
-				'Content-Type': 'text/html; charset=utf-8',
-			});
-		},
-		response404: message => {
-			test.fail('Returned unexpected 404 response');
-		},
-		redirect: path => {
-			test.fail('Returned unexpected redirect');
-		}
-	}, '/').then(test.end);
+	Controller(getTemplate).process('/').then(result => {
+		test.is(result.action, 'response');
+		test.is(result.body, 'StartPage homepage EndPage TFLuke/TFLuke');
+		test.deepEqual(result.headers, {
+			'Cache-Control': 'public, max-age=0',
+			'Content-Type': 'text/html; charset=utf-8',
+		});
+		test.end();
+	});
 });
+
 
 /** Route Page **/
 test.cb('Route Render', test => {
@@ -45,53 +40,35 @@ test.cb('Route Render', test => {
 		if (id == "route") return Promise.resolve("route");
 		test.fail(`Unexpected template id '${id}' used`);
 	}
-	Controller(getTemplate).serve({
-		response200: (html, headers) => {
-			test.is(html, 'StartPage route EndPage TFLuke - route1/route1');
-			test.deepEqual(headers, {
-				'Cache-Control': 'public, max-age=0',
-				'Content-Type': 'text/html; charset=utf-8',
-			});
-		},
-		response404: message => {
-			test.fail('Returned unexpected 404 response');
-		},
-		redirect: path => {
-			test.fail('Returned unexpected redirect');
-		}
-	}, '/route/net1/route1').then(test.end);
+	Controller(getTemplate).process('/route/net1/route1').then(result => {
+		test.is(result.action, 'response');
+		test.is(result.body, 'StartPage route EndPage TFLuke - route1/route1');
+		test.deepEqual(result.headers, {
+			'Cache-Control': 'public, max-age=0',
+			'Content-Type': 'text/html; charset=utf-8',
+		});
+		test.end();
+	});
 });
 test.cb('Route Redirect', test => {
 	function getTemplate(id) {
 		test.fail(`Unexpected template id '${id}' used`);
 	}
-	Controller(getTemplate).serve({
-		response200: (html, headers) => {
-			test.fail('Returned unexpected 200 response');
-		},
-		response404: message => {
-			test.fail('Returned unexpected 404 response');
-		},
-		redirect: path => {
-			test.is(path, '/');
-		}
-	}, '/route/').then(test.end);
+	Controller(getTemplate).process('/route/').then(result => {
+		test.is(result.action, 'redirect');
+		test.is(result.path, '/');
+		test.end();
+	});
 });
 test.cb('Route Not Found', test => {
 	function getTemplate(id) {
 		test.fail(`Unexpected template id '${id}' used`);
 	}
-	Controller(getTemplate).serve({
-		response200: (html, headers) => {
-			test.fail('Returned unexpected 200 response');
-		},
-		response404: message => {
-			test.is(message, "Can't find route /net1/route7");
-		},
-		redirect: path => {
-			test.fail('Returned unexpected redirect');
-		}
-	}, '/route/net1/route7').then(test.end);
+	Controller(getTemplate).process('/route/net1/route7').then(result => {
+		test.is(result.action, 'notfound');
+		test.is(result.message, "Can't find route /net1/route7");
+		test.end();
+	});
 });
 
 
@@ -102,53 +79,35 @@ test.cb('Stop Render', test => {
 		if (id == "station") return Promise.resolve("stop");
 		test.fail(`Unexpected template id '${id}' used`);
 	}
-	Controller(getTemplate).serve({
-		response200: (html, headers) => {
-			test.is(html, 'StartPage stop EndPage TFLuke - 🚂 Station/🚂 Station');
-			test.deepEqual(headers, {
-				'Cache-Control': 'public, max-age=0',
-				'Content-Type': 'text/html; charset=utf-8',
-			});
-		},
-		response404: message => {
-			test.fail('Returned unexpected 404 response');
-		},
-		redirect: path => {
-			test.fail('Returned unexpected redirect');
-		}
-	}, '/stop/net1/stop1').then(test.end);
+	Controller(getTemplate).process('/stop/net1/stop1').then(result => {
+		test.is(result.action, 'response');
+		test.is(result.body, 'StartPage stop EndPage TFLuke - 🚂 Station/🚂 Station');
+		test.deepEqual(result.headers, {
+			'Cache-Control': 'public, max-age=0',
+			'Content-Type': 'text/html; charset=utf-8',
+		});
+		test.end();
+	});
 });
 test.cb('Stop Redirect', test => {
 	function getTemplate(id) {
 		test.fail(`Unexpected template id '${id}' used`);
 	}
-	Controller(getTemplate).serve({
-		response200: (html, headers) => {
-			test.fail('Returned unexpected 200 response');
-		},
-		response404: message => {
-			test.fail('Returned unexpected 404 response');
-		},
-		redirect: path => {
-			test.is(path, '/');
-		}
-	}, '/stop/').then(test.end);
+	Controller(getTemplate).process('/stop/').then(result => {
+		test.is(result.action, 'redirect');
+		test.is(result.path, '/');
+		test.end();
+	});
 });
 test.cb('Stop Not Found', test => {
 	function getTemplate(id) {
 		test.fail(`Unexpected template id '${id}' used`);
 	}
-	Controller(getTemplate).serve({
-		response200: (html, headers) => {
-			test.fail('Returned unexpected 200 response');
-		},
-		response404: message => {
-			test.is(message, "Can't find stop /net1/route1");
-		},
-		redirect: path => {
-			test.fail('Returned unexpected redirect');
-		}
-	}, '/stop/net1/route1').then(test.end);
+	Controller(getTemplate).process('/stop/net1/route1').then(result => {
+		test.is(result.action, 'notfound');
+		test.is(result.message, "Can't find stop /net1/route1");
+		test.end();
+	});
 });
 
 
@@ -159,53 +118,35 @@ test.cb('Vehicle Render', test => {
 		if (id == "vehicle") return Promise.resolve("vehicle");
 		test.fail(`Unexpected template id '${id}' used`);
 	}
-	Controller(getTemplate).serve({
-		response200: (html, headers) => {
-			test.is(html, 'StartPage vehicle EndPage Matilda (Routeface)');
-			test.deepEqual(headers, {
-				'Cache-Control': 'public, max-age=0',
-				'Content-Type': 'text/html; charset=utf-8',
-			});
-		},
-		response404: message => {
-			test.fail('Returned unexpected 404 response');
-		},
-		redirect: path => {
-			test.fail('Returned unexpected redirect');
-		}
-	}, '/vehicle/net1/route1/boat1').then(test.end);
+	Controller(getTemplate).process('/vehicle/net1/route1/boat1').then(result => {
+		test.is(result.action, 'response');
+		test.is(result.body, 'StartPage vehicle EndPage Matilda (Routeface)');
+		test.deepEqual(result.headers, {
+			'Cache-Control': 'public, max-age=0',
+			'Content-Type': 'text/html; charset=utf-8',
+		});
+		test.end();
+	});
 });
 test.cb('Vehicle Redirect', test => {
 	function getTemplate(id) {
 		test.fail(`Unexpected template id '${id}' used`);
 	}
-	Controller(getTemplate).serve({
-		response200: (html, headers) => {
-			test.fail('Returned unexpected 200 response');
-		},
-		response404: message => {
-			test.fail('Returned unexpected 404 response');
-		},
-		redirect: path => {
-			test.is(path, '/');
-		}
-	}, '/vehicle/').then(test.end);
+	Controller(getTemplate).process('/vehicle/').then(result => {
+		test.is(result.action, 'redirect');
+		test.is(result.path, '/');
+		test.end();
+	});
 });
 test.cb('Vehicle Not Found', test => {
 	function getTemplate(id) {
 		test.fail(`Unexpected template id '${id}' used`);
 	}
-	Controller(getTemplate).serve({
-		response200: (html, headers) => {
-			test.fail('Returned unexpected 200 response');
-		},
-		response404: message => {
-			test.is(message, "Can't find vehicle train3");
-		},
-		redirect: path => {
-			test.fail('Returned unexpected redirect');
-		}
-	}, '/vehicle/net1/route1/train3').then(test.end);
+	Controller(getTemplate).process('/vehicle/net1/route1/train3').then(result => {
+		test.is(result.action, 'notfound');
+		test.is(result.message, "Can't find vehicle train3");
+		test.end();
+	});
 });
 
 /** Unknown Type **/
@@ -213,15 +154,8 @@ test.cb('Page Not Found', test => {
 	function getTemplate(id) {
 		test.fail(`Unexpected template id '${id}' used`);
 	}
-	Controller(getTemplate).serve({
-		response200: (html, headers) => {
-			test.fail('Returned unexpected 200 response');
-		},
-		response404: message => {
-			test.is(message, "Page not found");
-		},
-		redirect: path => {
-			test.fail('Returned unexpected redirect');
-		}
-	}, '/smartypants').then(test.end);
+	Controller(getTemplate).process('/smartypants').then(result => {
+		test.is(result.action, 'unknown');
+		test.end();
+	});
 });
