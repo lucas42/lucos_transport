@@ -46,12 +46,22 @@ function init(type, extraData, callback) {
 			break;
 	}
 	function getStopAnnouncement(data, arrived) {
-		var text = "The "
-		if (!arrived) text += "next ";
-		text += data.vehicle.vehicleType+" at "+data.platform.simpleName;
+		var text;
+		if (data.platform.simpleName) {
+			text = "The "
+			if (!arrived) text += "next ";
+			text += data.vehicle.vehicleType+" at "+data.platform.simpleName;
+		} else {
+			if (arrived) {
+				text = "This"
+			} else {
+				text = "The next " + data.vehicle.vehicleType;
+			}
+		}
 		text += arrived ? " is " : " will be ";
 		text += (data.vehicle.routeName.match(/^[aoeuiAOEUI]|^R[A-Z]/)) ? "an " : "a ";
-		text += fixRouteName(data.vehicle.routeName)+" "+data.vehicle.vehicleType;
+		text += fixRouteName(data.vehicle.routeName)+" ";
+		text += (!data.platform.simpleName && arrived) ? data.vehicle.vehicleType : "service";
 		if (data.vehicle.simpleDestination) text += " to "+fixStationName(data.vehicle.simpleDestination);
 		return text;
 	}
