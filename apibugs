@@ -1,3 +1,5 @@
+NB: This an old list which applied to TrackerNet.  Need to check which still apply to unified API
+
 Bugs
 * Chesham station missing from PredictionDetailed method.
 * District / Circle Line stations between Paddington Circle and Notting Hill Gate missing from PredictionDetailed method.
