@@ -145,3 +145,7 @@ test('Pier platform no name - boat approaching Announcement', test => {
 		}
 	});
 });
+
+// TODO: interchanges to other lines/modes
+
+// TODO: "Alight here" for landmarks
