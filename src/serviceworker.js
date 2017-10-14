@@ -56,6 +56,11 @@ const Controller = require('./controller')(templateid => {
 			return templateResponse.text();
 		});
 	});
+}, (source, type) => {
+	return fetch('/'+source+'/'+type+'.json').then(response => {
+		if (response.status != 200) throw "Server returned status code "+response.status;
+		return response.json();
+	});
 }, true);
 
 /**
@@ -113,8 +118,8 @@ self.addEventListener('fetch', function respondToFetch(event) {
 			}
 		});
 	}).catch(error => {
-		console.error("Can't do response", error);
-		return new Response(new Blob(["An unknown error occured"]), {status: 500});
+		console.error(error);
+		return new Response(new Blob(["An error occured: "+error]), {status: 500});
 	});
 	var tidyUpResponsePromise = responsePromise.then(response => {
 		setTimeout(fetchCounter.decrement, 0);

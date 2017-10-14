@@ -3,7 +3,7 @@ Stop = require('./classes/stop'),
 Vehicle = require('./classes/vehicle'),
 Mustache = require('mustache');
 
-function Controller (getTemplate, isServiceWorker) {
+function Controller (getTemplate, dataFetcher, isServiceWorker) {
 	if (typeof getTemplate != 'function') throw "Needs getTemplate function";
 	function process (path, requestHeaders) {
 		if (!requestHeaders) requestHeaders = {};
@@ -68,6 +68,24 @@ function Controller (getTemplate, isServiceWorker) {
 
 					// Use a really fast meta-refresh to check for changes
 					'refresh': '0.01',
+				});
+			case 'tfl':
+			case 'nr':
+				let source = tokens[1];
+				let type = 'routes';
+				return dataFetcher(source, type).then(data => {
+					if (path.endsWith(".json")) {
+						return {
+							action: 'response',
+							body: data,
+							headers: {
+								'Content-Type': "application/json",
+							},
+						};
+					}
+					return render('routes', data, {
+						'Cache-Control': 'public, max-age=0'
+					});
 				});
 			default:
 				return Promise.resolve({action:'unknown'});

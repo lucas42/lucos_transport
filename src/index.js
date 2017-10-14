@@ -3,9 +3,18 @@ var app = express();
 app.set('view engine', 'html');
 app.set('views', __dirname + '/../templates');
 const readFile = require('fs-readfile-promise');
+const TFLFetcher = require('./fetchers/tfl.js');
+const NRFetcher = require('./fetchers/nr.js');
 const Controller = require('./controller')(templateid => {
 	var templatePath = app.get('views')+'/'+templateid+'.'+app.get('view engine');
 	return readFile(templatePath, "utf-8");
+}, (source, type) => {
+	switch(source) {
+		case 'tfl':
+			return TFLFetcher.fetch(type);
+		case 'nr':
+			return NRFetcher.fetch(type);
+	}
 });
 app.get('*', function(req, res, next) {
 	Controller.process(req.path, {accept: req.get("accept")}).then(result => {
@@ -25,6 +34,9 @@ app.get('*', function(req, res, next) {
 			default:
 				throw `Unexpected action from controller ${result.action}`;
 		}
+	}).catch(error => {
+		console.error(error);
+		res.status(500).send("An error occurred: "+error);
 	});
 });
 var Route = require('./classes/route');
@@ -62,6 +74,9 @@ app.use('/resources/templates', express.static(__dirname + '/../templates', {max
 var server = app.listen(process.env.PORT || 3000, function () {
   console.log('App listening at http://%s:%s', server.address().address, server.address().port);
 });
+app.get('/simple', function (req, res) {
+	
+})
 
 require('./sources/dlrlondon').start();
 require('./sources/tfl-unified').start();
