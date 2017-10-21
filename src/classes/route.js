@@ -28,7 +28,7 @@ Route.prototype.getLiteData = function getLiteData() {
 	};
 }
 Route.prototype.getLink = function getLink() {
-	return "/route/"+encodeURIComponent(this.getNetwork().getCode())+"/"+encodeURIComponent(this.getCode());
+	return "/tfl/route/"+encodeURIComponent(this.getCode());
 }
 Route.prototype.getCssClass = function getCssClass() {
 	var cssClass, code = this.getCode();

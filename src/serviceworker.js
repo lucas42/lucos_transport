@@ -56,10 +56,11 @@ const Controller = require('./controller')(templateid => {
 			return templateResponse.text();
 		});
 	});
-}, (source, type) => {
-	return fetch('/'+source+'/'+type+'.json').then(response => {
-		if (response.status != 200) throw "Server returned status code "+response.status;
-		return response.json();
+}, (source, type, id) => {
+	return fetch('/'+source+'/'+type+'/'+id+'.json').then(response => {
+		if (response.status == 200) return response.json();
+		if (response.status == 404) throw "notfound";
+		throw "Server returned status code "+response.status;
 	});
 }, true);
 

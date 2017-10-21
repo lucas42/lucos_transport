@@ -44,7 +44,7 @@ test.cb('TFL Page', test => {
 		test.fail(`Unexpected template id '${id}' used`);
 		return Promise.resolve("error");
 	}
-	function dataFetcher(source, type) {
+	function dataFetcher(source, type, id) {
 		if (source == "tfl" && type == "routes") return Promise.resolve({datapoint: "livedata", title: "The Title"});
 		test.fail(`Unexpected data fetch for '${source}', '${type}'`);
 		return Promise.resolve("error");
@@ -56,8 +56,7 @@ test.cb('TFL Page', test => {
 			'Cache-Control': 'public, max-age=0',
 			'Content-Type': 'text/html; charset=utf-8',
 		});
-		test.end();
-	});
+	}).catch(error => {test.fail(error)}).then(test.end);
 });
 
 
@@ -107,8 +106,78 @@ test.cb('Route Not Found', test => {
 	Controller(getTemplate, dataFetcher).process('/route/net1/route7').then(result => {
 		test.is(result.action, 'notfound');
 		test.is(result.message, "Can't find route /net1/route7");
-		test.end();
-	});
+	}).catch(test.fail).then(test.end);
+});
+
+test.cb('Dynamic Route', test => {
+	function getTemplate(id) {
+		if (id == "page") return Promise.resolve("StartPage {{content}} EndPage {{headtitle}}");
+		if (id == "route") return Promise.resolve("route {{datapoint}}");
+		test.fail(`Unexpected template id '${id}' used`);
+		return Promise.resolve("error");
+	}
+	function dataFetcher(source, type, id) {
+		if (source == "tfl" && type == "route" && id == "bob") 
+			return Promise.resolve({datapoint: "livedata", title: "The Title"});
+		test.fail(`Unexpected data fetch for '${source}', '${type}', '${id}'`);
+		return Promise.resolve("error");
+	}
+	Controller(getTemplate, dataFetcher).process('/tfl/route/bob').then(result => {
+		test.is('response', result.action);
+		test.is('StartPage route livedata EndPage TFLuke - The Title', result.body);
+		test.deepEqual(result.headers, {
+			'Cache-Control': 'public, max-age=0',
+			'Content-Type': 'text/html; charset=utf-8',
+		});
+	}).catch(error => {test.fail(error)}).then(test.end);
+});
+test.cb('Dynamic Route Not Found', test => {
+	function getTemplate(id) {
+		test.fail(`Unexpected template id '${id}' used`);
+		return Promise.resolve("error");
+	}
+	function dataFetcher(source, type, id) {
+		return Promise.reject("notfound");
+	}
+	Controller(getTemplate, dataFetcher).process('/tfl/route/bob2').then(result => {
+		test.is('notfound', result.action);
+		test.is("Can't find route", result.message);
+	}).catch(error => {test.fail(error)}).then(test.end);
+});
+
+test.cb('Data Fetch Error', test => {
+	function getTemplate(id) {
+		test.fail(`Unexpected template id '${id}' used`);
+		return Promise.resolve("error");
+	}
+	function dataFetcher(source, type, id) {
+		return Promise.reject("connection problem");
+	}
+	Controller(getTemplate, dataFetcher).process('/tfl/route/bob2').then(result => {
+		test.fail("Result returned when data fetch failed");
+	}).catch(error => {
+		test.is("connection problem", error);
+	}).then(test.end);
+});
+test.cb('Dynamic Route Data', test => {
+	function getTemplate(id) {
+		test.fail(`Template shouldn't be needed to serve JSON`);
+		return Promise.resolve("error");
+	}
+	function dataFetcher(source, type, id) {
+		if (source == "tfl" && type == "route" && id == "bob") 
+			return Promise.resolve({datapoint: "livedata", title: "The Title"});
+		test.fail(`Unexpected data fetch for '${source}', '${type}', '${id}'`);
+		return Promise.resolve("error");
+	}
+	Controller(getTemplate, dataFetcher).process('/tfl/route/bob.json').then(result => {
+		test.is('response', result.action);
+		test.deepEqual({datapoint: "livedata", title: "The Title"}, result.body);
+		test.deepEqual(result.headers, {
+			'Cache-Control': 'public, max-age=0',
+			'Content-Type': 'application/json; charset=utf-8',
+		});
+	}).catch(error => {test.fail(error)}).then(test.end);
 });
 
 

@@ -2,6 +2,7 @@ require('es6-promise').polyfill();
 require('isomorphic-fetch');
 const Route = require('../classes/route');
 const Network = require('../classes/network');
+const Stop = require('../classes/stop');
 const supportedModes = ["tube", "dlr", "river-bus", "tflrail", "overground", "tram"];
 
 function tflapireq(path) {
@@ -27,7 +28,7 @@ function tflapireq(path) {
 }
 
 module.exports = {
-	fetch: function (type) {
+	fetch: function (type, id) {
 		switch (type) {
 			case "routes":
 				return tflapireq("/Line/Route").then(({data, date}) => {
@@ -77,6 +78,68 @@ module.exports = {
 					}
 
 				});
+			case "route":
+				var network, route;
+				return tflapireq("/Line/"+id).then(({data, date}) => {
+					if (!data.length) throw "notfound";
+					network = new Network(data[0].modeName);
+					route = new Route(network, id);
+					route.setField("name", data[0].name);
+					route.setField("title", data[0].name);
+					return tflapireq("/Line/"+route.getCode()+"/StopPoints");
+				}).then(({data, date}) => {
+					data.forEach(stopdata => {
+
+						// Ignore child stations - currently only piers have these, but arrivals only identify the parent station.
+						if (stopdata.naptanId != stopdata.stationNaptan) return;
+						var stop = new Stop(route.getNetwork(), stopdata.naptanId);
+						stop.setField('title', stopdata.commonName);
+						stop.setField('lastUpdated', date);
+
+						// Add all interchanges for this stop (even if there's no trains on departure boards)
+						stopdata.lineModeGroups.forEach(function (networkdata) {
+							if (supportedModes.indexOf(networkdata.modeName) == -1) return;
+							var network = new Network(networkdata.modeName);
+							if (network == route.getNetwork()) return;
+							networkdata.lineIdentifier.forEach(function (lineid) {
+								var interchange = new Stop(network, stopdata.naptanId);
+								if (!interchange.getField('title')) stop.setField('title', stopdata.commonName);
+								stop.addExternalInterchange(interchange);
+							});
+						});
+						stopdata.additionalProperties.forEach(function (additionaldata) {
+							if (additionaldata.key == "WiFi") {
+								stop.setField('wifi', additionaldata.value == "yes");
+							}
+							if (additionaldata.key == "Zone") {
+								stop.setField('zone', additionaldata.value);
+							}
+
+							// There are 2 fields about toilets (presumably from different sources) - try both.
+							if (additionaldata.key == "Toilets" && additionaldata.value.indexOf("yes") == 0) {
+								stop.setField('toilet', true);
+
+								// If there's a note, it follows 'yes', then a space.  It's usually surrounded by brackets
+								if (additionaldata.value.length > 4) {
+									stop.setField('toiletnote', additionaldata.value.substr(4));
+								}
+							}
+							if (additionaldata.key == "Toilet" && additionaldata.value == "Yes") {
+								stop.setField('toilet', true);
+							}
+
+							// TolietNote values are usually surrounded by brackets
+							if (additionaldata.key == "ToiletNote") {
+								stop.setField('toiletnote', additionaldata.value);
+							}
+						});
+
+						route.addStop(stop);
+					});
+					return route.getDataTree();
+				});
+			default:
+				return Promise.reject(`Unknown type '${type}'`);
 		}
 	}
 }

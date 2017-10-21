@@ -8,12 +8,12 @@ const NRFetcher = require('./fetchers/nr.js');
 const Controller = require('./controller')(templateid => {
 	var templatePath = app.get('views')+'/'+templateid+'.'+app.get('view engine');
 	return readFile(templatePath, "utf-8");
-}, (source, type) => {
+}, (source, type, id) => {
 	switch(source) {
 		case 'tfl':
-			return TFLFetcher.fetch(type);
+			return TFLFetcher.fetch(type, id);
 		case 'nr':
-			return NRFetcher.fetch(type);
+			return NRFetcher.fetch(type, id);
 	}
 });
 app.get('*', function(req, res, next) {

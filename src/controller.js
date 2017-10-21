@@ -7,7 +7,9 @@ function Controller (getTemplate, dataFetcher, isServiceWorker) {
 	if (typeof getTemplate != 'function') throw "Needs getTemplate function";
 	function process (path, requestHeaders) {
 		if (!requestHeaders) requestHeaders = {};
-		var tokens = path.split('/');
+		var parts = path.split('.', 2);
+		var tokens = parts[0].split('/');
+		var extension = parts[1];
 		switch (tokens[1]){
 			case '':
 				return render('routes', {
@@ -72,21 +74,28 @@ function Controller (getTemplate, dataFetcher, isServiceWorker) {
 			case 'tfl':
 			case 'nr':
 				let source = tokens[1];
-				let type = 'routes';
-				return dataFetcher(source, type).then(data => {
-					if (path.endsWith(".json")) {
+				let type = tokens[2] || 'routes';
+				let id = tokens[3];
+				return dataFetcher(source, type, id).then(data => {
+					if (extension == "json") {
 						return {
 							action: 'response',
 							body: data,
 							headers: {
-								'Content-Type': "application/json",
+								'Cache-Control': 'public, max-age=0',
+								'Content-Type': "application/json; charset=utf-8",
 							},
 						};
 					}
-					return render('routes', data, {
+					return render(type, data, {
 						'Cache-Control': 'public, max-age=0'
 					});
-				});
+				}).catch(error => {
+					if (error == 'notfound') {
+						return Promise.resolve({action:'notfound', message:`Can't find ${type}`});
+					}
+					throw error;
+				})
 			default:
 				return Promise.resolve({action:'unknown'});
 		}
