@@ -23,9 +23,35 @@ test.cb('Homepage Render', test => {
 		test.fail(`Unexpected template id '${id}' used`);
 		return Promise.resolve("error");
 	}
-	Controller(getTemplate).process('/').then(result => {
+	function dataFetcher() {
+		test.fail("Unneeded call to dataFetcher");
+	}
+	Controller(getTemplate, dataFetcher).process('/').then(result => {
 		test.is(result.action, 'response');
 		test.is(result.body, 'StartPage homepage EndPage TFLuke/TFLuke');
+		test.deepEqual(result.headers, {
+			'Cache-Control': 'public, max-age=0',
+			'Content-Type': 'text/html; charset=utf-8',
+		});
+		test.end();
+	});
+});
+
+test.cb('TFL Page', test => {
+	function getTemplate(id) {
+		if (id == "page") return Promise.resolve("StartPage {{content}} EndPage {{headtitle}}");
+		if (id == "routes") return Promise.resolve("tflpage {{datapoint}}");
+		test.fail(`Unexpected template id '${id}' used`);
+		return Promise.resolve("error");
+	}
+	function dataFetcher(source, type) {
+		if (source == "tfl" && type == "routes") return Promise.resolve({datapoint: "livedata", title: "The Title"});
+		test.fail(`Unexpected data fetch for '${source}', '${type}'`);
+		return Promise.resolve("error");
+	}
+	Controller(getTemplate, dataFetcher).process('/tfl').then(result => {
+		test.is('response', result.action);
+		test.is('StartPage tflpage livedata EndPage TFLuke - The Title', result.body);
 		test.deepEqual(result.headers, {
 			'Cache-Control': 'public, max-age=0',
 			'Content-Type': 'text/html; charset=utf-8',
@@ -43,7 +69,10 @@ test.cb('Route Render', test => {
 		test.fail(`Unexpected template id '${id}' used`);
 		return Promise.resolve("error");
 	}
-	Controller(getTemplate).process('/route/net1/route1').then(result => {
+	function dataFetcher() {
+		test.fail("Unneeded call to dataFetcher");
+	}
+	Controller(getTemplate, dataFetcher).process('/route/net1/route1').then(result => {
 		test.is(result.action, 'response');
 		test.is(result.body, 'StartPage route EndPage TFLuke - route1/route1');
 		test.deepEqual(result.headers, {
@@ -58,7 +87,10 @@ test.cb('Route Redirect', test => {
 		test.fail(`Unexpected template id '${id}' used`);
 		return Promise.resolve("error");
 	}
-	Controller(getTemplate).process('/route/').then(result => {
+	function dataFetcher() {
+		test.fail("Unneeded call to dataFetcher");
+	}
+	Controller(getTemplate, dataFetcher).process('/route/').then(result => {
 		test.is(result.action, 'redirect');
 		test.is(result.path, '/');
 		test.end();
@@ -69,7 +101,10 @@ test.cb('Route Not Found', test => {
 		test.fail(`Unexpected template id '${id}' used`);
 		return Promise.resolve("error");
 	}
-	Controller(getTemplate).process('/route/net1/route7').then(result => {
+	function dataFetcher() {
+		test.fail("Unneeded call to dataFetcher");
+	}
+	Controller(getTemplate, dataFetcher).process('/route/net1/route7').then(result => {
 		test.is(result.action, 'notfound');
 		test.is(result.message, "Can't find route /net1/route7");
 		test.end();
@@ -85,7 +120,10 @@ test.cb('Stop Render', test => {
 		test.fail(`Unexpected template id '${id}' used`);
 		return Promise.resolve("error");
 	}
-	Controller(getTemplate).process('/stop/net1/stop1').then(result => {
+	function dataFetcher() {
+		test.fail("Unneeded call to dataFetcher");
+	}
+	Controller(getTemplate, dataFetcher).process('/stop/net1/stop1').then(result => {
 		test.is(result.action, 'response');
 		test.is(result.body, 'StartPage stop EndPage TFLuke - 🚂 Station/🚂 Station');
 		test.deepEqual(result.headers, {
@@ -100,7 +138,10 @@ test.cb('Stop Redirect', test => {
 		test.fail(`Unexpected template id '${id}' used`);
 		return Promise.resolve("error");
 	}
-	Controller(getTemplate).process('/stop/').then(result => {
+	function dataFetcher() {
+		test.fail("Unneeded call to dataFetcher");
+	}
+	Controller(getTemplate, dataFetcher).process('/stop/').then(result => {
 		test.is(result.action, 'redirect');
 		test.is(result.path, '/');
 		test.end();
@@ -111,7 +152,10 @@ test.cb('Stop Not Found', test => {
 		test.fail(`Unexpected template id '${id}' used`);
 		return Promise.resolve("error");
 	}
-	Controller(getTemplate).process('/stop/net1/route1').then(result => {
+	function dataFetcher() {
+		test.fail("Unneeded call to dataFetcher");
+	}
+	Controller(getTemplate, dataFetcher).process('/stop/net1/route1').then(result => {
 		test.is(result.action, 'notfound');
 		test.is(result.message, "Can't find stop /net1/route1");
 		test.end();
@@ -127,7 +171,10 @@ test.cb('Vehicle Render', test => {
 		test.fail(`Unexpected template id '${id}' used`);
 		return Promise.resolve("error");
 	}
-	Controller(getTemplate).process('/vehicle/net1/route1/boat1').then(result => {
+	function dataFetcher() {
+		test.fail("Unneeded call to dataFetcher");
+	}
+	Controller(getTemplate, dataFetcher).process('/vehicle/net1/route1/boat1').then(result => {
 		test.is(result.action, 'response');
 		test.is(result.body, 'StartPage vehicle EndPage Matilda (Routeface)');
 		test.deepEqual(result.headers, {
@@ -142,7 +189,10 @@ test.cb('Vehicle Redirect', test => {
 		test.fail(`Unexpected template id '${id}' used`);
 		return Promise.resolve("error");
 	}
-	Controller(getTemplate).process('/vehicle/').then(result => {
+	function dataFetcher() {
+		test.fail("Unneeded call to dataFetcher");
+	}
+	Controller(getTemplate, dataFetcher).process('/vehicle/').then(result => {
 		test.is(result.action, 'redirect');
 		test.is(result.path, '/');
 		test.end();
@@ -153,7 +203,10 @@ test.cb('Vehicle Not Found', test => {
 		test.fail(`Unexpected template id '${id}' used`);
 		return Promise.resolve("error");
 	}
-	Controller(getTemplate).process('/vehicle/net1/route1/train3').then(result => {
+	function dataFetcher() {
+		test.fail("Unneeded call to dataFetcher");
+	}
+	Controller(getTemplate, dataFetcher).process('/vehicle/net1/route1/train3').then(result => {
 		test.is(result.action, 'notfound');
 		test.is(result.message, "Can't find vehicle train3");
 		test.end();
@@ -166,7 +219,10 @@ test.cb('Page Not Found', test => {
 		test.fail(`Unexpected template id '${id}' used`);
 		return Promise.resolve("error");
 	}
-	Controller(getTemplate).process('/smartypants').then(result => {
+	function dataFetcher() {
+		test.fail("Unneeded call to dataFetcher");
+	}
+	Controller(getTemplate, dataFetcher).process('/smartypants').then(result => {
 		test.is(result.action, 'unknown');
 		test.end();
 	});
@@ -180,7 +236,10 @@ test.cb('Vehicle Partial Render', test => {
 		test.fail(`Unexpected template id '${id}' used`);
 		return Promise.resolve("error");
 	}
-	Controller(getTemplate).process('/vehicle/net1/route1/boat1', {accept: 'text/partial-html'}).then(result => {
+	function dataFetcher() {
+		test.fail("Unneeded call to dataFetcher");
+	}
+	Controller(getTemplate, dataFetcher).process('/vehicle/net1/route1/boat1', {accept: 'text/partial-html'}).then(result => {
 		test.is(result.action, 'response');
 		test.is(result.body, 'vehicle Matilda (Routeface)');
 		test.deepEqual(result.headers, {
@@ -204,7 +263,10 @@ test.cb('Service Worker Loading Page', test => {
 		test.fail(`Unexpected template id '${id}' used`);
 		return Promise.resolve("error");
 	}
-	Controller(getTemplate, true).process('/loading').then(result => {
+	function dataFetcher() {
+		test.fail("Unneeded call to dataFetcher");
+	}
+	Controller(getTemplate, dataFetcher, true).process('/loading').then(result => {
 		test.is(result.action, 'response');
 		test.is(result.body, 'StartPage loading EndPage TFLuke/');
 		test.deepEqual(result.headers, {
@@ -220,7 +282,10 @@ test.cb('Server Loading Page', test => {
 		test.fail(`Unexpected template id '${id}' used`);
 		return Promise.resolve("error");
 	}
-	Controller(getTemplate, false).process('/loading').then(result => {
+	function dataFetcher() {
+		test.fail("Unneeded call to dataFetcher");
+	}
+	Controller(getTemplate, dataFetcher, false).process('/loading').then(result => {
 		test.is(result.action, 'redirect');
 		test.is(result.path, '/');
 		test.end();
