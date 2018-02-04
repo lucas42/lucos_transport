@@ -1,6 +1,7 @@
 var Class = require('./class');
 var Event = require('./event');
 var Stop = require('./stop');
+var boatnames = require('../../data/boatnames.json');
 var Vehicle = Class("Vehicle", ["route", "code"], function () {
 	this.addRelation({
 		singular: 'event',
@@ -14,14 +15,14 @@ Vehicle.prototype.getLink = function getLink() {
 	if (this.getField('ghost')) return "";
 	var link = "/tfl/vehicle";
 	link += "/"+encodeURIComponent(this.getCode());
-	link += "?mode="+encodeURIComponent(this.getRoute().getNetwork().getCode());
+	link += "?mode="+encodeURIComponent(this.getRoute().getField("mode"));
 	if (this.getRoute().getCode()) link += "&route="+encodeURIComponent(this.getRoute().getCode());
 	
 	return link;
 }
 Vehicle.prototype.getCssClass = function getCssClass() {
 	var cssclass = this.getRoute().getCssClass();
-	var name = this.getField('name')
+	var name = this.getName();
 	if (name) {
 		cssclass += " vehicle_"+name.toLowerCase().replace(' ', '');
 	}
@@ -31,7 +32,7 @@ Vehicle.prototype.getSimpleDestination = function getSimpleDestination() {
 	return Stop.simplifyName(this.getField("destination"));
 }
 Vehicle.prototype.getVehicleType = function getType() {
-	switch (this.getRoute().getNetwork().getCode()) {
+	switch (this.getRoute().getField("mode")) {
 		case "dlr":
 		case "tube":
 		case "tflrail":
@@ -48,6 +49,20 @@ Vehicle.prototype.getVehicleType = function getType() {
 			return "vehicle";
 	}
 }
+Vehicle.prototype.getName = function getName() {
+	var code = this.getCode();
+	if (code in boatnames) return boatnames[code];
+	return null;
+}
+Vehicle.prototype.getTitle = function getName() {
+	if (this.getName()) {
+		return this.getName() + " (" + this.getRoute().getField("name").toUpperCase() + ")";
+	}
+	if (this.getVehicleType() == "bus") {
+		return "Bus " + this.getCode() + " (" + this.getRoute().getField("name").toUpperCase() + ")";
+	}
+	return this.getRoute().getQualifiedName() + " " + this.getCode();
+}
 Vehicle.prototype.getData = function getData() {
 	var output = this.getRawData();
 	output.link = this.getLink();
@@ -59,11 +74,7 @@ Vehicle.prototype.getData = function getData() {
 	if (events.length) {
 		output.continues = !(events[events.length-1].isTerminus());
 	}
-	if (output.name) {
-		output.title = output.name + " (" + this.getRoute().getField("name") + ")";
-	} else {
-		output.title = this.getRoute().getQualifiedName() + " " + this.getCode();
-	}
+	output.title = this.getTitle();
 	output.vehicleType = this.getVehicleType();
 	return output;
 }

@@ -13,7 +13,12 @@ Stop.prototype.getLink = function getLink() {
 	return "/tfl/stop/"+encodeURIComponent(this.getCode());
 }
 Stop.prototype.getCssClass = function getCssClass() {
-	return "stop "+this.getNetwork().getCssClass();
+	var cssClass = "stop ";
+	if (this.getField("mode")) {
+		cssClass += "mode_"+this.getField("mode")+" ";
+	}
+	cssClass += this.getNetwork().getCssClass();
+	return cssClass;
 }
 Stop.prototype.getSimpleName = function getSimpleName() {
 	return Stop.simplifyName(this.getField("title"));
@@ -23,7 +28,6 @@ Stop.prototype.getData = function getData(source) {
 	output.link = this.getLink();
 	output.network = this.getNetwork().getCode();
 	output.hasExternalInterchanges = this.getExternalInterchanges().length > 0;
-	output.symbol = this.getNetwork().getSymbol();
 	output.cssClass = this.getCssClass();
 	output.simpleName = this.getSimpleName();
 	return output;

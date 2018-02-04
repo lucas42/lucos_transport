@@ -18,11 +18,16 @@ Platform.prototype.getLink = function getLink() {
 	return this.getStop().getLink();
 }
 Platform.prototype.getCssClass = function getCssClass() {
-	if (!this.getRoutes().length) return "";
-	var cssClass = "route";
-	this.getRoutes().forEach(function (route) {
-		cssClass += "_"+route.getCode();
-	});
+	var cssClass = "";
+	if (this.getField("mode")) {
+		cssClass += "mode_"+this.getField("mode")+" ";
+	}
+	if (this.getRoutes().length) {
+		cssClass += "route";
+		this.getRoutes().forEach(function (route) {
+			cssClass += "_"+route.getCode();
+		});
+	}
 	return cssClass;
 }
 Platform.prototype.getData = function getData() {

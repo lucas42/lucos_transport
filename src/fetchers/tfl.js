@@ -7,6 +7,7 @@ const Platform = require('../classes/platform');
 const Event = require('../classes/event');
 const Vehicle = require('../classes/vehicle');
 const supportedModes = ["tube", "dlr", "river-bus", "tflrail", "overground", "tram"];
+let tflNetwork = new Network("tfl");
 
 function tflapireq(path) {
 	var parsed;
@@ -38,19 +39,18 @@ module.exports = {
 					var routes = {};
 					data.forEach(function (linedata) {
 						if (supportedModes.indexOf(linedata.modeName) == -1) return;
-						var network = new Network(linedata.modeName);
-						var route = new Route(network, linedata.id);
+						var route = new Route(tflNetwork, linedata.id);
 						route.setField('title', linedata.name);
 						route.setField('name', linedata.name);
 						route.setField('lastUpdated', date);
+						route.setField("mode", linedata.modeName);
 						routes[linedata.id] = route;
 					});
 					return routes;
 				}).then(routes => {
 					return tflapireq("/Line/"+Object.keys(routes).join(',')+"/Status").then(({data, date}) => {
 						data.forEach(function (linedata) {
-							var network = new Network(linedata.modeName);
-							var route = new Route(network, linedata.id);
+							var route = new Route(tflNetwork, linedata.id);
 							var lowestseverity = 100;
 							var loweststatus = "Unknown";
 							var details = "";
@@ -83,14 +83,14 @@ module.exports = {
 				});
 			}
 			case "route": {
-				let network, route;
+				let  route;
 				return tflapireq("/Line/"+id).then(({data, date}) => {
 					if (!data.length) throw "notfound";
-					network = new Network(data[0].modeName);
-					route = new Route(network, id);
+					route = new Route(tflNetwork, id);
 					route.setField("name", data[0].name);
 					route.setField("title", data[0].name);
 					route.setField("lastUpdated", date);
+					route.setField("mode", data[0].modeName);
 					return tflapireq("/Line/"+route.getCode()+"/StopPoints");
 				}).then(({data, date}) => {
 					data.forEach(data => {
@@ -210,8 +210,9 @@ module.exports = {
 				}).then(allpoints => {
 					allpoints.forEach(({data, date}) => {
 						data.forEach(function (arrival) {
-							var route = new Route(new Network(arrival.modeName), arrival.lineId);
+							var route = new Route(tflNetwork, arrival.lineId);
 							route.addStop(stop);
+							route.setField("mode", arrival.modeName);
 
 							// API sends the string 'null', rather than a null value
 							if (arrival.platformName == 'null') {
@@ -219,6 +220,7 @@ module.exports = {
 							}
 							var platform = new Platform(stop, arrival.platformName);
 							platform.addRoute(route);
+							platform.setField("mode", arrival.modeName);
 							var vehicle;
 							if (arrival.vehicleId) {
 								vehicle = new Vehicle(route, arrival.vehicleId);
@@ -243,15 +245,17 @@ module.exports = {
 			}
 
 			case "vehicle": {
-				let route = new Route(new Network(params.mode), params.route);
+				let route = new Route(tflNetwork, params.route);
+				route.setField("mode", params.mode);
 				let vehicle = new Vehicle(route, id);
 				return tflapireq("/Vehicle/"+id+"/Arrivals").then(({data, date}) => {
 					data.forEach(function (arrival) {
-						var stop = new Stop(new Network(arrival.modeName), arrival.naptanId);
+						var stop = new Stop(tflNetwork, arrival.naptanId);
 						stop.setField('title', arrival.stationName);
 						stop.setField('lastUpdated', date);
 						var platform = new Platform(stop, arrival.platformName);
 						platform.addRoute(route);
+							platform.setField("mode", params.mode);
 						var event = new Event(vehicle, platform);
 						event.setField('time', new Date(arrival.expectedArrival));
 						event.setField('lastUpdated', date);

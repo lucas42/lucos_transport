@@ -92,7 +92,7 @@ function inlineFetch(path) {
 			let loadingDiv = document.getElementById('loading');
 			if (loadingDiv) loadingDiv.parentNode.removeChild(loadingDiv);
 		}
-	});
+	}); // TODO: catch errors here in case service worker hasn't loaded yet.
 
 	// If the page doesn't load in half a second, show loading div
 	window.setTimeout(() => {
