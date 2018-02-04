@@ -253,6 +253,11 @@ module.exports = {
 						var stop = new Stop(tflNetwork, arrival.naptanId);
 						stop.setField('title', arrival.stationName);
 						stop.setField('lastUpdated', date);
+
+						// API sends the string 'null', rather than a null value
+						if (arrival.platformName == 'null') {
+							arrival.platformName = null;
+						}
 						var platform = new Platform(stop, arrival.platformName);
 						platform.addRoute(route);
 							platform.setField("mode", params.mode);
