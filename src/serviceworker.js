@@ -3,7 +3,7 @@ const TEMPLATE_CACHE = 'templates-v1';
 const TEMPLATE_PATH = '/resources/templates/';
 
 const Event = require('./classes/event'),
-serverSource = require('./sources/server'),
+//serverSource = require('./sources/server'),
 Pubsub = require('lucos_pubsub');
 
 self.addEventListener('install', function swInstalled(event) {
@@ -36,8 +36,8 @@ function refreshResources() {
 		});
 	}).catch(function (error) {
 		errors.push("templates");
-	}).then(serverSource.refresh).catch(function (error) {
-		errors.push("data");
+	//}).then(serverSource.refresh).catch(function (error) {
+	//	errors.push("data");
 	}).then(function () {
 		if (errors.length) throw "Failed to update "+errors.join()+".";
 	})
@@ -72,7 +72,7 @@ const Controller = require('./controller')(templateid => {
  * Keep track of whether there are any ongoing fetches
  * Event updates are processor intensive, so only enable them when there are no fetches
  */
-var fetchCounter = (function () {
+/*var fetchCounter = (function () {
 	var currentFetches = 0;
 	return {
 		increment: function increment() {
@@ -86,10 +86,10 @@ var fetchCounter = (function () {
 			}, 300);
 		},
 	}
-})();
+})();*/
 
 self.addEventListener('fetch', function respondToFetch(event) {
-	fetchCounter.increment();
+	//fetchCounter.increment();
 	var url = new URL(event.request.url);
 	var responsePromise = caches.match(event.request).then(function serveFromCache(response) {
 		if (response) return response;
@@ -103,10 +103,10 @@ self.addEventListener('fetch', function respondToFetch(event) {
 			});
 		}
 		var path = url.pathname
-		if (!serverSource.isLoaded()) {
+		/*if (!serverSource.isLoaded()) {
 			serverSource.loadFromCache();
 			path = '/loading';
-		}
+		}*/
 		var params = {};
 		for(var pair of url.searchParams.entries()) {
 			params[pair[0]] = pair[1];
@@ -131,7 +131,7 @@ self.addEventListener('fetch', function respondToFetch(event) {
 		return new Response(new Blob(["An error occured: "+error]), {status: 500});
 	});
 	var tidyUpResponsePromise = responsePromise.then(response => {
-		setTimeout(fetchCounter.decrement, 0);
+		//setTimeout(fetchCounter.decrement, 0);
 		return response;
 	})
 	event.respondWith(tidyUpResponsePromise);
@@ -148,4 +148,4 @@ Pubsub.filterBroadcasts((type, msg, client) => {
 			return false;
 	}
 });
-serverSource.start();
+//serverSource.start();
