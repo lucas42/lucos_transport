@@ -13,15 +13,23 @@ function Controller (getTemplate, dataFetcher, isServiceWorker) {
 		var extension = parts[1];
 		switch (tokens[1]){
 			case '':
-				return render('routes', {
-					routes: Route.getRouteList(),
-					routeData: JSON.stringify(Route.getRouteList(true)),
-					lastUpdated: Route.getOldestUpdateTime(),
-					cssClass: 'homepage',
-					classType: 'RouteList',
-					title: 'TFLuke',
-				}, {
-					'Cache-Control': 'public, max-age=0'
+				return Promise.all([
+					dataFetcher('tfl', 'routes'),
+					dataFetcher('nr', 'routes')
+				]).then(sources => {
+					let data = {
+						routes: [],
+						lastUpdated: Date.now(),
+						cssClass: 'homepage',
+						classType: 'RouteList',
+						title: 'TFLuke',
+					}
+					sources.forEach(source => {
+						source.routes.forEach(route => {
+							data.routes.push(route);
+						});
+					});
+					return output('routes', data);
 				});
 			case 'route':
 				if (!tokens[2]) {
@@ -78,19 +86,7 @@ function Controller (getTemplate, dataFetcher, isServiceWorker) {
 				let type = tokens[2] || 'routes';
 				let id = tokens[3];
 				return dataFetcher(source, type, id, params).then(data => {
-					if (extension == "json") {
-						return {
-							action: 'response',
-							body: JSON.stringify(data),
-							headers: {
-								'Cache-Control': 'public, max-age=0',
-								'Content-Type': "application/json; charset=utf-8",
-							},
-						};
-					}
-					return render(type, data, {
-						'Cache-Control': 'public, max-age=0'
-					});
+					return output(type, data);
 				}).catch(error => {
 					if (error == 'notfound') {
 						return Promise.resolve({action:'notfound', message:`Can't find ${type}`});
@@ -132,6 +128,21 @@ function Controller (getTemplate, dataFetcher, isServiceWorker) {
 					body: html,
 					headers: responseHeaders,
 				};
+			});
+		}
+		function output(type, data) {
+			if (extension == "json") {
+				return {
+					action: 'response',
+					body: JSON.stringify(data),
+					headers: {
+						'Cache-Control': 'public, max-age=0',
+						'Content-Type': "application/json; charset=utf-8",
+					},
+				};
+			}
+			return render(type, data, {
+				'Cache-Control': 'public, max-age=0',
 			});
 		}
 	}
