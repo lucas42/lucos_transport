@@ -78,7 +78,5 @@ app.get('/simple', function (req, res) {
 	
 })
 
-require('./sources/dlrlondon').start();
-require('./sources/tfl-unified').start();
 require('./sources/localdata').start();
 require('./sources/boatdata').start();
