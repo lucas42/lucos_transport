@@ -64,17 +64,16 @@ Route.getByStop = function getByStop(stop) {
 	return Route.getByRelatedThing('stop', stop).sort(Route.sort);
 }
 Route.sort = function sortRoutes(a, b) {
+	modePriority = ['tube','dlr','tfl-rail','overground','tram','river-bus','bus'];
 	var neta = a.getField("mode");
 	var netb = b.getField("mode");
 
-	// Make sure all the tube lines go at the top
+	// Loop through all the modes in priority order
 	if (neta != netb) {
-		if (neta == 'tube') return -1;
-		if (netb == 'tube') return 1;
-		if (neta == 'dlr') return -1;
-		if (netb == 'dlr') return 1;
-		if (neta == 'overground') return -1;
-		if (netb == 'overgound') return 1;
+		for (var mode in modePriority) {
+			if (neta == modePriority[mode]) return -1;
+			if (netb == modePriority[mode]) return 1;
+		}
 	}
 	return a.getField("title") > b.getField("title") ? 1 : -1;
 }
