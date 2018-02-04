@@ -3,6 +3,9 @@ require('isomorphic-fetch');
 const Route = require('../classes/route');
 const Network = require('../classes/network');
 const Stop = require('../classes/stop');
+const Platform = require('../classes/platform');
+const Event = require('../classes/event');
+const Vehicle = require('../classes/vehicle');
 const supportedModes = ["tube", "dlr", "river-bus", "tflrail", "overground", "tram"];
 
 function tflapireq(path) {
@@ -30,7 +33,7 @@ function tflapireq(path) {
 module.exports = {
 	fetch: function (type, id) {
 		switch (type) {
-			case "routes":
+			case "routes": {
 				return tflapireq("/Line/Route").then(({data, date}) => {
 					var routes = {};
 					data.forEach(function (linedata) {
@@ -78,36 +81,38 @@ module.exports = {
 					}
 
 				});
-			case "route":
-				var network, route;
+			}
+			case "route": {
+				let network, route;
 				return tflapireq("/Line/"+id).then(({data, date}) => {
 					if (!data.length) throw "notfound";
 					network = new Network(data[0].modeName);
 					route = new Route(network, id);
 					route.setField("name", data[0].name);
 					route.setField("title", data[0].name);
+					route.setField("lastUpdated", date);
 					return tflapireq("/Line/"+route.getCode()+"/StopPoints");
 				}).then(({data, date}) => {
-					data.forEach(stopdata => {
+					data.forEach(data => {
 
-						// Ignore child stations - currently only piers have these, but arrivals only identify the parent station.
-						if (stopdata.naptanId != stopdata.stationNaptan) return;
-						var stop = new Stop(route.getNetwork(), stopdata.naptanId);
-						stop.setField('title', stopdata.commonName);
+						// Ignore child stations - These will be added as platforms on the stop page
+						if (data.naptanId != data.stationNaptan) return;
+						var stop = new Stop(route.getNetwork(), data.naptanId);
+						stop.setField('title', data.commonName);
 						stop.setField('lastUpdated', date);
 
 						// Add all interchanges for this stop (even if there's no trains on departure boards)
-						stopdata.lineModeGroups.forEach(function (networkdata) {
+						data.lineModeGroups.forEach(function (networkdata) {
 							if (supportedModes.indexOf(networkdata.modeName) == -1) return;
 							var network = new Network(networkdata.modeName);
 							if (network == route.getNetwork()) return;
 							networkdata.lineIdentifier.forEach(function (lineid) {
-								var interchange = new Stop(network, stopdata.naptanId);
-								if (!interchange.getField('title')) stop.setField('title', stopdata.commonName);
+								var interchange = new Stop(network, data.naptanId);
+								if (!interchange.getField('title')) stop.setField('title', data.commonName);
 								stop.addExternalInterchange(interchange);
 							});
 						});
-						stopdata.additionalProperties.forEach(function (additionaldata) {
+						data.additionalProperties.forEach(function (additionaldata) {
 							if (additionaldata.key == "WiFi") {
 								stop.setField('wifi', additionaldata.value == "yes");
 							}
@@ -138,8 +143,117 @@ module.exports = {
 					});
 					return route.getDataTree();
 				});
-			default:
-				return Promise.reject(`Unknown type '${type}'`);
+			}
+			case "stop": {
+				let network = new Network('tfl');
+				let stop;
+				return tflapireq("/StopPoint/"+id).then(({data, date}) => {
+					stop = new Stop(network, id);
+					stop.setField('title', data.commonName);
+					stop.setField('lastUpdated', date);
+
+					// Add all interchanges for this stop (even if there's no trains on departure boards)
+					/*data.lineModeGroups.forEach(function (networkdata) {
+						if (supportedModes.indexOf(networkdata.modeName) == -1) return;
+						var network = new Network(networkdata.modeName);
+						if (network == route.getNetwork()) return;
+						networkdata.lineIdentifier.forEach(function (lineid) {
+							var interchange = new Stop(network, data.naptanId);
+							if (!interchange.getField('title')) stop.setField('title', data.commonName);
+							stop.addExternalInterchange(interchange);
+						});
+					});*/
+					data.additionalProperties.forEach(function (additionaldata) {
+						if (additionaldata.key == "WiFi") {
+							stop.setField('wifi', additionaldata.value == "yes");
+						}
+						if (additionaldata.key == "Zone") {
+							stop.setField('zone', additionaldata.value);
+						}
+
+						// There are 2 fields about toilets (presumably from different sources) - try both.
+						if (additionaldata.key == "Toilets" && additionaldata.value.indexOf("yes") == 0) {
+							stop.setField('toilet', true);
+
+							// If there's a note, it follows 'yes', then a space.  It's usually surrounded by brackets
+							if (additionaldata.value.length > 4) {
+								stop.setField('toiletnote', additionaldata.value.substr(4));
+							}
+						}
+						if (additionaldata.key == "Toilet" && additionaldata.value == "Yes") {
+							stop.setField('toilet', true);
+						}
+
+						// TolietNote values are usually surrounded by brackets
+						if (additionaldata.key == "ToiletNote") {
+							stop.setField('toiletnote', additionaldata.value);
+						}
+					});
+					let routeModes = {};
+					data.lineModeGroups.forEach(modegroup => {
+						modegroup.lineIdentifier.forEach(lineid => {
+							routeModes[lineid] = modegroup.modeName;
+						})
+					});
+					let StopPointReqs = data.lineGroup.map(stoppoint => {
+
+						// Really hacky way to work out which ID to use when lookig up arrival data
+						let id, mode = routeModes[stoppoint.lineIdentifier[0]];
+						switch (mode) {
+							case "bus":
+								id = stoppoint.naptanIdReference;
+								break;
+							case "tube":
+							case "overground":
+							case "river-bus":
+							case "river-tour":
+							case "tram":
+								id = stoppoint.stationAtcoCode;
+						}
+						if (!id) {
+							console.log ("Can't find ID for", mode, stoppoint);
+							return {data:[], date:Date.now()};
+						}
+						return tflapireq("/StopPoint/"+id+"/Arrivals");
+					});
+					return Promise.all(StopPointReqs);
+				}).then(allpoints => {
+					allpoints.forEach(({data, date}) => {
+						data.forEach(function (arrival) {
+							var route = new Route(new Network(arrival.modeName), arrival.lineId);
+							route.addStop(stop);
+
+							// API sends the string 'null', rather than a null value
+							if (arrival.platformName == 'null') {
+								arrival.platformName = null;
+							}
+							var platform = new Platform(stop, arrival.platformName);
+							platform.addRoute(route);
+							var vehicle;
+							if (arrival.vehicleId) {
+								vehicle = new Vehicle(route, arrival.vehicleId);
+
+							// If there's no vehicle ID, then make up a random one and mark it as a ghost
+							} else {
+								vehicle = new Vehicle(route, Math.random());
+								vehicle.setField('ghost', true);
+								platform.setField('hasghosts', true);
+							}
+
+							vehicle.setField('destination', arrival.destinationName);
+							vehicle.setField('lastUpdated', date);
+							var event = new Event(vehicle, platform);
+							event.setField('time', new Date(arrival.expectedArrival));
+							event.setField('lastUpdated', date);
+							event.updateRelTime();
+						});
+					});
+					return stop.getDataTree();
+				});
+			}
+			default: {
+				return Promise.reject("notfound");
+			}
 		}
 	}
 }

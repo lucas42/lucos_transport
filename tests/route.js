@@ -13,7 +13,7 @@ test('Create Route', test => {
 	test.is(route.getCode(), 'id246');
 	test.deepEqual(route.getIndex(), [['id123'],'id246']);
 	test.is(route.getCssClass(), 'route_id246 network_id123');
-	test.is(route.getLink(), '/route/id123/id246');
+	test.is(route.getLink(), '/tfl/route/id246');
 	test.is(route.getNetwork().getCode(), 'id123');
 	test.is(route.getQualifiedName(), 'id246');
 });

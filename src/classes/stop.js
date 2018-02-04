@@ -10,7 +10,7 @@ var Stop = Class("Stop", ["network", "code"], function () {
 	});
 });
 Stop.prototype.getLink = function getLink() {
-	return "/stop/"+encodeURIComponent(this.getNetwork().getCode())+"/"+encodeURIComponent(this.getCode());
+	return "/tfl/stop/"+encodeURIComponent(this.getCode());
 }
 Stop.prototype.getCssClass = function getCssClass() {
 	return "stop "+this.getNetwork().getCssClass();

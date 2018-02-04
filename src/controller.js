@@ -44,7 +44,7 @@ function Controller (getTemplate, dataFetcher, isServiceWorker) {
 					return Promise.resolve({action:'notfound', message:`Can't find stop /${tokens[2]}/${tokens[3]}`});
 				}
 				var data = stop.getDataTree();
-				return render('station', data, {
+				return render('stop', data, {
 					'Cache-Control': 'public, max-age=0'
 				});
 			case 'vehicle':
@@ -80,7 +80,7 @@ function Controller (getTemplate, dataFetcher, isServiceWorker) {
 					if (extension == "json") {
 						return {
 							action: 'response',
-							body: data,
+							body: JSON.stringify(data),
 							headers: {
 								'Cache-Control': 'public, max-age=0',
 								'Content-Type': "application/json; charset=utf-8",

@@ -29,7 +29,7 @@ function refreshResources() {
 				TEMPLATE_PATH + 'page.html',
 				TEMPLATE_PATH + 'routes.html',
 				TEMPLATE_PATH + 'route.html',
-				TEMPLATE_PATH + 'station.html',
+				TEMPLATE_PATH + 'stop.html',
 				TEMPLATE_PATH + 'vehicle.html',
 				TEMPLATE_PATH + 'loading.html',
 			]);

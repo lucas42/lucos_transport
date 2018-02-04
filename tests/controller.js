@@ -172,7 +172,7 @@ test.cb('Dynamic Route Data', test => {
 	}
 	Controller(getTemplate, dataFetcher).process('/tfl/route/bob.json').then(result => {
 		test.is('response', result.action);
-		test.deepEqual({datapoint: "livedata", title: "The Title"}, result.body);
+		test.deepEqual({datapoint: "livedata", title: "The Title"}, JSON.parse(result.body));
 		test.deepEqual(result.headers, {
 			'Cache-Control': 'public, max-age=0',
 			'Content-Type': 'application/json; charset=utf-8',
@@ -185,7 +185,7 @@ test.cb('Dynamic Route Data', test => {
 test.cb('Stop Render', test => {
 	function getTemplate(id) {
 		if (id == "page") return Promise.resolve("StartPage {{content}} EndPage {{headtitle}}/{{title}}");
-		if (id == "station") return Promise.resolve("stop");
+		if (id == "stop") return Promise.resolve("stop");
 		test.fail(`Unexpected template id '${id}' used`);
 		return Promise.resolve("error");
 	}
@@ -229,6 +229,29 @@ test.cb('Stop Not Found', test => {
 		test.is(result.message, "Can't find stop /net1/route1");
 		test.end();
 	});
+});
+
+test.cb('Dynamic Stop', test => {
+	function getTemplate(id) {
+		if (id == "page") return Promise.resolve("StartPage {{content}} EndPage {{headtitle}}");
+		if (id == "stop") return Promise.resolve("stop {{datapoint}}");
+		test.fail(`Unexpected template id '${id}' used`);
+		return Promise.resolve("error");
+	}
+	function dataFetcher(source, type, id) {
+		test.is("tfl", source);
+		test.is("stop", type);
+		test.is("mordor", id);
+		return Promise.resolve({datapoint: "livedata", title: "Mordor, Middle Earth"});
+	}
+	Controller(getTemplate, dataFetcher).process('/tfl/stop/mordor').then(result => {
+		test.is('response', result.action);
+		test.is('StartPage stop livedata EndPage TFLuke - Mordor, Middle Earth', result.body);
+		test.deepEqual(result.headers, {
+			'Cache-Control': 'public, max-age=0',
+			'Content-Type': 'text/html; charset=utf-8',
+		});
+	}).catch(error => {test.fail(error)}).then(test.end);
 });
 
 
