@@ -16,82 +16,92 @@ function pageLoad() {
 		footer.addEventListener("click", refresh, false);
 		footer.dataset.listening = true;
 	 })();
-			/**
-	 * Adds a click handler to all links in a DOMElement
-	 * 
-	 * @param {DOMElement} parent The parent of all the links
-	 */
-	(function addOnClick(parent) {
-		if (!parent.getElementsByTagName) return;
-		var links = parent.getElementsByTagName('a');
-		var linksList = Array.prototype.slice.call(links);
-		linksList.forEach(link => {
-			if (link.dataset.gotloadlistener) return;
-			link.addEventListener('click', function (event) {
-
-				// Only handle left clicks
-				if (event.button !== 0) return;
-				
-				// Allow target=_blank to do their own thing
-				if (this.getAttribute("target") == "_blank") return;
-
-				var loading = true;
-				let path = this.getAttribute("href");
-				if (path.charAt(0) == '/') {
-					event.preventDefault();
-
-					(function inlineFetch() {
-						var responseHeaders = {};
-						fetch(path, {
-							headers: {
-								accept: 'text/partial-html'
-							}
-						}).then(response => {
-							responseHeaders = response.headers;
-							return response.text();
-						}).then(content => {
-							loading = false;
-							let contentDiv = document.getElementById("content");
-							contentDiv.innerHTML = content;
-							addOnClick(contentDiv);
-							document.getElementById("pagetitle").textContent = responseHeaders.get("title");
-							document.getElementById("lastUpdated").textContent = responseHeaders.get("lastUpdated");
-							document.body.setAttribute("class", responseHeaders.get("cssClass"));
-
-							let extraData = {
-								routes: JSON.parse(responseHeaders.get("routeData")),
-							};
-							Sound.load(responseHeaders.get("classType"), extraData);
-							history.pushState({}, responseHeaders.get("title"), path);
-
-							// If there's a refresh header, then retry the request in the appropriate amount of time
-							if (responseHeaders.get("refresh")) {
-								var interval = responseHeaders.get("refresh") * 1000;
-								window.setTimeout(inlineFetch, interval);
-							} else {
-								let loadingDiv = document.getElementById('loading');
-								if (loadingDiv) loadingDiv.parentNode.removeChild(loadingDiv);
-							}
-						});
-					}());
-				}
-
-				// If the next page doesn't load in half a second, show loading div
-				window.setTimeout(() => {
-					if (!loading) return;
-					let loadingDiv = document.createElement("div");
-					loadingDiv.id = "loading";
-					loadingDiv.textContent = "Loading ...";
-					document.body.appendChild(loadingDiv);
-				}, 500);
-			}, false);
-			link.dataset.gotloadlistener = true;
-		});
-	})(document.body);
+	
+	addOnClick(document.body);
 
 	let extraData = {};
 	if (typeof routeData !== "undefined") extraData.routes = routeData;
 	Sound.load(document.body.dataset.classtype, extraData);
+}
+
+/**
+ * Adds a click handler to all links in a DOMElement
+ * 
+ * @param {DOMElement} parent The parent of all the links
+ */
+function addOnClick(parent) {
+	if (!parent.getElementsByTagName) return;
+	var links = parent.getElementsByTagName('a');
+	var linksList = Array.prototype.slice.call(links);
+	linksList.forEach(link => {
+		if (link.dataset.gotloadlistener) return;
+		link.addEventListener('click', function (event) {
+
+			// Only handle left clicks
+			if (event.button !== 0) return;
+			
+			// Allow target=_blank to do their own thing
+			if (this.getAttribute("target") == "_blank") return;
+
+			let path = this.getAttribute("href");
+			if (path.charAt(0) == '/') {
+				event.preventDefault();
+				inlineFetch(path);
+			}
+		}, false);
+		link.dataset.gotloadlistener = true;
+	});
+}
+
+/**
+ * Fetch the content of a page
+ * And replace the current content without refreshing the entire page
+ *
+ * @param {String} path The path of the page to fetch the content of (defaults to the current page)
+ */
+function inlineFetch(path) {
+	var loading = true;
+	var responseHeaders = {};
+	fetch(path || (window.location.pathname + window.location.search), {
+		headers: {
+			accept: 'text/partial-html'
+		}
+	}).then(response => {
+		responseHeaders = response.headers;
+		return response.text();
+	}).then(content => {
+		loading = false;
+		let contentDiv = document.getElementById("content");
+		contentDiv.innerHTML = content;
+		addOnClick(contentDiv);
+		document.getElementById("pagetitle").textContent = responseHeaders.get("title");
+		document.getElementById("lastUpdated").textContent = responseHeaders.get("lastUpdated");
+		document.body.setAttribute("class", responseHeaders.get("cssClass"));
+
+		let extraData = {
+			routes: JSON.parse(responseHeaders.get("routeData")),
+		};
+		Sound.load(responseHeaders.get("classType"), extraData);
+		if (path) history.pushState({}, responseHeaders.get("title"), path);
+
+		// If there's a refresh header, then retry the request in the appropriate amount of time
+		if (responseHeaders.get("refresh")) {
+			var interval = responseHeaders.get("refresh") * 1000;
+			window.setTimeout(inlineFetch, interval);
+		} else {
+			let loadingDiv = document.getElementById('loading');
+			if (loadingDiv) loadingDiv.parentNode.removeChild(loadingDiv);
+		}
+	});
+
+	// If the page doesn't load in half a second, show loading div
+	window.setTimeout(() => {
+		if (!loading) return;
+		let loadingDiv = document.createElement("div");
+		loadingDiv.id = "loading";
+		loadingDiv.textContent = "Loading ...";
+		document.body.appendChild(loadingDiv);
+	}, 500);
 }
 
 function toggleSound(event) {
@@ -164,6 +174,10 @@ Pubsub.listen('eventRemoved', function (eventData) {
 	var DOMNode = document.getElementById(eventData.classID);
 	if (!DOMNode) return;
 	DOMNode.parentNode.removeChild(DOMNode);
+});
+
+window.addEventListener('popstate', function statechange(event) {
+	inlineFetch();
 });
 
 
