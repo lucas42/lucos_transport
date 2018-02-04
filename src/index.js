@@ -8,16 +8,16 @@ const NRFetcher = require('./fetchers/nr.js');
 const Controller = require('./controller')(templateid => {
 	var templatePath = app.get('views')+'/'+templateid+'.'+app.get('view engine');
 	return readFile(templatePath, "utf-8");
-}, (source, type, id) => {
+}, (source, type, id, params) => {
 	switch(source) {
 		case 'tfl':
-			return TFLFetcher.fetch(type, id);
+			return TFLFetcher.fetch(type, id, params);
 		case 'nr':
-			return NRFetcher.fetch(type, id);
+			return NRFetcher.fetch(type, id, params);
 	}
 });
 app.get('*', function(req, res, next) {
-	Controller.process(req.path, {accept: req.get("accept")}).then(result => {
+	Controller.process(req.path, {accept: req.get("accept")}, req.query).then(result => {
 		switch (result.action) {
 			case 'response':
 				res.set(result.headers).send(result.body);

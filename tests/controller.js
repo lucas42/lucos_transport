@@ -305,6 +305,42 @@ test.cb('Vehicle Not Found', test => {
 	});
 });
 
+test.cb('Dynamic Vehicle', test => {
+	function getTemplate(id) {
+		if (id == "page") return Promise.resolve("StartPage {{content}} EndPage {{headtitle}}");
+		if (id == "vehicle") return Promise.resolve("vehicle {{datapoint}}");
+		test.fail(`Unexpected template id '${id}' used`);
+		return Promise.resolve("error");
+	}
+	function dataFetcher(source, type, id) {
+		if (source == "tfl" && type == "vehicle" && id == "123") 
+			return Promise.resolve({datapoint: "livedata", title: "The Title"});
+		test.fail(`Unexpected data fetch for '${source}', '${type}', '${id}'`);
+		return Promise.resolve("error");
+	}
+	Controller(getTemplate, dataFetcher).process('/tfl/vehicle/123').then(result => {
+		test.is('response', result.action);
+		test.is('StartPage vehicle livedata EndPage TFLuke - The Title', result.body);
+		test.deepEqual(result.headers, {
+			'Cache-Control': 'public, max-age=0',
+			'Content-Type': 'text/html; charset=utf-8',
+		});
+	}).catch(error => {test.fail(error)}).then(test.end);
+});
+test.cb('Dynamic Vehcile Not Found', test => {
+	function getTemplate(id) {
+		test.fail(`Unexpected template id '${id}' used`);
+		return Promise.resolve("error");
+	}
+	function dataFetcher(source, type, id) {
+		return Promise.reject("notfound");
+	}
+	Controller(getTemplate, dataFetcher).process('/tfl/vehicle/321').then(result => {
+		test.is('notfound', result.action);
+		test.is("Can't find vehicle", result.message);
+	}).catch(error => {test.fail(error)}).then(test.end);
+});
+
 /** Unknown Type **/
 test.cb('Page Not Found', test => {
 	function getTemplate(id) {

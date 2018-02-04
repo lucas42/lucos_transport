@@ -31,7 +31,7 @@ function tflapireq(path) {
 }
 
 module.exports = {
-	fetch: function (type, id) {
+	fetch: function (type, id, params) {
 		switch (type) {
 			case "routes": {
 				return tflapireq("/Line/Route").then(({data, date}) => {
@@ -211,7 +211,7 @@ module.exports = {
 								id = stoppoint.stationAtcoCode;
 						}
 						if (!id) {
-							console.log ("Can't find ID for", mode, stoppoint);
+							console.error("Can't find ID for", mode, stoppoint);
 							return {data:[], date:Date.now()};
 						}
 						return tflapireq("/StopPoint/"+id+"/Arrivals");
@@ -249,6 +249,25 @@ module.exports = {
 						});
 					});
 					return stop.getDataTree();
+				});
+			}
+
+			case "vehicle": {
+				let route = new Route(new Network(params.mode), params.route);
+				let vehicle = new Vehicle(route, id);
+				return tflapireq("/Vehicle/"+id+"/Arrivals").then(({data, date}) => {
+					data.forEach(function (arrival) {
+						var stop = new Stop(new Network(arrival.modeName), arrival.naptanId);
+						stop.setField('title', arrival.stationName);
+						stop.setField('lastUpdated', date);
+						var platform = new Platform(stop, arrival.platformName);
+						platform.addRoute(route);
+						var event = new Event(vehicle, platform);
+						event.setField('time', new Date(arrival.expectedArrival));
+						event.setField('lastUpdated', date);
+						event.updateRelTime();
+					});
+				return vehicle.getDataTree();
 				});
 			}
 			default: {

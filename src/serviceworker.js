@@ -56,8 +56,12 @@ const Controller = require('./controller')(templateid => {
 			return templateResponse.text();
 		});
 	});
-}, (source, type, id) => {
-	return fetch('/'+source+'/'+type+'/'+id+'.json').then(response => {
+}, (source, type, id, params) => {
+	var url = '/'+encodeURIComponent(source)+'/'+encodeURIComponent(type)+'/'+encodeURIComponent(id)+'.json?';
+	for (var key in params) {
+		url += encodeURIComponent(key)+"="+encodeURIComponent(params[key])+"&";
+	}
+	return fetch(url).then(response => {
 		if (response.status == 200) return response.json();
 		if (response.status == 404) throw "notfound";
 		throw "Server returned status code "+response.status;
@@ -103,7 +107,11 @@ self.addEventListener('fetch', function respondToFetch(event) {
 			serverSource.loadFromCache();
 			path = '/loading';
 		}
-		return Controller.process(path, {accept: event.request.headers.get("accept")}).then(result => {
+		var params = {};
+		for(var pair of url.searchParams.entries()) {
+			params[pair[0]] = pair[1];
+		}
+		return Controller.process(path, {accept: event.request.headers.get("accept")}, params).then(result => {
 			switch (result.action) {
 				case 'response':
 					return new Response(new Blob([result.body]), {headers: result.headers});

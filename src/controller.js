@@ -5,8 +5,9 @@ Mustache = require('mustache');
 
 function Controller (getTemplate, dataFetcher, isServiceWorker) {
 	if (typeof getTemplate != 'function') throw "Needs getTemplate function";
-	function process (path, requestHeaders) {
+	function process (path, requestHeaders, params) {
 		if (!requestHeaders) requestHeaders = {};
+		if (!params) params = {};
 		var parts = path.split('.', 2);
 		var tokens = parts[0].split('/');
 		var extension = parts[1];
@@ -76,7 +77,7 @@ function Controller (getTemplate, dataFetcher, isServiceWorker) {
 				let source = tokens[1];
 				let type = tokens[2] || 'routes';
 				let id = tokens[3];
-				return dataFetcher(source, type, id).then(data => {
+				return dataFetcher(source, type, id, params).then(data => {
 					if (extension == "json") {
 						return {
 							action: 'response',
