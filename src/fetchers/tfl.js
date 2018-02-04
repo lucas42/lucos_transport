@@ -197,22 +197,12 @@ module.exports = {
 					});
 					let StopPointReqs = data.lineGroup.map(stoppoint => {
 
-						// Really hacky way to work out which ID to use when lookig up arrival data
-						let id, mode = routeModes[stoppoint.lineIdentifier[0]];
-						switch (mode) {
-							case "bus":
-								id = stoppoint.naptanIdReference;
-								break;
-							case "tube":
-							case "overground":
-							case "river-bus":
-							case "river-tour":
-							case "tram":
-								id = stoppoint.stationAtcoCode;
-						}
-						if (!id) {
-							console.error("Can't find ID for", mode, stoppoint);
-							return {data:[], date:Date.now()};
+						// Really hacky way to work out which ID to use when looking up arrival data
+						let id;
+						if (routeModes[stoppoint.lineIdentifier[0]] == "bus") {
+							id = stoppoint.naptanIdReference;
+						} else {
+							id = stoppoint.stationAtcoCode;
 						}
 						return tflapireq("/StopPoint/"+id+"/Arrivals");
 					});
