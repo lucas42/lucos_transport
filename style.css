@@ -231,6 +231,7 @@ h2, h3{
 }
 
 /** Station Pages **/
+.platform_name { margin: 1.5em 0 0.5em; }
 .platform_name .innertext {
 	padding: 0 10px;
 }
@@ -238,7 +239,7 @@ h2, h3{
 	background: transparent;
 	color: #AAA;
 }
-.departure_board { background: black; width: 100%; border: solid 6px #444; border-radius: 1em; margin: 0 auto;
+.departure_board { background: black; width: 100%; table-layout: fixed; border: solid 6px #444; border-radius: 1em; margin: 0;
 				background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(.0, transparent), color-stop(.0, rgba(255,255,255,0.2)), color-stop(.1, rgba(255,255,255,0.2)), color-stop(.1, transparent), color-stop(.5, transparent), color-stop(.5, rgba(255,255,255,0.2)), color-stop(.6, rgba(255,255,255,0.2)), color-stop(.6, transparent));
 				background-size: 8px 8px;
 				font-family: led, monospace;
@@ -247,6 +248,10 @@ h2, h3{
 				background-image: -webkit-gradient(linear, 0 0, 100% 0, color-stop(.0, transparent), color-stop(.0, rgba(255,255,255,0.2)), color-stop(.1, rgba(255,255,255,0.2)), color-stop(.1, transparent), color-stop(.5, transparent), color-stop(.5, rgba(255,255,255,0.2)), color-stop(.6, rgba(255,255,255,0.2)), color-stop(.6, transparent));
 				background-size: 8px 8px;
 	}
+.departure_board td { overflow: hidden; text-overflow: ellipsis; }
+.departure_board td.routenumber { width: 55px; }
+.departure_board td.departtime { width: 33%; }
+.departure_board td.destination { word-wrap: break-word; }
 .departure_board a { text-decoration: none; padding: 0 1em; display: block; color: #FFC600; line-height: 20px; }
 .departure_board .ghost a { 
 				opacity: 0.4;
@@ -259,7 +264,7 @@ h2, h3{
 	src: url('/resources/fonts/led');
 }
 @media (min-width: 750px) {
-	.departure_board { width: 700px; }
+	.departure_board { width: 700px; margin: 0 auto; }
 	.platform_name { width: 700px; margin: 1.5em auto 0.5em; }
 	.stationextlink { width: 700px; }
 }

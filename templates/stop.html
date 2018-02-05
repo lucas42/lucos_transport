@@ -10,9 +10,9 @@
 			<tbody>
 				{{#events}}
 					<tr class="vehicle{{#ghost}} ghost{{/ghost}}" data-line="{{line}}" data-route="{{route}}" id="{{classID}}" data-eventtype="station">
-						{{#routeNumber}}<td><a href="{{link}}">{{routeNumber}}</a></td>{{/routeNumber}}
-						<td><a href="{{link}}">{{simpleDestination}}</a></td>
-						<td><a href="{{link}}" class='departtime' data-time='{{time}}' data-source='{{source}}'>{{stationReadableTime}}</a></td>
+						{{#routeNumber}}<td class="routenumber"><a href="{{link}}">{{routeNumber}}</a></td>{{/routeNumber}}
+						<td class="destination"><a href="{{link}}">{{simpleDestination}}</a></td>
+						<td class="departtime"><a href="{{link}}" class='departtime' data-time='{{time}}' data-source='{{source}}'>{{stationReadableTime}}</a></td>
 					</tr>
 				{{/events}}
 			</tbody>
