@@ -102,7 +102,7 @@ module.exports = {
 						stop.setField('lastUpdated', date);
 
 						// Add all interchanges for this stop (even if there's no trains on departure boards)
-						data.lineModeGroups.forEach(function (networkdata) {
+						/*data.lineModeGroups.forEach(function (networkdata) {
 							if (supportedModes.indexOf(networkdata.modeName) == -1) return;
 							var network = new Network(networkdata.modeName);
 							if (network == route.getNetwork()) return;
@@ -111,7 +111,7 @@ module.exports = {
 								if (!interchange.getField('title')) stop.setField('title', data.commonName);
 								stop.addExternalInterchange(interchange);
 							});
-						});
+						});*/
 						data.additionalProperties.forEach(function (additionaldata) {
 							if (additionaldata.key == "WiFi") {
 								stop.setField('wifi', additionaldata.value == "yes");
