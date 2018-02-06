@@ -48,10 +48,10 @@ Platform.prototype.getFullName = function getFullName() {
 		case "bus":
 			return "Bus Stop "+this.getName();
 		case "river-bus":
-			if (!this.getName()) {
-				return "Uknown Pier";
-			}
-			return "Pier "+this.getName();
+
+			// There's lots of poorly defined piers - just leave their name blank
+			if (!this.getName()) return "";
+			return "Boarding Point "+this.getName().replace("Platform ", "");
 		default:
 			return this.getName();
 	}
