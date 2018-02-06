@@ -38,6 +38,7 @@ Stop.sort = function sortStops(a, b) {
 Stop.simplifyName = function simplifyName(name) {
 	if (!name) return null;
 	return name
+		.replace(/\.$/,'')
 		.replace(/\s*Platform.*/, '')
 		.replace(/\s*Pier/, '')
 		.replace(/\s*Rail Station/, '')
