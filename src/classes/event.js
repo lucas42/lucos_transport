@@ -37,7 +37,7 @@ Event.prototype.getData = function getData(source) {
 
 		var interchanges = this.getInterchanges();
 
-		var displayednetworks = {};
+		var displayedModes = {};
 
 		// Find where the symbol needs no extra text
 		output['symbols'] = [];
@@ -50,20 +50,20 @@ Event.prototype.getData = function getData(source) {
 				delete interchange['stopname'];
 			}
 
-			// For links to other networks in the same station which have a symbol,
+			// For links to other modes in the same station which have a symbol,
 			// just display the symbol and don't differentiate routes
-			if (interchange['symbol']  && interchange['external'] && !interchange['stopname']) {
-				if (!(interchange['network'] in displayednetworks)) {
+			if (interchange['symbol']  && interchange['mode'] != output["platform"]['mode'] && !interchange['stopname']) {
+				if (!(interchange['mode'] in displayedModes)) {
 					output['symbols'].push({
 						src: interchange['symbol'],
-						alt: interchange['network'],
+						alt: interchange['mode'],
 					});
-					displayednetworks[interchange['network']] = true;
+					displayedModes[interchange['mode']] = true;
 				}
 				interchange['ignore'] = true;
 			}
 
-			// If an interchange is to a different station and the network has a symbol
+			// If an interchange is to a different station and the mode has a symbol
 			// then give prominance to the station name.
 			if (interchange['symbol'] && interchange['stopname']) {
 				interchange['title'] = interchange['stopname'];
@@ -153,7 +153,7 @@ Event.prototype.getInterchanges = function getInterchanges() {
 	// Ignore whichever route the vehicle is on.
 	gotinterchanges[vehicle.getRoute().getIndex()] = true;
 
-	// Add any interchanges to other routes on the same network in this station
+	// Add any interchanges to other routes on the same mode in this station
 	var routes = Route.getByStop(thisstop);
 	routes.forEach(function (route) {
 		if (route.getIndex() in gotinterchanges) return;
@@ -166,14 +166,13 @@ Event.prototype.getInterchanges = function getInterchanges() {
 		gotinterchanges[route.getIndex()] = true;
 	});
 
-	// Get interchanges to stops on other networks and Out of Station Interchanges
+	// Get interchanges to stops on other modes and Out of Station Interchanges
 	var externalInterchanges = thisstop.getExternalInterchanges();
 	externalInterchanges.forEach(function (stop) {
 		var routes = Route.getByStop(stop);
 		routes.forEach(function (route) {
 			if (route.getIndex() in gotinterchanges) return;
 			var interchangedata = route.getData();
-			interchangedata['external'] = true;
 			interchangedata['stopname'] = stop.getSimpleName();
 			interchangedata['link'] = stop.getLink();
 			interchanges.push(interchangedata);
