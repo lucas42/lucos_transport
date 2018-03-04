@@ -249,7 +249,7 @@ h2, h3{
 				background-size: 8px 8px;
 	}
 .departure_board td { overflow: hidden; text-overflow: ellipsis; }
-.departure_board td.routenumber { width: 55px; }
+.departure_board td.routenumber { width: 65px; overflow: visible; }
 .departure_board td.departtime { width: 33%; }
 .departure_board td.destination { word-wrap: break-word; }
 .departure_board a { text-decoration: none; padding: 0 1em; display: block; color: #FFC600; line-height: 20px; }
