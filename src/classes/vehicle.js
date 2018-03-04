@@ -61,7 +61,7 @@ Vehicle.prototype.getTitle = function getName() {
 	if (this.getVehicleType() == "bus") {
 		return "Bus " + this.getCode() + " (" + this.getRoute().getField("name").toUpperCase() + ")";
 	}
-	return this.getRoute().getQualifiedName() + " " + this.getCode();
+	return this.getRoute().getQualifiedName() + " " + (this.getField("setNo") || this.getCode());
 }
 Vehicle.prototype.getData = function getData() {
 	var output = this.getRawData();

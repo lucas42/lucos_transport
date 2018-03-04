@@ -223,7 +223,11 @@ module.exports = {
 							platform.setField("mode", arrival.modeName);
 							var vehicle;
 							if (arrival.vehicleId) {
-								vehicle = new Vehicle(route, arrival.vehicleId);
+								let vehicleId = arrival.vehicleId;
+								if (arrival.modeName == "tube") {
+									vehicleId = arrival.lineId + "_" + vehicleId;
+								}
+								vehicle = new Vehicle(route, vehicleId);
 
 							// If there's no vehicle ID, then make up a random one and mark it as a ghost
 							} else {
@@ -248,8 +252,19 @@ module.exports = {
 				let route = new Route(tflNetwork, params.route);
 				route.setField("mode", params.mode);
 				let vehicle = new Vehicle(route, id);
-				return tflapireq("/Vehicle/"+id+"/Arrivals").then(({data, date}) => {
+				let vehicleId, lineId, vehicleIdComponents = id.split("_");
+				if (vehicleIdComponents.length > 1) {
+					vehicleId = vehicleIdComponents[1];
+					lineId = vehicleIdComponents[0];
+					vehicle.setField("setNo", vehicleId);
+				} else {
+					vehicleId = vehicleIdComponents[0];
+				}
+				return tflapireq("/Vehicle/"+vehicleId+"/Arrivals").then(({data, date}) => {
 					data.forEach(function (arrival) {
+
+						// Tube trains have shared vehicleIds, so need to filter to only relevant ones
+						if (lineId && arrival.lineId != lineId) return;
 						var stop = new Stop(tflNetwork, arrival.naptanId);
 						stop.setField('title', arrival.stationName);
 						stop.setField('lastUpdated', date);
