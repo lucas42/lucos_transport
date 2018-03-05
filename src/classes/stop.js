@@ -52,14 +52,24 @@ Stop.simplifyName = function simplifyName(name) {
 
 function platformSort(a, b) {
 	function platformNum(platform) {
-		var name = platform.getName();
-		if (!name) return Infinity;
-		var num = name.replace(/\D/g, '');
+		var num = platform.getName().match(/\b\d+/g);
 		if (!num) return Infinity;
-		return parseInt(num);
+		return parseInt(num[0]);
 	}
+	if (!a.getName()) return 1;
+	if (!b.getName()) return -1;
+	const modePriority = ['tube','dlr','tfl-rail','overground','tram','river-bus','bus'];
+	var modea = a.getField("mode");
+	var modeb = b.getField("mode");
 	var aval = platformNum(a);
 	var bval = platformNum(b);
-	return aval - bval;
+	if (aval != bval) return aval - bval;
+	if (modea != modeb) {
+		for (var mode in modePriority) {
+			if (modea == modePriority[mode]) return -1;
+			if (modeb == modePriority[mode]) return 1;
+		}
+	}
+	return (a.getFullName() > b.getFullName()) ? 1 : -1;
 }
 module.exports = Stop;
