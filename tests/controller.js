@@ -22,8 +22,10 @@ test.cb('Homepage Render', test => {
 		test.fail(`Unexpected template id '${id}' used`);
 		return Promise.resolve("error");
 	}
-	function dataFetcher() {
-		test.fail("Unneeded call to dataFetcher");
+	function dataFetcher(source, type, id) {
+		if (type == "routes") return Promise.resolve({datapoint: "livedata", title: "The Title", routes: []});
+		test.fail(`Unexpected data fetch for '${source}', '${type}'`);
+		return Promise.resolve("error");
 	}
 	Controller(getTemplate, dataFetcher).process('/').then(result => {
 		test.is(result.action, 'response');
