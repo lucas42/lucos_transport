@@ -112,6 +112,7 @@ module.exports = {
 								stop.addExternalInterchange(interchange);
 							});
 						});*/
+						if (!data.additionalProperties) data.additionalProperties = [];
 						data.additionalProperties.forEach(function (additionaldata) {
 							if (additionaldata.key == "WiFi") {
 								stop.setField('wifi', additionaldata.value == "yes");
@@ -163,6 +164,7 @@ module.exports = {
 							stop.addExternalInterchange(interchange);
 						});
 					});*/
+					if (!data.additionalProperties) data.additionalProperties = [];
 					data.additionalProperties.forEach(function (additionaldata) {
 						if (additionaldata.key == "WiFi") {
 							stop.setField('wifi', additionaldata.value == "yes");
