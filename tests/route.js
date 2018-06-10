@@ -85,11 +85,18 @@ test('Sort Routes', test => {
 	var overground = new Network('overground');
 	var other = new Network('hovercraft');
 	var route5 = new Route(overground, 'overground');
+	route5.setField("mode", "overground");
 	var route2 = new Route(tube, 'tube2');
+	route2.setField("mode", "tube");
 	var route1 = new Route(tube, 'tube1');
+	route1.setField("mode", "tube");
 	var route4 = new Route(dlr, 'dlr');
+	route4.setField("mode", "dlr");
 	var route6 = new Route(other, 'special1');
+	route6.setField("mode", "hovercraft");
 	var route7 = new Route(other, 'special2');
+	route7.setField("mode", "hovercraft");
 	var route3 = new Route(tube, 'tube3');
+	route3.setField("mode", "tube");
 	test.deepEqual(Route.getRouteList(), [route1.getData(), route2.getData(), route3.getData(), route4.getData(), route5.getData(), route6.getData(), route7.getData()]);
 });
