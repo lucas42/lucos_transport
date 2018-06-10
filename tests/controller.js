@@ -8,8 +8,7 @@ var route1 = new Route(net1, 'route1');
 route1.setField('name', "Routeface");
 var stop1 = new Stop(net1, 'stop1');
 stop1.setField('title', "🚂 Station");
-var vehicle1 = new Vehicle(route1, 'boat1');
-vehicle1.setField('name', "Matilda");
+var vehicle1 = new Vehicle(route1, '14');
 vehicle1.setField('lastUpdated', "yesterday");
 
 // Module under test
@@ -266,9 +265,9 @@ test.cb('Vehicle Render', test => {
 	function dataFetcher() {
 		test.fail("Unneeded call to dataFetcher");
 	}
-	Controller(getTemplate, dataFetcher).process('/vehicle/net1/route1/boat1').then(result => {
+	Controller(getTemplate, dataFetcher).process('/vehicle/net1/route1/14').then(result => {
 		test.is(result.action, 'response');
-		test.is(result.body, 'StartPage vehicle EndPage Matilda (Routeface)');
+		test.is(result.body, 'StartPage vehicle EndPage Galaxy Clipper (ROUTEFACE)');
 		test.deepEqual(result.headers, {
 			'Cache-Control': 'public, max-age=0',
 			'Content-Type': 'text/html; charset=utf-8',
@@ -367,16 +366,16 @@ test.cb('Vehicle Partial Render', test => {
 	function dataFetcher() {
 		test.fail("Unneeded call to dataFetcher");
 	}
-	Controller(getTemplate, dataFetcher).process('/vehicle/net1/route1/boat1', {accept: 'text/partial-html'}).then(result => {
+	Controller(getTemplate, dataFetcher).process('/vehicle/net1/route1/14', {accept: 'text/partial-html'}).then(result => {
 		test.is(result.action, 'response');
-		test.is(result.body, 'vehicle Matilda (Routeface)');
+		test.is(result.body, 'vehicle Galaxy Clipper (ROUTEFACE)');
 		test.deepEqual(result.headers, {
 			'Cache-Control': 'public, max-age=0',
 			'Content-Type': 'text/partial-html; charset=utf-8',
-			'title': 'Matilda (Routeface)',
-			'cssClass': 'route_route1 network_net1 vehicle_matilda',
+			'title': 'Galaxy Clipper (ROUTEFACE)',
+			'cssClass': 'route_route1 network_net1 vehicle_galaxyclipper',
 			'classType': 'Vehicle',
-			'classID': 'Vehicle-net1,route1,boat1',
+			'classID': 'Vehicle-net1,route1,14',
 			'lastUpdated': 'yesterday',
 		});
 		test.end();
