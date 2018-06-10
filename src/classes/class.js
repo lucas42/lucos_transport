@@ -135,7 +135,6 @@ function Class(classname, keynames, constructor) {
 				callback();
 				return;
 			}
-			console.log("Refreshing "+(data.title || classname));
 			instance.refresh.call(instance, function () {
 				lastRefresh = Date.now();
 				callback();
