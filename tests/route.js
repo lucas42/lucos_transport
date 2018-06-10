@@ -16,6 +16,7 @@ test('Create Route', test => {
 	test.is(route.getLink(), '/tfl/route/id246');
 	test.is(route.getNetwork().getCode(), 'id123');
 	test.is(route.getQualifiedName(), 'id246');
+	test.is(route.getSymbol(), false);
 });
 test('Refresh Route', test => {
 	var network = new Network('id123');
