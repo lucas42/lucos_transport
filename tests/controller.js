@@ -34,7 +34,7 @@ test.cb('Homepage Render', test => {
 			'Content-Type': 'text/html; charset=utf-8',
 		});
 		test.end();
-	});
+	}).catch(error => {test.fail(error)}).then(test.end);
 });
 
 test.cb('TFL Page', test => {
@@ -79,7 +79,7 @@ test.cb('Route Render', test => {
 			'Content-Type': 'text/html; charset=utf-8',
 		});
 		test.end();
-	});
+	}).catch(error => {test.fail(error)}).then(test.end);
 });
 test.cb('Route Redirect', test => {
 	function getTemplate(id) {
@@ -93,7 +93,7 @@ test.cb('Route Redirect', test => {
 		test.is(result.action, 'redirect');
 		test.is(result.path, '/');
 		test.end();
-	});
+	}).catch(error => {test.fail(error)}).then(test.end);
 });
 test.cb('Route Not Found', test => {
 	function getTemplate(id) {
@@ -200,7 +200,7 @@ test.cb('Stop Render', test => {
 			'Content-Type': 'text/html; charset=utf-8',
 		});
 		test.end();
-	});
+	}).catch(error => {test.fail(error)}).then(test.end);
 });
 test.cb('Stop Redirect', test => {
 	function getTemplate(id) {
@@ -214,7 +214,7 @@ test.cb('Stop Redirect', test => {
 		test.is(result.action, 'redirect');
 		test.is(result.path, '/');
 		test.end();
-	});
+	}).catch(error => {test.fail(error)}).then(test.end);
 });
 test.cb('Stop Not Found', test => {
 	function getTemplate(id) {
@@ -228,7 +228,7 @@ test.cb('Stop Not Found', test => {
 		test.is(result.action, 'notfound');
 		test.is(result.message, "Can't find stop /net1/route1");
 		test.end();
-	});
+	}).catch(error => {test.fail(error)}).then(test.end);
 });
 
 test.cb('Dynamic Stop', test => {
@@ -274,7 +274,7 @@ test.cb('Vehicle Render', test => {
 			'Content-Type': 'text/html; charset=utf-8',
 		});
 		test.end();
-	});
+	}).catch(error => {test.fail(error)}).then(test.end);
 });
 test.cb('Vehicle Redirect', test => {
 	function getTemplate(id) {
@@ -288,7 +288,7 @@ test.cb('Vehicle Redirect', test => {
 		test.is(result.action, 'redirect');
 		test.is(result.path, '/');
 		test.end();
-	});
+	}).catch(error => {test.fail(error)}).then(test.end);
 });
 test.cb('Vehicle Not Found', test => {
 	function getTemplate(id) {
@@ -302,7 +302,7 @@ test.cb('Vehicle Not Found', test => {
 		test.is(result.action, 'notfound');
 		test.is(result.message, "Can't find vehicle train3");
 		test.end();
-	});
+	}).catch(error => {test.fail(error)}).then(test.end);
 });
 
 test.cb('Dynamic Vehicle', test => {
@@ -353,7 +353,7 @@ test.cb('Page Not Found', test => {
 	Controller(getTemplate, dataFetcher).process('/smartypants').then(result => {
 		test.is(result.action, 'unknown');
 		test.end();
-	});
+	}).catch(error => {test.fail(error)}).then(test.end);
 });
 
 
@@ -380,7 +380,7 @@ test.cb('Vehicle Partial Render', test => {
 			'lastUpdated': 'yesterday',
 		});
 		test.end();
-	});
+	}).catch(error => {test.fail(error)}).then(test.end);
 });
 
 /** Loading Page **/
@@ -403,7 +403,7 @@ test.cb('Service Worker Loading Page', test => {
 			'refresh': '0.01',
 		});
 		test.end();
-	});
+	}).catch(error => {test.fail(error)}).then(test.end);
 });
 test.cb('Server Loading Page', test => {
 	function getTemplate(id) {
