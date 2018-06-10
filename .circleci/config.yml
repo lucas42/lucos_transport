@@ -6,6 +6,8 @@ jobs:
     steps:
       - checkout
       - run: npm install
-      - run: npm test
-
-
+      - run: npm run test-xunit 
+      - store_test_results:
+          path: reports
+      - store_artifacts:
+          path: reports

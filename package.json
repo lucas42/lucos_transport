@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "ava",
+    "test-xunit": "mkdir -p reports && ava --tap | tap-xunit > reports/tests.xml",
     "build": "mkdir -p bin && browserify src/client.js -o bin/clientscripts.js && browserify src/serviceworker.js -o bin/serviceworker.js",
     "start": "node src/index.js"
   },
@@ -26,18 +27,19 @@
     "browserify": "^13.0.0"
   },
   "dependencies": {
-    "es6-promise": "^4.1.1",
-    "express": "^4.16.2",
-    "fs-readfile-promise": "^3.0.0",
+    "es6-promise": "^4.2.4",
+    "express": "^4.16.3",
+    "fs-readfile-promise": "^3.0.1",
     "htmlparser2": "^3.8.3",
     "isomorphic-fetch": "^2.2.1",
     "lucos_pubsub": "^0.0.4",
-    "mespeak": "^2.0.1",
+    "mespeak": "^2.0.2",
     "moment-timezone": "^0.4.0",
     "mustache": "^2.1.2",
-    "mustache-express": "^1.2.1",
-    "request": "^2.60.0",
+    "mustache-express": "^1.2.6",
+    "request": "^2.87.0",
     "soupselect": "^0.2.0",
+    "tap-xunit": "^2.3.0",
     "xml2js": "^0.4.9"
   },
   "engines": {
