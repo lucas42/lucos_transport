@@ -36,3 +36,7 @@ To run unit tests using [ava](https://github.com/avajs/ava), run:
 You should also set the following environment variables:
 TFLAPPID and TFLAPPKEY - information about TFL's API can be found at https://api-portal.tfl.gov.uk/docs
 The app appears to run fine without these being set, but registering for an ID and key helps to keep track of which apps are making which requests to the API.
+
+
+## Running in Docker
+`docker run -d -p 3000:8080 --name tfluke_app lucas42/tfluke_app`
