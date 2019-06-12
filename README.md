@@ -37,6 +37,8 @@ You should also set the following environment variables:
 TFLAPPID and TFLAPPKEY - information about TFL's API can be found at https://api-portal.tfl.gov.uk/docs
 The app appears to run fine without these being set, but registering for an ID and key helps to keep track of which apps are making which requests to the API.
 
+## Running using docker compose
+`TFLAPPID=<id> TFLAPPKEY=<secret> nice -19 docker-compose up -d --no-build`
 
-## Running in Docker
-`docker run -d -p 3000:8080 --name tfluke_app lucas42/tfluke_app`
+## Building
+The build is configured to run in Dockerhub when a commit is pushed to the master branch in github.
