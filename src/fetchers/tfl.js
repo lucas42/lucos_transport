@@ -22,6 +22,7 @@ function tflapireq(path) {
 	url += "&app_key=";
 	if (process.env.TFLAPPKEY) url += encodeURIComponent(process.env.TFLAPPKEY);
 	return fetch(url).then(response => {
+		if (response.status != 200) throw new Error(`Unexpected status code ${response.status}`);
 		return response.json().then(data => {
 			return {
 				data: data, 
