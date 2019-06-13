@@ -4,8 +4,8 @@
   "description": "Travel App",
   "main": "src/index.js",
   "scripts": {
-    "test": "ava",
-    "test-xunit": "mkdir -p reports && ava --tap | tap-xunit > reports/tests.xml",
+    "test": "ava -s",
+    "test-xunit": "mkdir -p reports && ava -s --tap | tap-xunit > reports/tests.xml",
     "build": "mkdir -p bin && browserify src/client.js -o bin/clientscripts.js && browserify src/serviceworker.js -o bin/serviceworker.js",
     "start": "node src/index.js"
   },
@@ -23,8 +23,8 @@
   },
   "homepage": "https://github.com/lucas42/lucos_transport",
   "devDependencies": {
-    "ava": "^0.19.1",
-    "browserify": "^13.0.0"
+    "ava": "^2.1.0",
+    "browserify": "^16.2.3"
   },
   "dependencies": {
     "es6-promise": "^4.2.4",
