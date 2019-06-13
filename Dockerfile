@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 COPY . .
 
 RUN npm install
-RUN npm build
+RUN npm run-script build
 
 ENV NODE_ENV production
 ENV PORT 8080
