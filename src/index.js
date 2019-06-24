@@ -69,6 +69,25 @@ app.get('/resources/script.js', function (req, res) {
 app.get('/serviceworker.js', function (req, res) {
 	res.sendFile('bin/serviceworker.js', {root: __dirname + '/..', maxAge:'2m'});
 });
+app.get('/_info', function (req, res) {
+	const output = {
+		system: 'tfluke_app',
+		checks: {
+			tflapi: {
+				techDetail: "Can connect to tfl API",
+			}
+		},
+		metrics: {},
+	};
+	TFLFetcher.fetch('route', 'victoria').then(() => {
+		output.checks.tflapi.ok = true;
+	}).catch(error => {
+		output.checks.tflapi.ok = false;
+		output.checks.tflapi.debug = error.message;
+	}).then(() => {
+		res.send(output);
+	});
+});
 app.use('/img', express.static(__dirname + '/../img', {maxAge:'5m'}));
 app.use('/resources/templates', express.static(__dirname + '/../templates', {maxAge:'2m'}));
 var server = app.listen(process.env.PORT || 3000, function () {
