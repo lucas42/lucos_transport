@@ -1,9 +1,11 @@
 FROM node:8
 
 WORKDIR /usr/src/app
-COPY . .
 
+COPY package*.json ./
 RUN npm install
+
+COPY . ./
 RUN npm run-script build
 
 ENV NODE_ENV production
