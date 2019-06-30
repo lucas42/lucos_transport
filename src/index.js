@@ -35,7 +35,7 @@ app.get('*', function(req, res, next) {
 				throw `Unexpected action from controller ${result.action}`;
 		}
 	}).catch(error => {
-		console.error(error);
+		console.trace(error);
 		res.status(500).send("An error occurred: "+error);
 	});
 });
