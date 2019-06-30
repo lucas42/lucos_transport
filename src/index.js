@@ -35,8 +35,13 @@ app.get('*', function(req, res, next) {
 				throw `Unexpected action from controller ${result.action}`;
 		}
 	}).catch(error => {
-		console.trace(error);
-		res.status(500).send("An error occurred: "+error);
+		if (error.type == "request-timeout") {
+			console.error(error.message);
+			res.status(502).send("A request to an upstream timed out.  Please try again later.");
+		} else {
+			console.trace(error);
+			res.status(500).send("An error occurred: "+error);
+		}
 	});
 });
 var Route = require('./classes/route');
