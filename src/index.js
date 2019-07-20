@@ -83,6 +83,9 @@ app.get('/_info', function (req, res) {
 			}
 		},
 		metrics: {},
+		badges: [
+			"https://circleci.com/gh/lucas42/lucos_media_metadata_api.svg?style=svg",
+		]
 	};
 	TFLFetcher.fetch('route', 'victoria').then(() => {
 		output.checks.tflapi.ok = true;
