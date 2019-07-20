@@ -28,6 +28,8 @@ jobs:
             echo "$DOCKERHUB_PASSWORD" | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
             docker push $IMAGE_NAME:latest
   deploy:
+    environment:
+      COMPOSE_PROJECT_NAME: tfluke_app
     docker:
       - image: circleci/buildpack-deps:buster
     steps:
