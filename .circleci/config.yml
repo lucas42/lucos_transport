@@ -13,7 +13,7 @@ jobs:
           path: reports
   build:
     environment:
-      IMAGE_NAME: lucas42/lucos_media_metadata_api
+      IMAGE_NAME: lucas42/tfluke_app
     docker:
       - image: circleci/buildpack-deps:buster
     steps:
