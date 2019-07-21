@@ -78,7 +78,7 @@ app.get('/_info', function (req, res) {
 	const output = {
 		system: 'tfluke_app',
 		checks: {
-			tflapi: {
+			"tfl-api": {
 				techDetail: "Can connect to tfl API",
 			}
 		},
@@ -88,10 +88,10 @@ app.get('/_info', function (req, res) {
 		}
 	};
 	TFLFetcher.fetch('route', 'victoria').then(() => {
-		output.checks.tflapi.ok = true;
+		output.checks['tfl-api'].ok = true;
 	}).catch(error => {
-		output.checks.tflapi.ok = false;
-		output.checks.tflapi.debug = error.message;
+		output.checks['tfl-api'].ok = false;
+		output.checks['tfl-api'].debug = error.message;
 	}).then(() => {
 		res.send(output);
 	});
