@@ -29,7 +29,7 @@
   "dependencies": {
     "express": "^4.16.3",
     "fs-readfile-promise": "^3.0.1",
-    "htmlparser2": "^3.8.3",
+    "htmlparser2": "^3.10.1",
     "lucos_pubsub": "^0.0.4",
     "mespeak": "^2.0.2",
     "moment-timezone": "^0.4.0",
