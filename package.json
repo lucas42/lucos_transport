@@ -34,7 +34,7 @@
     "mespeak": "^2.0.2",
     "moment-timezone": "^0.4.0",
     "mustache": "^3.0.1",
-    "mustache-express": "^1.2.6",
+    "mustache-express": "^1.2.8",
     "node-fetch": "^2.6.0",
     "request": "^2.87.0",
     "soupselect": "^0.2.0",
