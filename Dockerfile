@@ -9,7 +9,7 @@ COPY . ./
 RUN npm run-script build
 
 ENV NODE_ENV production
-ENV PORT 8080
+ENV PORT 3000
 EXPOSE $PORT
 
 CMD [ "npm", "start" ]
