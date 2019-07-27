@@ -251,6 +251,7 @@ module.exports = {
 			}
 
 			case "vehicle": {
+				if (!params.route) params.route = "unknown";
 				let route = new Route(tflNetwork, params.route);
 				route.setField("mode", params.mode);
 				let vehicle = new Vehicle(route, id);
@@ -277,7 +278,7 @@ module.exports = {
 						}
 						var platform = new Platform(stop, arrival.platformName);
 						platform.addRoute(route);
-							platform.setField("mode", params.mode);
+						platform.setField("mode", params.mode);
 						var event = new Event(vehicle, platform);
 						event.setField('time', new Date(arrival.expectedArrival));
 						event.setField('lastUpdated', date);
