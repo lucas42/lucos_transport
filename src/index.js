@@ -35,6 +35,7 @@ app.get('*', function(req, res, next) {
 				throw `Unexpected action from controller ${result.action}`;
 		}
 	}).catch(error => {
+		if ('message' in error) error.message = `[${(new Date()).toISOString()}] ${error.message}`;
 		if (error.type == "request-timeout") {
 			console.error(error.message);
 			res.status(502).send("A request to an upstream timed out.  Please try again later.");
