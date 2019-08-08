@@ -24,7 +24,7 @@
   "homepage": "https://github.com/lucas42/lucos_transport",
   "devDependencies": {
     "ava": "^2.2.0",
-    "browserify": "^16.3.0"
+    "browserify": "^16.4.0"
   },
   "dependencies": {
     "express": "^4.17.1",
