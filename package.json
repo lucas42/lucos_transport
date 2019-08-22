@@ -33,7 +33,7 @@
     "lucos_pubsub": "^0.0.4",
     "mespeak": "^2.0.2",
     "moment-timezone": "^0.5.26",
-    "mustache": "^3.0.1",
+    "mustache": "^3.0.2",
     "mustache-express": "^1.2.8",
     "node-fetch": "^2.6.0",
     "request": "^2.88.0",
