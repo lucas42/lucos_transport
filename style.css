@@ -148,7 +148,7 @@ These were collected manually, without taking account of variations in light
 .vehicle_galaxyclipper .route > .stop:before, .vehicle_galaxyclipper .route .continues:after { border-color:#FFDD5A; }
 .vehicle_jupiterclipper h1, .vehicle_jupiterclipper .journeyname { color:#000099; background-color:#A2884D; }
 .vehicle_jupiterclipper .route > .stop:before, .vehicle_jupiterclipper .route .continues:after { border-color:#A2884D; }
-.vehicle_venusclipper h1, .vehicle_venusclipper .journeyname { color:#000099; background-color:#0B5A2A; }
+.vehicle_venusclipper h1, .vehicle_venusclipper .journeyname { color:#FFF; background-color:#0B5A2A; }
 .vehicle_venusclipper .route > .stop:before, .vehicle_venusclipper .route .continues:after { border-color:#0B5A2A; }
 
 /** General **/
