@@ -1,4 +1,4 @@
-import test from 'ava';
+const test = require('ava');
 const Network = require("../src/classes/network");
 
 test('Create Network', test => {

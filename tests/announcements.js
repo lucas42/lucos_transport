@@ -1,4 +1,4 @@
-import test from 'ava';
+const test = require('ava');
 const Announcements = require("../src/announcements");
 const Pubsub = require("lucos_pubsub");
 

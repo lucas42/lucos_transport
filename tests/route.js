@@ -1,4 +1,4 @@
-import test from 'ava';
+const test = require('ava');
 const Network = require("../src/classes/network"),
 	Route = require("../src/classes/route"),
 	Stop = require("../src/classes/stop");
