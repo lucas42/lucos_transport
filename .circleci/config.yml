@@ -1,63 +1,17 @@
-version: 2
-jobs:
-  test:
-    docker:
-      - image: circleci/node:13
-    steps:
-      - checkout
-      - run: npm install
-      - run: npm run test-xunit 
-      - store_test_results:
-          path: reports
-      - store_artifacts:
-          path: reports
-  build:
-    environment:
-      IMAGE_NAME: lucas42/tfluke_app
-    docker:
-      - image: circleci/buildpack-deps:buster
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: Build Docker image
-          command: docker build -t $IMAGE_NAME:latest .
-      - run:
-          name: Publish Docker Image to Docker Hub
-          command: |
-            echo "$DOCKERHUB_PASSWORD" | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
-            docker push $IMAGE_NAME:latest
-  deploy:
-    environment:
-      COMPOSE_PROJECT_NAME: tfluke_app
-    docker:
-      - image: circleci/buildpack-deps:buster
-    steps:
-      - checkout
-      - add_ssh_keys:
-          fingerprints:
-            - "3b:d2:84:bc:c8:2e:09:b7:2f:e7:50:23:46:41:cf:23"
-      - run:
-          name: Populate known_hosts
-          command: ssh-keyscan -H $PRODUCTION_HOST >> ~/.ssh/known_hosts
-      - run:
-          name: Check $PRODUCTION_HOST is set
-          command: echo "Deploying onto host \"$PRODUCTION_HOST\""
-      - run:
-          name: Pull container onto remote box
-          command: DOCKER_HOST="ssh://$DEPLOY_USERNAME@$PRODUCTION_HOST" docker-compose pull
-      - run:
-          name: Deploy using docker-compose
-          command: DOCKER_HOST="ssh://$DEPLOY_USERNAME@$PRODUCTION_HOST" docker-compose up -d --no-build
+version: 2.1
+orbs:
+  lucos: lucos/deploy@0
 workflows:
   version: 2
   build-deploy:
     jobs:
-      - test
-      - build:
+      - lucos/build-amd64:
           context: docker
-      - deploy:
+      - lucos/deploy-valen:
           context: docker
           requires:
-            - test
-            - build
+            - lucos/build-amd64
+          filters:
+            branches:
+              only:
+                - main
