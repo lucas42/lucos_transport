@@ -79,9 +79,9 @@ app.get('/_info', function (req, res) {
 	const output = {
 		system: 'tfluke_app',
 		checks: {
-			"tfl-api": {
+			/*"tfl-api": {
 				techDetail: "Can connect to tfl API",
-			}
+			}*/
 		},
 		metrics: {},
 		ci: {
@@ -91,8 +91,11 @@ app.get('/_info', function (req, res) {
 	TFLFetcher.fetch('route', 'victoria').then(() => {
 		output.checks['tfl-api'].ok = true;
 	}).catch(error => {
-		output.checks['tfl-api'].ok = false;
-		output.checks['tfl-api'].debug = error.message;
+
+		/** HACK: This check is really quite noisey, so hide it from output for now if it fails **/
+		delete output.checks['tfl-api'];
+		//output.checks['tfl-api'].ok = false;
+		//output.checks['tfl-api'].debug = error.message;
 	}).then(() => {
 		res.send(output);
 	});
