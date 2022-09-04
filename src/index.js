@@ -86,7 +86,9 @@ app.get('/_info', function (req, res) {
 		metrics: {},
 		ci: {
 			circle: "gh/lucas42/lucos_transport",
-		}
+		},
+		icon: "/img/icon.png",
+		network_only: false,
 	};
 	TFLFetcher.fetch('route', 'victoria').then(() => {
 		output.checks['tfl-api'].ok = true;
