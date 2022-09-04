@@ -89,6 +89,8 @@ app.get('/_info', function (req, res) {
 		},
 		icon: "/img/icon.png",
 		network_only: false,
+		title: "Transport",
+		show_on_homepage: true,
 	};
 	TFLFetcher.fetch('route', 'victoria').then(() => {
 		output.checks['tfl-api'].ok = true;
