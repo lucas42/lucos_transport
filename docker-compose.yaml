@@ -1,11 +1,12 @@
 version: '3'
 services:
-    app:
-      build: .
-      container_name: tfluke_app
-      ports: 
-        - "3000:3000"
-      environment:
-        - TFLAPPID
-        - TFLAPPKEY
-      image: lucas42/tfluke_app
+  app:
+    build: .
+    container_name: tfluke_app
+    ports: 
+      - "3000:3000"
+    environment:
+      - TFLAPPID
+      - TFLAPPKEY
+    image: lucas42/tfluke_app
+    restart: always
