@@ -20,10 +20,8 @@ function tflapireq(path, callback) {
 	} else {
 		url += '?';
 	}
-	url += "app_id="
-	if (process.env.TFLAPPID) url += encodeURIComponent(process.env.TFLAPPID);
 	url += "&app_key=";
-	if (process.env.TFLAPPKEY) url += encodeURIComponent(process.env.TFLAPPKEY);
+	if (process.env.TFL_KEY) url += encodeURIComponent(process.env.TFLAPPKEY);
 	req(url, function (err, resp, rawbody) {
 		if (err) {
 			console.error(err);

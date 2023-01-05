@@ -34,11 +34,11 @@ To run unit tests using [ava](https://github.com/avajs/ava), run:
 * ```npm start```
 
 You should also set the following environment variables:
-TFLAPPID and TFLAPPKEY - information about TFL's API can be found at https://api-portal.tfl.gov.uk/docs
-The app appears to run fine without these being set, but registering for an ID and key helps to keep track of which apps are making which requests to the API.
+TFL_KEY - generated here: https://api-portal.tfl.gov.uk/profile
+The app appears to run fine without these being set, but registering for a key helps to keep track of which apps are making which requests to the API and increases the limit of requests that can be made.
 
 ## Running using docker compose
-`TFLAPPID=<id> TFLAPPKEY=<secret> nice -19 docker-compose up -d --no-build`
+`TFL_APP=<secret> nice -19 docker-compose up -d --no-build`
 
 ## Building
 The build is configured to run in Dockerhub when a commit is pushed to the master branch in github.

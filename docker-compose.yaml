@@ -6,7 +6,6 @@ services:
     ports: 
       - "3000:3000"
     environment:
-      - TFLAPPID
-      - TFLAPPKEY
+      - TFL_KEY
     image: lucas42/tfluke_app
     restart: always

@@ -16,11 +16,10 @@ function tflapireq(path) {
 	} else {
 		url += '?';
 	}
-	url += "app_id="
-	if (process.env.TFLAPPID) url += encodeURIComponent(process.env.TFLAPPID);
 	url += "&app_key=";
-	if (process.env.TFLAPPKEY) url += encodeURIComponent(process.env.TFLAPPKEY);
+	if (process.env.TFL_KEY) url += encodeURIComponent(process.env.TFL_KEY);
 	return fetch(url, {timeout: 800}).then(response => {
+		if (response.status == 429) throw new Error(`TFL API Rate Limited`);
 		if (response.status != 200) throw new Error(`Unexpected status code ${response.status}`);
 		return response.json().then(data => {
 			return {
