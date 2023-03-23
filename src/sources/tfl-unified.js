@@ -12,7 +12,7 @@ function start() {
 	loadlines();
 }
 var supportedModes = ["tube", "dlr", "river-bus", "tflrail", "overground", "tram"];
-function tflapireq(path, callback) {
+async function tflapireq(path, callback) {
 	var parsed;
 	var url = "https://api.tfl.gov.uk"+path;
 	if (url.indexOf('?') > -1) {
@@ -22,19 +22,19 @@ function tflapireq(path, callback) {
 	}
 	url += "&app_key=";
 	if (process.env.TFL_KEY) url += encodeURIComponent(process.env.TFLAPPKEY);
-	req(url, function (err, resp, rawbody) {
-		if (err) {
-			console.error(err);
-			return;
-		}
-		try {
-			parsed = JSON.parse(rawbody);
-			callback(parsed, resp.headers.date);
-		} catch (e) {
-			console.error(url, rawbody);
-			callback([], resp.headers.date);
-		}
-	});
+	try {
+		const resp = await fetch(url);
+	} catch (err) {
+		console.error(err);
+		return;
+	}
+	try {
+		parsed = await resp.json();
+	} catch (e) {
+		console.error(url, await resp.body());
+		parsed = [];
+	}
+	callback(parsed, resp.headers.get('date'));
 }
 function loadlines() {
 	tflapireq("/Line/Route", function (lines, date) {
