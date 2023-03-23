@@ -35,7 +35,7 @@ Vehicle.prototype.getVehicleType = function getType() {
 	switch (this.getRoute().getField("mode")) {
 		case "dlr":
 		case "tube":
-		case "tflrail":
+		case "elizabeth-line":
 		case "overground":
 		case "national-rail":
 			return "train";

@@ -5,7 +5,7 @@ const Stop = require('../classes/stop');
 const Platform = require('../classes/platform');
 const Event = require('../classes/event');
 const Vehicle = require('../classes/vehicle');
-const supportedModes = ["tube", "dlr", "river-bus", "tflrail", "overground", "tram"];
+const supportedModes = ["tube", "dlr", "river-bus", "elizabeth-line", "overground", "tram"];
 let tflNetwork = new Network("tfl");
 
 function tflapireq(path) {
@@ -39,8 +39,8 @@ module.exports = {
 					data.forEach(function (linedata) {
 						if (supportedModes.indexOf(linedata.modeName) == -1) return;
 						var route = new Route(tflNetwork, linedata.id);
-						route.setField('title', linedata.name);
-						route.setField('name', linedata.name);
+						route.setField('title', linedata.name.replace(/ line$/, ''));
+						route.setField('name', linedata.name.replace(/ line$/, ''));
 						route.setField('lastUpdated', date);
 						route.setField("mode", linedata.modeName);
 						routes[linedata.id] = route;
@@ -86,8 +86,8 @@ module.exports = {
 				return tflapireq("/Line/"+id).then(({data, date}) => {
 					if (!data.length) throw "notfound";
 					route = new Route(tflNetwork, id);
-					route.setField("name", data[0].name);
-					route.setField("title", data[0].name);
+					route.setField("name", data[0].name.replace(/ line$/, ''));
+					route.setField("title", data[0].name.replace(/ line$/, ''));
 					route.setField("lastUpdated", date);
 					route.setField("mode", data[0].modeName);
 					return tflapireq("/Line/"+route.getCode()+"/StopPoints");

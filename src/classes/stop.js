@@ -58,7 +58,7 @@ function platformSort(a, b) {
 	}
 	if (!a.getName()) return 1;
 	if (!b.getName()) return -1;
-	const modePriority = ['tube','dlr','tfl-rail','overground','tram','river-bus','bus'];
+	const modePriority = ['tube','dlr','elizabeth','overground','tram','river-bus','bus'];
 	var modea = a.getField("mode");
 	var modeb = b.getField("mode");
 	var aval = platformNum(a);

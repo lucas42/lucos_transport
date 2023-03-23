@@ -46,7 +46,7 @@ Route.prototype.getQualifiedName = function getQualifiedName() {
 	var name = this.getField("title") || "";
 	if (name) name = name.charAt(0).toUpperCase() + name.slice(1);
 	var network = this.getNetwork().getCode();
-	if (this.getField("mode") == "tube") {
+	if (this.getField("mode") == "tube" || this.getField("mode") == "elizabeth-line") {
 		name += " Line";
 	}
 	if (this.getField("mode") == "river-bus" && name.match(/^RB\d/)) {
@@ -64,7 +64,7 @@ Route.getByStop = function getByStop(stop) {
 	return Route.getByRelatedThing('stop', stop).sort(Route.sort);
 }
 Route.sort = function sortRoutes(a, b) {
-	modePriority = ['tube','dlr','tfl-rail','overground','tram','river-bus','bus'];
+	modePriority = ['tube','dlr','elizabeth','overground','tram','river-bus','bus'];
 	var neta = a.getField("mode");
 	var netb = b.getField("mode");
 
