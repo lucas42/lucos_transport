@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/lucas42/lucos_transport",
   "devDependencies": {
-    "ava": "^6.0.0",
+    "ava": "^6.0.1",
     "browserify": "^17.0.0"
   },
   "dependencies": {
