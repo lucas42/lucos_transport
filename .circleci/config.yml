@@ -5,10 +5,8 @@ workflows:
   version: 2
   build-deploy:
     jobs:
-      - lucos/build-amd64:
-          context: docker
+      - lucos/build-amd64
       - lucos/deploy-avalon:
-          context: docker
           requires:
             - lucos/build-amd64
           filters:
