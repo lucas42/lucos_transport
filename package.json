@@ -27,7 +27,7 @@
     "browserify": "^17.0.0"
   },
   "dependencies": {
-    "express": "^4.19.2",
+    "express": "^4.20.0",
     "fs-readfile-promise": "^3.0.1",
     "htmlparser2": "^9.1.0",
     "lucos_pubsub": "^0.0.4",
