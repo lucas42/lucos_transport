@@ -41,4 +41,4 @@ The app appears to run fine without these being set, but registering for a key h
 `TFL_APP=<secret> nice -19 docker-compose up -d --no-build`
 
 ## Building
-The build is configured to run in Dockerhub when a commit is pushed to the master branch in github.
+The build is configured to run in Dockerhub when a commit is pushed to the `main` branch in github.
