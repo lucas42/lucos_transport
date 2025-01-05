@@ -52,7 +52,7 @@ Event.prototype.getData = function getData(source) {
 
 			// For links to other modes in the same station which have a symbol,
 			// just display the symbol and don't differentiate routes
-			if (interchange['symbol']  && interchange['mode'] != output["platform"]['mode'] && !interchange['stopname']) {
+			if (interchange['symbol']  && interchange['mode'] != output["platform"]['mode'] && !interchange['stopname'] && interchange['mode'] != 'overground') {
 				if (!(interchange['mode'] in displayedModes)) {
 					output['symbols'].push({
 						src: interchange['symbol'],
@@ -72,6 +72,11 @@ Event.prototype.getData = function getData(source) {
 			if (!interchange['ignore']) output['isinterchange'] = true;
 		});
 		if (output['isinterchange']) {
+			interchanges.sort((a, b) => {
+				if (a['mode'] == output["platform"]['mode'] && b['mode'] != output["platform"]['mode']) return -1;
+				if (b['mode'] == output["platform"]['mode'] && a['mode'] != output["platform"]['mode']) return 1;
+				return a > b;
+			})
 			output['interchanges'] = interchanges;
 		}
 	}

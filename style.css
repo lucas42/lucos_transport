@@ -17,13 +17,19 @@
 .route_elizabeth h3, .route_elizabeth h1, .route_elizabeth #lucos_navbar, .route .interchanges .route_elizabeth { color:#FFF!important; background-color:#60399e!important; }
 
 .mode_overground h3.journeyname { background-image: linear-gradient(90deg, transparent 0, transparent 40%, white 40%, white 60%, transparent 60%, transparent 100%); }
-.route_liberty h3, .route_liberty h1, .route_liberty #lucos_navbar, .route .interchanges .route_liberty { color:#FFF!important; background-color:#5d6061!important; }
-.route_lioness h3, .route_lioness h1, .route_lioness #lucos_navbar, .route .interchanges .route_lioness { color:#113B92!important; background-color:#faa81a!important; }
-.route_mildmay h3, .route_mildmay h1, .route_mildmay #lucos_navbar, .route .interchanges .route_mildmay { color:#FFF!important; background-color:#0076ad!important; }
-.route_suffragette h3, .route_suffragette h1, .route_suffragette #lucos_navbar, .route .interchanges .route_suffragette { color:#113B92!important; background-color:#5bbd72!important; }
-.route_weaver h3, .route_weaver h1, .route_weaver #lucos_navbar, .route .interchanges .route_weaver { color:#FFF!important; background-color:#823a62!important; }
-.route_windrush h3, .route_windrush h1, .route_windrush #lucos_navbar, .route .interchanges .route_windrush { color:#FFF!important; background-color:#ed1c00!important; }
+.route_liberty h3, .route_liberty h1, .route_liberty #lucos_navbar { color:#FFF!important; background-color:#5d6061!important; }
+.route_lioness h3, .route_lioness h1, .route_lioness #lucos_navbar { color:#113B92!important; background-color:#faa81a!important; }
+.route_mildmay h3, .route_mildmay h1, .route_mildmay #lucos_navbar { color:#FFF!important; background-color:#0076ad!important; }
+.route_suffragette h3, .route_suffragette h1, .route_suffragette #lucos_navbar { color:#113B92!important; background-color:#5bbd72!important; }
+.route_weaver h3, .route_weaver h1, .route_weaver #lucos_navbar { color:#FFF!important; background-color:#823a62!important; }
+.route_windrush h3, .route_windrush h1, .route_windrush #lucos_navbar { color:#FFF!important; background-color:#ed1c00!important; }
 
+.route .interchanges .route_liberty { border-top: double 5px #5d6061; }
+.route .interchanges .route_lioness { border-top: double 5px #faa81a; }
+.route .interchanges .route_mildmay { border-top: double 5px #0076ad; }
+.route .interchanges .route_suffragette { border-top: double 5px #5bbd72; }
+.route .interchanges .route_weaver { border-top: double 5px #823a62; }
+.route .interchanges .route_windrush { border-top: double 5px #ed1c00; }
 
 .route h3, .route h1 { color:#343431; background-color:#CDCDCD; }
 
@@ -340,10 +346,12 @@ h3 .symbol, h1 .symbol { margin: 0 1em; }
 .stop .symbols > .symbol { margin: 0 1ex; }
 
 .interchanges { width: 12ex; font-weight: bold; text-align: center; list-style-type: none; float: right; margin: 0 2ex 2ex 2ex; padding: 0; }
-.interchanges > li { font-size: 0.5em; line-height: 3ex; border: solid 1px; color: black; background: white; min-height: 1em; padding: 0 1ex; }
+.interchanges > li { font-size: 0.5em; line-height: 3ex; border: solid 1px; color: black; background: white; min-height: 1em; padding: 0 1ex; text-transform: capitalize; }
 .interchanges > li > a { display: block; }
 .interchanges > .tube, .interchanges > .dlr, .interchanges > .overground { border: none; }
 .interchanges .symbol { margin: 0.5ex; float: left; }
+.interchanges > .mode_overground { font-size: 0.6em; }
+.interchanges > .mode_overground .symbol { float: right; position: relative; height: 15px; top: -2px; }
 
 /** Navigation **/
 .backtoall { font-weight: bold; padding: 5px; font-size: 1em; color: #555; border-radius: 10px; display: block; text-decoration: none; margin-bottom: 5px; }
