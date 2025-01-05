@@ -293,7 +293,7 @@ h2, h3{
 
 /** Train pages see http://www.tfl.gov.uk/assets/downloads/corporate/tfl-line-diagram-standard-issue03.pdf **/
 .journey { position: relative; margin: 10px 0; }
-.journey .journeyname { width: 1ex; position: absolute; left: 31px; margin: 0; top: 0.7ex; bottom: 0.9ex; box-sizing: border-box; }
+.journey .journeyname { width: 1ex; position: absolute; left: 31px; margin: 0; top: 0.8ex; bottom: 0.9ex; box-sizing: border-box; }
 .journey .journeyname .routename, .journey .continues .destination { display: none; }
 .journey .continues { width: 4ex; overflow: hidden; height: 4ex; position: relative; padding: 0; margin-left: -2.5ex; }
 .journey .continues:after { content: " "; display: block; height: 3ex; width: 3.01ex; border: solid 1ex; border-top: none; border-left: none; transform: rotate(45deg); bottom: 1ex; position: absolute; }
