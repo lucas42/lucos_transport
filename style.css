@@ -1,5 +1,5 @@
 
-/** Colours for specific lines taken from https://tfl.route_gov.route_uk/cdn/static/cms/documents/tfl-colour-standard.route_pdf **/
+/** Colours for specific lines taken from https://content.tfl.gov.uk/tfl-colour-standard.pdf **/
 .journey h3, .route .interchanges .journey { color:#FFF; background-color:#000099; }
 .route_bakerloo h3, .route_bakerloo h1, .route_bakerloo #lucos_navbar, .route .interchanges .route_bakerloo { color:#FFF!important; background-color:#996633!important; }
 .route_central h3, .route_central h1, .route_central #lucos_navbar, .route .interchanges .route_central { color:#FFF!important; background-color:#CC3333!important; }
@@ -15,9 +15,7 @@
 .route_london-overground h3, .route_london-overground h1, .route_london-overground #lucos_navbar, .route .interchanges .route_london-overground { color:#FFF!important; background-color:#FF6600!important; }
 .route_dlr h3, .route_dlr h1, .route_dlr #lucos_navbar, .route .interchanges .route_dlr { color:#FFF!important; background-color:#009999!important; }
 .mode_tram h3, .mode_tram h1, .mode_tram #lucos_navbar, .route .interchanges .mode_tram { color:#113B92!important; background-color:#66cc00!important; }
-
-/** Not defined in colour standard - use Corporate Blue **/
-.route_elizabeth h3, .route_elizabeth h1, .route_elizabeth #lucos_navbar, .route .interchanges .route_elizabeth { color:#FFF!important; background-color:#6950A1!important; }
+.route_elizabeth h3, .route_elizabeth h1, .route_elizabeth #lucos_navbar, .route .interchanges .route_elizabeth { color:#FFF!important; background-color:#60399e!important; }
 
 
 .route h3, .route h1 { color:#343431; background-color:#CDCDCD; }
@@ -318,7 +316,7 @@ h2, h3{
 .route_waterloo-city .route > .stop:before, .route_waterloo-city .continues:after { border-color:#66CCCC; }
 .route_london-overground .route > .stop:before, .route_london-overground .continues:after { border-color:#FF6600; }
 .route_dlr .route > .stop:before, .route_dlr .continues:after { border-color:#009999; }
-.route_elizabeth .route > .stop:before, .route_elizabeth .continues:after { border-color:#6950A1; }
+.route_elizabeth .route > .stop:before, .route_elizabeth .continues:after { border-color:#60399e; }
 .mode_tram .route > .stop:before, .mode_tram .continues:after { border-color:#66cc00; }
 
 .symbol { height: 1em; }
