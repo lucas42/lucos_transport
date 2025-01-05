@@ -12,10 +12,17 @@
 .route_piccadilly h3, .route_piccadilly h1, .route_piccadilly #lucos_navbar, .route .interchanges .route_piccadilly { color:#FFF!important; background-color:#000099!important; }
 .route_victoria h3, .route_victoria h1, .route_victoria #lucos_navbar, .route .interchanges .route_victoria { color:#FFF!important; background-color:#0099CC!important; }
 .route_waterloo-city h3, .route_waterloo-city h1, .route_waterloo-city #lucos_navbar, .route .interchanges .route_waterloo-city { color:#113B92!important; background-color:#66CCCC!important; }
-.route_london-overground h3, .route_london-overground h1, .route_london-overground #lucos_navbar, .route .interchanges .route_london-overground { color:#FFF!important; background-color:#FF6600!important; }
 .route_dlr h3, .route_dlr h1, .route_dlr #lucos_navbar, .route .interchanges .route_dlr { color:#FFF!important; background-color:#009999!important; }
 .mode_tram h3, .mode_tram h1, .mode_tram #lucos_navbar, .route .interchanges .mode_tram { color:#113B92!important; background-color:#66cc00!important; }
 .route_elizabeth h3, .route_elizabeth h1, .route_elizabeth #lucos_navbar, .route .interchanges .route_elizabeth { color:#FFF!important; background-color:#60399e!important; }
+
+.mode_overground h3.journeyname { background-image: linear-gradient(90deg, transparent 0, transparent 40%, white 40%, white 60%, transparent 60%, transparent 100%); }
+.route_liberty h3, .route_liberty h1, .route_liberty #lucos_navbar, .route .interchanges .route_liberty { color:#FFF!important; background-color:#5d6061!important; }
+.route_lioness h3, .route_lioness h1, .route_lioness #lucos_navbar, .route .interchanges .route_lioness { color:#113B92!important; background-color:#faa81a!important; }
+.route_mildmay h3, .route_mildmay h1, .route_mildmay #lucos_navbar, .route .interchanges .route_mildmay { color:#FFF!important; background-color:#0076ad!important; }
+.route_suffragette h3, .route_suffragette h1, .route_suffragette #lucos_navbar, .route .interchanges .route_suffragette { color:#113B92!important; background-color:#5bbd72!important; }
+.route_weaver h3, .route_weaver h1, .route_weaver #lucos_navbar, .route .interchanges .route_weaver { color:#FFF!important; background-color:#823a62!important; }
+.route_windrush h3, .route_windrush h1, .route_windrush #lucos_navbar, .route .interchanges .route_windrush { color:#FFF!important; background-color:#ed1c00!important; }
 
 
 .route h3, .route h1 { color:#343431; background-color:#CDCDCD; }
@@ -47,7 +54,9 @@
 .route_metropolitan_piccadilly h3 { color:#FFF; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #660066), color-stop(.25, #000099), color-stop(.5, #000099), color-stop(.5, #660066), color-stop(.75, #660066), color-stop(.75, #000099), to(#000099)); background-size: 50px 50px; }
 .route_jubilee_metropolitan h3 { color:#FFF;background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #660066), color-stop(.25, #8F989E), color-stop(.5, #8F989E), color-stop(.5, #660066), color-stop(.75, #660066), color-stop(.75, #8F989E), to(#8F989E)); background-size: 50px 50px; }
 .route_district_piccadilly h3 { color:#FFF;background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #006633), color-stop(.25, #000099), color-stop(.5, #000099), color-stop(.5, #006633), color-stop(.75, #006633), color-stop(.75, #000099), to(#000099)); background-size: 50px 50px; }
-.route_bakerloo_overground h3 { color:#FFF; text-shadow: #554433 0 0 5px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #996633), color-stop(.25, #FF6600), color-stop(.5, #FF6600), color-stop(.5, #996633), color-stop(.75, #996633), color-stop(.75, #FF6600), to(#FF6600)); background-size: 50px 50px; }
+.route_bakerloo_lioness h3 { color:#FFF; text-shadow: #554433 0 0 5px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #996633), color-stop(.25, #faa81a), color-stop(.5, #faa81a), color-stop(.5, #996633), color-stop(.75, #996633), color-stop(.75, #faa81a), to(#faa81a)); background-size: 50px 50px; }
+.route_lioness_mildmay h3 { color:#FFF; text-shadow: #554433 0 0 5px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #0076ad), color-stop(.25, #faa81a), color-stop(.5, #faa81a), color-stop(.5, #0076ad), color-stop(.75, #0076ad), color-stop(.75, #faa81a), to(#faa81a)); background-size: 50px 50px; }
+.route_mildmay_windrush h3 { color:#FFF; text-shadow: #554433 0 0 5px; background: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #0076ad), color-stop(.25, #ed1c00), color-stop(.5, #ed1c00), color-stop(.5, #0076ad), color-stop(.75, #0076ad), color-stop(.75, #ed1c00), to(#ed1c00)); background-size: 50px 50px; }
 .route_circle_hammersmith-city_metropolitan h3 { color:#113B92; text-shadow: #FFF 0 0 5px; background-size: 50px 50px;
 background: -webkit-gradient(linear, 0 0, 100% 100%, 
 	color-stop(.15, #660066),
@@ -318,6 +327,12 @@ h2, h3{
 .route_dlr .route > .stop:before, .route_dlr .continues:after { border-color:#009999; }
 .route_elizabeth .route > .stop:before, .route_elizabeth .continues:after { border-color:#60399e; }
 .mode_tram .route > .stop:before, .mode_tram .continues:after { border-color:#66cc00; }
+.route_liberty .route > .stop:before, .route_liberty .continues:after { border-color:#5d6061; }
+.route_lioness .route > .stop:before, .route_lioness .continues:after { border-color:#faa81a; }
+.route_mildmay .route > .stop:before, .route_mildmay .continues:after { border-color:#0076ad; }
+.route_suffragette .route > .stop:before, .route_suffragette .continues:after { border-color:#5bbd72; }
+.route_weaver .route > .stop:before, .route_weaver .continues:after { border-color:#823a62; }
+.route_windrush .route > .stop:before, .route_windrush .continues:after { border-color:#ed1c00; }
 
 .symbol { height: 1em; }
 h3 .symbol, h1 .symbol { margin: 0 1em; }
