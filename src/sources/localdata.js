@@ -26,6 +26,7 @@ function loadLocalData() {
 				route.setField('routecode', '');
 				route.setField('title', stopdata.network);
 				route.setField('name', stopdata.network);
+				route.setField('mode', stopdata.network);
 				route.addStop(stop);
 			}
 		});
@@ -33,8 +34,7 @@ function loadLocalData() {
 			stops.forEach(function (interchange) {
 				if (stop == interchange) return;
 				stop.addExternalInterchange(interchange);
-			})
-			
+			});
 		});
 	});
 }

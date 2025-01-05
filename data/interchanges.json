@@ -1,21 +1,21 @@
 [
 	[
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUBNK"
 		},
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUMMT"
 		},
 		{
-			"network": "dlr",
+			"network": "tfl",
 			"code": "940GZZDLBNK"
 		}
 	],
 	[
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUWIM"
 		},
 		{
@@ -24,17 +24,17 @@
 			"name": "Wimbledon"
 		},
 		{
-			"network": "tram",
+			"network": "tfl",
 			"code": "940GZZCRWMB"
 		}
 	],
 	[
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUHSC"
 		},
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUHSD"
 		},
 		{
@@ -44,37 +44,37 @@
 	],
 	[
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUERC"
 		},
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUERB"
 		}
 	],
 	[
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUPAC"
 		},
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUPAH"
 		}
 	],
 	[
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUWCY"
 		},
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUWLA"
 		}
 	],
 	[
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUEUS"
 		},
 		{
@@ -85,7 +85,7 @@
 	],
 	[
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUMYB"
 		},
 		{
@@ -96,7 +96,7 @@
 	],
 	[
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUKSX"
 		},
 		{
@@ -112,11 +112,11 @@
 	],
 	[
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUWSM"
 		},
 		{
-			"network": "river-bus",
+			"network": "tfl",
 			"code": "930GWMR"
 		},
 		{
@@ -126,7 +126,7 @@
 	],
 	[
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUWLO"
 		},
 		{
@@ -135,23 +135,23 @@
 			"code": "WAT"
 		},
 		{
-			"network": "river-bus",
+			"network": "tfl",
 			"code": "930GWMP"
 		}
 	],
 	[
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUEMB"
 		},
 		{
-			"network": "river-bus",
+			"network": "tfl",
 			"code": "930GEMB"
 		}
 	],
 	[
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUCHX"
 		},
 		{
@@ -162,11 +162,11 @@
 	],
 	[
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUTWH"
 		},
 		{
-			"network": "dlr",
+			"network": "tfl",
 			"code": "940GZZDLTWG"
 		},
 		{
@@ -175,7 +175,7 @@
 			"code": "FST"
 		},
 		{
-			"network": "river-bus",
+			"network": "tfl",
 			"code": "930GTMP"
 		},
 		{
@@ -185,27 +185,27 @@
 	],
 	[
 		{
-			"network": "dlr",
+			"network": "tfl",
 			"code": "940GZZDLCUT"
 		},
 		{
-			"network": "river-bus",
+			"network": "tfl",
 			"code": "930GGNW"
 		}
 	],
 	[
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUNGW"
 		},
 		{
-			"network": "river-bus",
+			"network": "tfl",
 			"code": "930GMIL"
 		}
 	],
 	[
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLULNB"
 		},
 		{
@@ -214,13 +214,13 @@
 			"code": "LBG"
 		},
 		{
-			"network": "river-bus",
+			"network": "tfl",
 			"code": "930GLBR"
 		}
 	],
 	[
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUBKF"
 		},
 		{
@@ -229,13 +229,13 @@
 			"code": "BFR"
 		},
 		{
-			"network": "river-bus",
+			"network": "tfl",
 			"code": "930GBFR"
 		}
 	],
 	[
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUVXL"
 		},
 		{
@@ -244,13 +244,13 @@
 			"code": "VXH"
 		},
 		{
-			"network": "river-bus",
+			"network": "tfl",
 			"name": "930GSGW"
 		}
 	],
 	[
 		{
-			"network": "overground",
+			"network": "tfl",
 			"code": "910GCSEAH"
 		},
 		{
@@ -259,13 +259,13 @@
 			"code": "IMW"
 		},
 		{
-			"network": "river-bus",
+			"network": "tfl",
 			"code": "930GCHP"
 		}
 	],
 	[
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUVIC"
 		},
 		{
@@ -280,11 +280,11 @@
 	],
 	[
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUCGT"
 		},
 		{
-			"network": "dlr",
+			"network": "tfl",
 			"code": "940GZZDLCGT"
 		},
 		{
@@ -294,11 +294,11 @@
 	],
 	[
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUSTD"
 		},
 		{
-			"network": "dlr",
+			"network": "tfl",
 			"code": "940GZZDLSTD"
 		},
 		{
@@ -315,31 +315,31 @@
 			"code": "910GSTFD"
 		},
 		{
-			"network": "overground",
+			"network": "tfl",
 			"code": "910GSTFD"
 		}
 	],
 	[
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUCYF"
 		},
 		{
-			"network": "dlr",
+			"network": "tfl",
 			"code": "940GZZDLCAN"
 		},
 		{
-			"network": "dlr",
+			"network": "tfl",
 			"code": "940GZZDLHEQ"
 		}
 	],
 	[
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUWHM"
 		},
 		{
-			"network": "dlr",
+			"network": "tfl",
 			"code": "940GZZDLWHM"
 		},
 		{
@@ -350,55 +350,55 @@
 	],
 	[
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUBWR"
 		},
 		{
-			"network": "dlr",
+			"network": "tfl",
 			"code": "940GZZDLBOW"
 		}
 	],
 	[
 		{
-			"network": "dlr",
+			"network": "tfl",
 			"code": "940GZZDLWLA"
 		},
 		{
-			"network": "river-bus",
+			"network": "tfl",
 			"code": "930GWAS"
 		}
 	],
 	[
 		{
-			"network": "overground",
+			"network": "tfl",
 			"code": "910GSURREYQ"
 		},
 		{
-			"network": "river-bus",
+			"network": "tfl",
 			"code": "930GGLP"
 		}
 	],
 	[
 		{
-			"network": "tube",
+			"network": "tfl",
 			"code": "940GZZLUCYF"
 		},
 		{
-			"network": "dlr",
+			"network": "tfl",
 			"code": "940GZZDLCAN"
 		},
 		{
-			"network": "river-bus",
+			"network": "tfl",
 			"code": "930GCAW"
 		}
 	],
 	[
 		{
-			"network": "dlr",
+			"network": "tfl",
 			"code": "940GZZDLWFE"
 		},
 		{
-			"network": "river-bus",
+			"network": "tfl",
 			"code": "930GCAW"
 		}
 	]
