@@ -172,6 +172,8 @@ body { background: #ccf; margin: 0; min-height: 100%; position: absolute; width:
 .route h3, .route h1 { text-decoration: none; text-align: center; clear: both; padding: 0; }
 .route .status {font-weight: bold; }
 .route .status, .route .details { margin: 0 2em; white-space: pre-wrap; }
+.route.mode_overground h3 .symbol, .mode_overground .stoplist li.stop .symbol { display: none; } /* Bit of a hack until mode symbols are rationalised  (currently some are in their own files; other base64 encoded in symbols.json - overground is both) */
+.mode_river-bus .stoplist, .mode_tram .stoplist { padding: 0; }
 .stationlines { overflow: hidden; }
 .stationlines .route { width: 400px; float:left; clear: both; }
 .stationlines .route h3 { margin: 3px; }
