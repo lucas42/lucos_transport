@@ -51,6 +51,7 @@ var Vehicle = require('./classes/vehicle');
 var Network = require('./classes/network');
 var Platform = require('./classes/platform');
 var Event = require('./classes/event');
+require('./update-times');
 app.get('/data.json', function (req, res) {
 	var output = {
 		networks: Network.getAllSerialised(),
