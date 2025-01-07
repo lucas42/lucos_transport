@@ -24,12 +24,12 @@
 .route_weaver h3, .route_weaver h1, .route_weaver #lucos_navbar { color:#FFF!important; background-color:#823a62!important; }
 .route_windrush h3, .route_windrush h1, .route_windrush #lucos_navbar { color:#FFF!important; background-color:#ed1c00!important; }
 
-.route .interchanges .route_liberty { border-top: double 5px #5d6061; }
-.route .interchanges .route_lioness { border-top: double 5px #faa81a; }
-.route .interchanges .route_mildmay { border-top: double 5px #0076ad; }
-.route .interchanges .route_suffragette { border-top: double 5px #5bbd72; }
-.route .interchanges .route_weaver { border-top: double 5px #823a62; }
-.route .interchanges .route_windrush { border-top: double 5px #ed1c00; }
+.route .interchanges .route_liberty a { border-top: double 5px #5d6061; }
+.route .interchanges .route_lioness a { border-top: double 5px #faa81a; }
+.route .interchanges .route_mildmay a { border-top: double 5px #0076ad; }
+.route .interchanges .route_suffragette a { border-top: double 5px #5bbd72; }
+.route .interchanges .route_weaver a { border-top: double 5px #823a62; }
+.route .interchanges .route_windrush a { border-top: double 5px #ed1c00; }
 
 .route h3, .route h1 { color:#343431; background-color:#CDCDCD; }
 
@@ -352,6 +352,7 @@ h3 .symbol, h1 .symbol { margin: 0 1em; }
 .interchanges > li > a { display: block; }
 .interchanges > .mode_tube, .interchanges > .mode_dlr, .interchanges > .mode_elizabeth-line { border: none; }
 .interchanges .symbol { margin: 0.5ex; float: left; }
+.interchanges > .mode_overground { padding: 0; /* Remove padding so double lines are full width */ }
 .interchanges > .mode_overground .symbol { float: right; position: relative; height: 14px; top: -2px; }
 .interchanges > .mode_overground > a:after, .interchanges > .mode_elizabeth-line > a:after { content: "line"; }
 
