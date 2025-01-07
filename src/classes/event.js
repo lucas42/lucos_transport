@@ -72,9 +72,11 @@ Event.prototype.getData = function getData(source) {
 			if (!interchange['ignore']) output['isinterchange'] = true;
 		});
 		if (output['isinterchange']) {
+
+			// When displaying interchanges, show overground ones at the top because their double lines look weird directly below tube lines
 			interchanges.sort((a, b) => {
-				if (a['mode'] == output["platform"]['mode'] && b['mode'] != output["platform"]['mode']) return -1;
-				if (b['mode'] == output["platform"]['mode'] && a['mode'] != output["platform"]['mode']) return 1;
+				if (a['mode'] == 'overground' && b['mode'] != 'overground') return -1;
+				if (b['mode'] == 'overground' && a['mode'] != 'overground') return 1;
 				return a > b;
 			})
 			output['interchanges'] = interchanges;
