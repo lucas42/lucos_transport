@@ -352,7 +352,7 @@ h3 .symbol, h1 .symbol { margin: 0 1em; }
 .interchanges > li > a { display: block; }
 .interchanges > .mode_tube, .interchanges > .mode_dlr, .interchanges > .mode_elizabeth-line { border: none; }
 .interchanges .symbol { margin: 0.5ex; float: left; }
-.interchanges > .mode_overground .symbol { float: right; position: relative; height: 15px; top: -2px; }
+.interchanges > .mode_overground .symbol { float: right; position: relative; height: 14px; top: -2px; }
 .interchanges > .mode_overground > a:after, .interchanges > .mode_elizabeth-line > a:after { content: "line"; }
 
 /** Navigation **/
