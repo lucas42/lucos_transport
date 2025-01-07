@@ -351,6 +351,7 @@ h3 .symbol, h1 .symbol { margin: 0 1em; }
 .interchanges > li { font-size: 0.5em; line-height: 3ex; border: solid 1px; color: black; background: white; min-height: 1em; padding: 0 1ex; text-transform: capitalize; }
 .interchanges > li > a { display: block; }
 .interchanges > .mode_tube, .interchanges > .mode_dlr, .interchanges > .mode_elizabeth-line { border: none; }
+.interchanges > li:not(.mode_tube):not(.mode_dlr):not(.mode_elizabeth-line) + li:not(.mode_tube):not(.mode_dlr):not(.mode_elizabeth-line) { border-top: none; }
 .interchanges .symbol { margin: 0.5ex; float: left; }
 .interchanges > .mode_overground { padding: 0; /* Remove padding so double lines are full width */ }
 .interchanges > .mode_overground .symbol { float: right; position: relative; height: 14px; top: -2px; }
