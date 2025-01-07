@@ -177,7 +177,7 @@ body { background: #ccf; margin: 0; min-height: 100%; position: absolute; width:
 .stationlines { overflow: hidden; }
 .stationlines .route { width: 400px; float:left; clear: both; }
 .stationlines .route h3 { margin: 3px; }
-#content { margin: 1em; }
+#content { margin: 1em auto; max-width: 700px; }
 
 /** Footer **/
 #footer { background: #999; color: #fff; bottom: 0; left: 0; right: 0; height: 2em; position: absolute; transition: background 1s; }
