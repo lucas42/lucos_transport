@@ -352,8 +352,8 @@ h3 .symbol, h1 .symbol { margin: 0 1em; }
 .interchanges > li > a { display: block; }
 .interchanges > .mode_tube, .interchanges > .mode_dlr, .interchanges > .mode_elizabeth-line { border: none; }
 .interchanges .symbol { margin: 0.5ex; float: left; }
-.interchanges > .mode_overground { font-size: 0.6em; }
 .interchanges > .mode_overground .symbol { float: right; position: relative; height: 15px; top: -2px; }
+.interchanges > .mode_overground > a:after, .interchanges > .mode_elizabeth-line > a:after { content: "line"; }
 
 /** Navigation **/
 .backtoall { font-weight: bold; padding: 5px; font-size: 1em; color: #555; border-radius: 10px; display: block; text-decoration: none; margin-bottom: 5px; }
