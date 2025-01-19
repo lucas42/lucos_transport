@@ -24,7 +24,7 @@ Platform.prototype.getCssClass = function getCssClass() {
 	}
 	if (this.getRoutes().length) {
 		cssClass += "route";
-		this.getRoutes().forEach(function (route) {
+		this.getRoutes().sort((a, b) => a.code > b.code).forEach(function (route) {
 			cssClass += "_"+route.getCode();
 		});
 	}
