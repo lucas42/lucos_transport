@@ -79,6 +79,9 @@ Vehicle.prototype.getData = function getData() {
 	if (output.vehicleType == "bus" || output.vehicleType == "boat") {
 		output.routeNumber = this.getRoute().getCode();
 	}
+	if (!output.destination) {
+		output.simpleDestination = output.destination = `Check Front of ${output.vehicleType.charAt(0).toUpperCase()+output.vehicleType.slice(1)}`;
+	}
 	return output;
 }
 Vehicle.prototype.refresh = function refresh(callback) {
