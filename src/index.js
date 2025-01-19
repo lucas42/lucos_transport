@@ -115,3 +115,4 @@ app.get('/simple', function (req, res) {
 
 require('./sources/localdata').start();
 require('./sources/boatdata').start();
+TFLFetcher.loadAllRoutes();
