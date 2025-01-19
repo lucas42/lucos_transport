@@ -1,4 +1,4 @@
-# lucos Transport
+# TFLuke
 A web app for keeping track of public transport, particularly on forms of transport where data connections are highly variable.
 
 ## Dependancies

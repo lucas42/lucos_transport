@@ -86,7 +86,7 @@ app.get('/_info', function (req, res) {
 		},
 		metrics: {},
 		ci: {
-			circle: "gh/lucas42/lucos_transport",
+			circle: "gh/lucas42/tfluke",
 		},
 		icon: "/img/icon.png",
 		network_only: false,

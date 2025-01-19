@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  lucos: lucos/deploy@0
+  deploy: lucos/deploy@0
 jobs:
   test:
     docker:
@@ -18,11 +18,11 @@ workflows:
   build-deploy:
     jobs:
       - test
-      - lucos/build-amd64
-      - lucos/deploy-avalon:
+      - deploy/build-amd64
+      - deploy/deploy-avalon:
           requires:
             - test
-            - lucos/build-amd64
+            - deploy/build-amd64
           filters:
             branches:
               only:

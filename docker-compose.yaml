@@ -1,10 +1,10 @@
 services:
   app:
     build: .
-    container_name: tfluke_app
+    container_name: tfluke
     ports: 
       - "3000:3000"
     environment:
       - TFL_KEY
-    image: lucas42/tfluke_app
+    image: lucas42/tfluke
     restart: always
