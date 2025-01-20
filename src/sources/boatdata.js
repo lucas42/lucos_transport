@@ -4,7 +4,7 @@ import Vehicle from '../classes/vehicle.js'
 
 // Names originally come from http://content.tfl.gov.uk/tfl-live-bus-river-bus-arrivals-api-documentation-v16.pdf
 // Though the docs are now out-of-date due to new boats
-import boats from '../../data/boatnames.json' with { type: "json" }
+import boats from '../data/boatnames.json' with { type: "json" }
 
 // Only load data once, because it comes from static files
 export function start() {

@@ -1,6 +1,6 @@
 import Class from './class.js';
 import Stop from './stop.js';
-import Symbols from '../../data/symbols.json' with { type: "json" };
+import Symbols from '../data/symbols.json' with { type: "json" };
 var Route = Class("Route", ["network", "code"], function () {
 	this.addRelation({
 		singular: 'stop',

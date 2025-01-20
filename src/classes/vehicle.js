@@ -1,7 +1,7 @@
 import Class from './class.js';
 import Event from './event.js';
 import Stop from './stop.js';
-import boatnames from '../../data/boatnames.json' with { type: "json" };
+import boatnames from '../data/boatnames.json' with { type: "json" };
 var Vehicle = Class("Vehicle", ["route", "code"], function () {
 	this.addRelation({
 		singular: 'event',

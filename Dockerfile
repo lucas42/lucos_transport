@@ -1,11 +1,11 @@
 FROM node:23
 
 WORKDIR /usr/src/app
+COPY package* ./
 
-COPY package*.json ./
 RUN npm install
 
-COPY . ./
+COPY src ./
 RUN npm run build
 
 ENV NODE_ENV production

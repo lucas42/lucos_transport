@@ -1,7 +1,7 @@
 import Network from '../classes/network.js'
 import Route from '../classes/route.js'
 import Stop from '../classes/stop.js'
-import interchanges from '../../data/interchanges.json' with { type: "json" }
+import interchanges from '../data/interchanges.json' with { type: "json" }
 
 // Only load data once, because it comes from static files
 export function start() {

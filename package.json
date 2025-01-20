@@ -2,12 +2,11 @@
   "name": "tfluke",
   "version": "0.2.0",
   "description": "Travel App",
-  "main": "src/index.js",
   "type": "module",
   "scripts": {
     "test": "ava -s",
     "test-xunit": "mkdir -p reports && ava -s --tap | tap-xunit > reports/tests.xml",
-    "start": "node src/index.js",
+    "start": "node index.js",
     "build": "webpack"
   },
   "repository": {
