@@ -1,5 +1,5 @@
-const test = require('ava');
-const Network = require("../src/classes/network");
+import test from 'ava';
+import Network from '../src/classes/network.js'
 
 test('Create Network', test => {
 	var network = new Network('id123');

@@ -1,6 +1,6 @@
-var Class = require('./class');
-var Stop = require('./stop');
-var Symbols = require('../../data/symbols.json');
+import Class from './class.js';
+import Stop from './stop.js';
+import Symbols from '../../data/symbols.json' with { type: "json" };
 var Route = Class("Route", ["network", "code"], function () {
 	this.addRelation({
 		singular: 'stop',
@@ -64,7 +64,7 @@ Route.getByStop = function getByStop(stop) {
 	return Route.getByRelatedThing('stop', stop).sort(Route.sort);
 }
 Route.sort = function sortRoutes(a, b) {
-	modePriority = ['tube','dlr','elizabeth','overground','tram','river-bus','bus'];
+	const modePriority = ['tube','dlr','elizabeth','overground','tram','river-bus','bus'];
 	var neta = a.getField("mode");
 	var netb = b.getField("mode");
 
@@ -95,4 +95,4 @@ Route.getOldestUpdateTime = function () {
 	});
 	return oldest;
 }
-module.exports = Route;
+export default Route;

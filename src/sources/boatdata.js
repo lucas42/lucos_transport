@@ -1,11 +1,14 @@
-var Vehicle = require('../classes/vehicle');
-var Route = require('../classes/route');
-var Network = require('../classes/network');
-function loadData() {
+import Network from '../classes/network.js'
+import Route from '../classes/route.js'
+import Vehicle from '../classes/vehicle.js'
 
-	// Names originally come from http://content.tfl.gov.uk/tfl-live-bus-river-bus-arrivals-api-documentation-v16.pdf
-	// Though the docs are now out-of-date due to new boats
-	var boats = require('../../data/boatnames.json');
+// Names originally come from http://content.tfl.gov.uk/tfl-live-bus-river-bus-arrivals-api-documentation-v16.pdf
+// Though the docs are now out-of-date due to new boats
+import boats from '../../data/boatnames.json' with { type: "json" }
+
+// Only load data once, because it comes from static files
+export function start() {
+
 	var network = new Network('river-bus');
 	var routes = [];
 
@@ -23,9 +26,4 @@ function loadData() {
 	}
 }
 
-
-module.exports = {
-
-	// Only load data once, because it comes from static files
-	start: loadData,
-}
+export default { start }

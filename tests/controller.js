@@ -1,8 +1,9 @@
-const test = require('ava');
-const Network = require('../src/classes/network'),
-	Route = require('../src/classes/route'),
-	Stop = require('../src/classes/stop'),
-	Vehicle = require('../src/classes/vehicle');
+import test from 'ava';
+import Network from '../src/classes/network.js'
+import Stop from '../src/classes/stop.js'
+import Route from '../src/classes/route.js'
+import Vehicle from '../src/classes/vehicle.js'
+
 var net1 = new Network('net1');
 var route1 = new Route(net1, 'route1');
 route1.setField('name', "Routeface");
@@ -12,7 +13,7 @@ var vehicle1 = new Vehicle(route1, '14');
 vehicle1.setField('lastUpdated', "yesterday");
 
 // Module under test
-const Controller = require("../src/controller");
+import Controller from '../src/controller.js'
 
 /** Homepage **/
 test('Homepage Render', async test => {

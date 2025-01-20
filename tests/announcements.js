@@ -1,6 +1,6 @@
-const test = require('ava');
-const Announcements = require("../src/announcements");
-const Pubsub = require("lucos_pubsub");
+import test from 'ava';
+import { init as Announcements } from '../src/announcements.js';
+import { send } from 'lucos_pubsub';
 
 test('Easter Homepage Announcement', test => {
 	var routeData = [{"status":"Good Service","name":"Bakerloo","network":"tube"},{"status":"Good Service","name":"Central","network":"tube"},{"status":"Part Closure","name":"Circle","network":"tube"},{"status":"Part Closure","name":"District","network":"tube"},{"status":"Part Closure","name":"Hammersmith & City","network":"tube"},{"status":"Good Service","name":"Jubilee","network":"tube"},{"status":"Part Closure","name":"Metropolitan","network":"tube"},{"status":"Good Service","name":"Northern","network":"tube"},{"status":"Good Service","name":"Piccadilly","network":"tube"},{"status":"Good Service","name":"Victoria","network":"tube"},{"status":"Good Service","name":"Waterloo & City","network":"tube"},{"status":"Part Closure","name":"DLR","network":"dlr"},{"status":"Part Closure","name":"London Overground","network":"overground"},{"status":"Good Service","name":"RB1","network":"river-bus"},{"status":"Good Service","name":"RB1X","network":"river-bus"},{"status":"Good Service","name":"RB2","network":"river-bus"},{"status":"Good Service","name":"RB4","network":"river-bus"},{"status":"Good Service","name":"RB5","network":"river-bus"},{"status":"Good Service","name":"RB6","network":"river-bus"},{"status":"Minor Delays","name":"TfL Rail","network":"elizabeth-line"},{"status":"Part Closure","name":"Tram","network":"tram"},{"status":"Good Service","name":"Woolwich Ferry","network":"river-bus"},{"name":"bus","network":"bus"},{"name":"national-rail","network":"national-rail"}];
@@ -48,13 +48,13 @@ test('Refresh Announcement', test => {
 	Announcements(null, null, text => {
 		test.is(text, "Updated.");
 	});
-	Pubsub.send('refreshComplete');
+	send('refreshComplete');
 });
 test('Train - approaching station Announcement', test => {
 	Announcements("Vehicle", null, text => {
 		test.is(text, "The next stop is Uxbridge");
 	});
-	Pubsub.send('eventApproaching', {
+	send('eventApproaching', {
 		vehicle: {
 			classID: 'id123',
 		},
@@ -67,7 +67,7 @@ test('Pier - boat arrived Announcement', test => {
 	Announcements("Stop", null, text => {
 		test.is(text, "The boat at Pier C is an RB1X service to North Greenwich");
 	});
-	Pubsub.send('eventArrived', {
+	send('eventArrived', {
 		vehicle: {
 			vehicleType: 'boat',
 			classID: 'id123',
@@ -87,7 +87,7 @@ test('Platform - train approaching Announcement', test => {
 	Announcements("Stop", null, text => {
 		test.is(text, "The next train at Platform 9¾ will be a Baykerloo Line service to Hogsmeade");
 	});
-	Pubsub.send('eventApproaching', {
+	send('eventApproaching', {
 		vehicle: {
 			classID: 'id246',
 			vehicleType: 'train',
@@ -108,7 +108,7 @@ test('Pier platform no name - boat arrived Announcement', test => {
 	Announcements("Stop", null, text => {
 		test.is(text, "This is an RB2 boat to Bankside");
 	});
-	Pubsub.send('eventArrived', {
+	send('eventArrived', {
 		vehicle: {
 			vehicleType: 'boat',
 			classID: 'id123',
@@ -129,7 +129,7 @@ test('Pier platform no name - boat approaching Announcement', test => {
 	Announcements("Stop", null, text => {
 		test.is(text, "The next boat will be an RB5 service to Woolwich");
 	});
-	Pubsub.send('eventApproaching', {
+	send('eventApproaching', {
 		vehicle: {
 			vehicleType: 'boat',
 			classID: 'id123',

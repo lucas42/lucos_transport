@@ -1,16 +1,21 @@
-var Class = require('./class');
-var Pubsub = require('lucos_pubsub');
-var Route = require('./route');
+import Class from './class.js';
+import Route from './route.js';
+import { listen, unlisten } from 'lucos_pubsub';
+
+function clientBroadcast(event, data) {
+	//console.log("//TODO: Update on client", event, data);
+}
+
 var Event = Class("Event", ["vehicle", "platform"], function () {
 
 	var thisevent = this;
 	var eventupdates = function eventupdates() {
 		thisevent.updateRelTime();
 	};
-	Pubsub.listen('updateTimes', eventupdates);
+	listen('updateTimes', eventupdates);
 	thisevent.tidyup = function tidyup() {
-		Pubsub.unlisten('updateTimes', eventupdates);
-		Pubsub.clientBroadcast("eventRemoved", thisevent.getData());
+		unlisten('updateTimes', eventupdates);
+		clientBroadcast("eventRemoved", thisevent.getData());
 	};
 	thisevent.updateRelTime();
 });
@@ -195,20 +200,19 @@ Event.prototype.updateRelTime = function updateRelTime() {
 	this.setField('secondsTo', secondsTo);
 	this.setField('passed', secondsTo < -30);
 	if (oldSecondsTo >= 1 && secondsTo < 1) {
-		Pubsub.clientBroadcast("eventArrived", this.getData("Both"));
+		clientBroadcast("eventArrived", this.getData("Both"));
 	} else if (oldSecondsTo >= 30 && secondsTo < 30) {
-		Pubsub.clientBroadcast("eventApproaching", this.getData("Both"));
+		clientBroadcast("eventApproaching", this.getData("Both"));
 	}
 
 	// Events which happened more than half a minute ago are irrelevant.
 	if (secondsTo < -30) {
 		this.deleteSelf();
 	}
-	Pubsub.clientBroadcast('updateEventTime', this.getData());
+	clientBroadcast('updateEventTime', this.getData());
 }
 Event.sortByTime = function sortByTime(a, b) {
 	return new Date(a.getField('time')) - new Date(b.getField('time'));
 }
 
-
-module.exports = Event;
+export default Event;

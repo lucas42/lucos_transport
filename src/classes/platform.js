@@ -1,6 +1,7 @@
-var Class = require('./class');
-var Event = require('./event');
-var Route = require('./route');
+import Class from './class.js';
+import Event from './event.js';
+import Route from './route.js';
+
 var Platform = Class("Platform", ["stop", "name"], function () {
 	this.addRelation({
 		singular: 'event',
@@ -56,4 +57,4 @@ Platform.prototype.getFullName = function getFullName() {
 			return this.getName();
 	}
 }
-module.exports = Platform;
+export default Platform;

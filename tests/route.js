@@ -1,7 +1,7 @@
-const test = require('ava');
-const Network = require("../src/classes/network"),
-	Route = require("../src/classes/route"),
-	Stop = require("../src/classes/stop");
+import test from 'ava';
+import Network from '../src/classes/network.js'
+import Route from '../src/classes/route.js'
+import Stop from '../src/classes/stop.js'
 test.afterEach.always('Tidy up routes from global scope', test => {
 	Route.getAll().forEach(route => {
 		route.deleteSelf();

@@ -1,10 +1,7 @@
+import ControllerClass from './controller.js'
 const RESOURCE_CACHE = 'resources-v1';
 const TEMPLATE_CACHE = 'templates-v1';
 const TEMPLATE_PATH = '/resources/templates/';
-
-const Event = require('./classes/event'),
-//serverSource = require('./sources/server'),
-Pubsub = require('lucos_pubsub');
 
 self.addEventListener('install', function swInstalled(event) {
 	event.waitUntil(refreshResources());
@@ -43,7 +40,7 @@ function refreshResources() {
 	})
 }
 
-const Controller = require('./controller')(templateid => {
+const Controller = ControllerClass(templateid => {
 	return caches.open(TEMPLATE_CACHE).then(function getTemplate(cache) {
 		var templateRequest = new Request(TEMPLATE_PATH + templateid + '.html');
 		return cache.match(templateRequest).then(function (fromCache) {
@@ -137,7 +134,7 @@ self.addEventListener('fetch', function respondToFetch(event) {
 	event.respondWith(tidyUpResponsePromise);
 });
 
-Pubsub.filterBroadcasts((type, msg, client) => {
+/*Pubsub.filterBroadcasts((type, msg, client) => {
 	var url = new URL(client.url);
 	switch (type) {
 		case 'eventApproaching':
@@ -147,5 +144,5 @@ Pubsub.filterBroadcasts((type, msg, client) => {
 		default:
 			return false;
 	}
-});
+});*/
 //serverSource.start();

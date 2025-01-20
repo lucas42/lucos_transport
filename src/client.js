@@ -1,5 +1,5 @@
-const Pubsub = require('lucos_pubsub'),
-	Sound = require('./sound');
+import { send, listen } from 'lucos_pubsub'
+import Sound from './sound.js'
 
 function pageLoad() {
 	(function initFooter() {
@@ -142,7 +142,7 @@ function refresh() {
 			});
 		} else {
 			delete footer.dataset.failure;
-			Pubsub.send('refreshComplete');
+			send('refreshComplete');
 		}
 		delete footer.dataset.loading;
 	});
@@ -159,7 +159,7 @@ if (Document.readyState == "loading") {
 }
 
 // When the event's time changes, update the DOM accordingly
-Pubsub.listen('updateEventTime', function (eventData) {
+listen('updateEventTime', function (eventData) {
 	var DOMNode = document.getElementById(eventData.classID);
 	if (!DOMNode) return;
 	if (DOMNode.dataset.eventtype == "vehicle") {
@@ -170,7 +170,7 @@ Pubsub.listen('updateEventTime', function (eventData) {
 });
 
 // When an event is removed, remove it from the DOM too.
-Pubsub.listen('eventRemoved', function (eventData) {
+listen('eventRemoved', function (eventData) {
 	var DOMNode = document.getElementById(eventData.classID);
 	if (!DOMNode) return;
 	DOMNode.parentNode.removeChild(DOMNode);

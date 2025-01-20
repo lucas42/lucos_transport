@@ -1,10 +1,10 @@
-const fetch = require('node-fetch');
-const Route = require('../classes/route');
-const Network = require('../classes/network');
-const Stop = require('../classes/stop');
-const Platform = require('../classes/platform');
-const Event = require('../classes/event');
-const Vehicle = require('../classes/vehicle');
+import fetch from 'node-fetch'
+import Route from '../classes/route.js'
+import Stop from '../classes/stop.js'
+import Vehicle from '../classes/vehicle.js'
+import Network from '../classes/network.js'
+import Platform from '../classes/platform.js'
+import Event from '../classes/event.js'
 const supportedModes = ["tube", "dlr", "river-bus", "elizabeth-line", "overground", "tram"];
 let tflNetwork = new Network("tfl");
 
@@ -30,7 +30,7 @@ function tflapireq(path) {
 	});
 }
 
-function apiFetch(type, id, params) {
+export function fetchData(type, id, params) {
 	switch (type) {
 		case "routes": {
 			return tflapireq("/Line/Route").then(({data, date}) => {
@@ -296,19 +296,19 @@ function apiFetch(type, id, params) {
 	}
 }
 
-async function loadAllRoutes() {
+export async function loadAllRoutes() {
 	try {
-		const {routes} = await apiFetch('routes');
+		const {routes} = await fetchData('routes');
 		for (const route of routes) {
 			console.log(`Loading data for ${route.title}...`);
-			const {stops} = await apiFetch('route', route.code);
+			const {stops} = await fetchData('route', route.code);
 		}
 	} catch(error) {
 		console.error("Error occured while preloading stops", error);
 	}
 }
 
-module.exports = {
-	fetch: apiFetch,
+export default {
+	fetchData,
 	loadAllRoutes,
 }

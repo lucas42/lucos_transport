@@ -1,6 +1,6 @@
-const test = require('ava');
-const Network = require("../src/classes/network"),
-	Route = require("../src/classes/route");
+import test from 'ava';
+import Network from '../src/classes/network.js'
+import Route from '../src/classes/route.js'
 
 test('Serialised Network', test => {
 	var network1 = new Network('net1');

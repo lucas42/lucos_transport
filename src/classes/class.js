@@ -1,5 +1,5 @@
 function BaseThing() {}
-function Class(classname, keynames, constructor) {
+export default function Class(classname, keynames, constructor) {
 
 	if (typeof keynames == "string") keynames = [keynames];
 	var all = {};
@@ -27,7 +27,7 @@ function Class(classname, keynames, constructor) {
 	function getByRelatedThing(relation, thing) {
 		var relations, relatedinstance, output = [];
 		for (var key in all) {
-			relatedthings = all[key].relations[relation].get();
+			const relatedthings = all[key].relations[relation].get();
 			for (var i = 0; i < relatedthings.length; i++) {
 				if (relatedthings[i] == thing) {
 					output.push(all[key]);
@@ -118,7 +118,7 @@ function Class(classname, keynames, constructor) {
 		instance.deleteSelf = function deleteSelf() {
 
 			// Attempt to automatically detach instance from its keys (if they have a relation to this type)
-			for (keyname in keys) {
+			for (const keyname in keys) {
 				if (keys[keyname] instanceof BaseThing && typeof keys[keyname]["remove"+classname] == "function") {
 					keys[keyname]["remove"+classname](instance);
 				}
@@ -143,7 +143,7 @@ function Class(classname, keynames, constructor) {
 		instance.relations = {};
 
 		// Attempt to automatically attach instance to its keys (if they have a relation to this type)
-		for (keyname in keys) {
+		for (const keyname in keys) {
 			if (keys[keyname] instanceof BaseThing && typeof keys[keyname]["add"+classname] == "function") {
 				keys[keyname]["add"+classname](instance);
 			}
@@ -248,5 +248,3 @@ function Class(classname, keynames, constructor) {
 function capitalise(string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);
 }
-
-module.exports = Class;

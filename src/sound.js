@@ -1,12 +1,11 @@
+import { init } from './announcements.js'
 var speak;
 var currentClassType;
 var currentExtraData;
-const Announcements = require("./announcements");
 
 // Lazy load sound, only when needed
 function preload() {
-	loadStarted = true;
-	const speech = require("mespeak");
+	/*const speech = require("mespeak");
 
 	// Setup voice module
 	speech.loadConfig(require("mespeak/src/mespeak_config.json"));
@@ -27,20 +26,21 @@ function preload() {
 				speak(queue.shift());
 			}
 		});
-	}
+	}*/
 }
 function load() {
 
 	// Only bother really loading if sound is enabled
 	if (!soundIsEnabled()) return;
 	if (!speak) preload();
-	Announcements(currentClassType, currentExtraData, speak);
+	init(currentClassType, currentExtraData, speak);
 }
 
 function soundIsEnabled() {
 	return !!localStorage.getItem("soundEnabled");
 }
-module.exports = {
+
+export default {
 	enable: () => {
 		localStorage.setItem("soundEnabled", true);
 		setTimeout(load, 0);

@@ -1,4 +1,4 @@
-var Class = require('./class');
+import Class from './class.js';
 var Stop = Class("Stop", ["network", "code"], function () {
 	this.addRelation({
 		singular: 'platform',
@@ -72,4 +72,4 @@ function platformSort(a, b) {
 	}
 	return (a.getFullName() > b.getFullName()) ? 1 : -1;
 }
-module.exports = Stop;
+export default Stop;

@@ -1,9 +1,9 @@
-const Route = require('./classes/route'),
-Stop = require('./classes/stop'),
-Vehicle = require('./classes/vehicle'),
-Mustache = require('mustache');
+import Stop from './classes/stop.js'
+import Route from './classes/route.js'
+import Vehicle from './classes/vehicle.js'
+import Mustache from 'mustache'
 
-function Controller (getTemplate, dataFetcher, isServiceWorker) {
+export default function Controller (getTemplate, dataFetcher, isServiceWorker) {
 	if (typeof getTemplate != 'function') throw "Needs getTemplate function";
 	function process (path, requestHeaders, params) {
 		if (!requestHeaders) requestHeaders = {};
@@ -150,4 +150,3 @@ function Controller (getTemplate, dataFetcher, isServiceWorker) {
 		process: process,
 	}
 }
-module.exports = Controller;

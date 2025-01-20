@@ -1,19 +1,30 @@
-var express = require('express');
+import express from 'express';
+
+import readFile from 'fs-readfile-promise'
+import TFLFetcher from './fetchers/tfl.js'
+import NRFetcher from './fetchers/nr.js'
+import ControllerClass from './controller.js'
+
+import Route from './classes/route.js'
+import Stop from './classes/stop.js'
+import Vehicle from './classes/vehicle.js'
+import Network from './classes/network.js'
+import Platform from './classes/platform.js'
+import Event from './classes/event.js'
+import localdata from './sources/localdata.js'
+import boatdata from './sources/boatdata.js'
 var app = express();
 app.set('view engine', 'html');
-app.set('views', __dirname + '/../templates');
-const readFile = require('fs-readfile-promise');
-const TFLFetcher = require('./fetchers/tfl.js');
-const NRFetcher = require('./fetchers/nr.js');
-const Controller = require('./controller')(templateid => {
+app.set('views', './templates');
+const Controller = ControllerClass(templateid => {
 	var templatePath = app.get('views')+'/'+templateid+'.'+app.get('view engine');
 	return readFile(templatePath, "utf-8");
 }, (source, type, id, params) => {
 	switch(source) {
 		case 'tfl':
-			return TFLFetcher.fetch(type, id, params);
+			return TFLFetcher.fetchData(type, id, params);
 		case 'nr':
-			return NRFetcher.fetch(type, id, params);
+			return NRFetcher.fetchData(type, id, params);
 	}
 });
 app.get('*', function(req, res, next) {
@@ -35,6 +46,7 @@ app.get('*', function(req, res, next) {
 				throw `Unexpected action from controller ${result.action}`;
 		}
 	}).catch(error => {
+		if (typeof error !== 'object') error = new Error(error);
 		if ('message' in error) error.message = `[${(new Date()).toISOString()}] ${error.message}`;
 		if (error.type == "request-timeout") {
 			console.error(error.message);
@@ -45,13 +57,7 @@ app.get('*', function(req, res, next) {
 		}
 	});
 });
-var Route = require('./classes/route');
-var Stop = require('./classes/stop');
-var Vehicle = require('./classes/vehicle');
-var Network = require('./classes/network');
-var Platform = require('./classes/platform');
-var Event = require('./classes/event');
-require('./update-times');
+import './update-times.js'
 app.get('/data.json', function (req, res) {
 	var output = {
 		networks: Network.getAllSerialised(),
@@ -64,16 +70,16 @@ app.get('/data.json', function (req, res) {
 	res.send(output);
 });
 app.get('/resources/style.css', function (req, res) {
-	res.sendFile('style.css', {root: __dirname + '/..', maxAge:'2m'});
+	res.sendFile('style.css', {root: '.', maxAge:'2m'});
 });
 app.get('/resources/fonts/led', function (req, res) {
-	res.sendFile('fonts/led.ttf', {root: __dirname + '/..', maxAge:'30m'});
+	res.sendFile('fonts/led.ttf', {root: '.', maxAge:'30m'});
 });
 app.get('/resources/script.js', function (req, res) {
-	res.sendFile('bin/clientscripts.js', {root: __dirname + '/..', maxAge:'2m'});
+	res.sendFile('bin/clientscripts.js', {root: '.', maxAge:'2m'});
 });
 app.get('/serviceworker.js', function (req, res) {
-	res.sendFile('bin/serviceworker.js', {root: __dirname + '/..', maxAge:'2m'});
+	res.sendFile('bin/serviceworker.js', {root: '.', maxAge:'2m'});
 });
 app.get('/_info', function (req, res) {
 	const output = {
@@ -104,8 +110,8 @@ app.get('/_info', function (req, res) {
 		res.send(output);
 	});
 });
-app.use('/img', express.static(__dirname + '/../img', {maxAge:'5m'}));
-app.use('/resources/templates', express.static(__dirname + '/../templates', {maxAge:'2m'}));
+app.use('/img', express.static('img', {maxAge:'5m'}));
+app.use('/resources/templates', express.static('templates', {maxAge:'2m'}));
 var server = app.listen(process.env.PORT || 3000, function () {
   console.log('App listening at http://%s:%s', server.address().address, server.address().port);
 });
@@ -113,6 +119,6 @@ app.get('/simple', function (req, res) {
 	
 })
 
-require('./sources/localdata').start();
-require('./sources/boatdata').start();
+localdata.start();
+boatdata.start();
 TFLFetcher.loadAllRoutes();

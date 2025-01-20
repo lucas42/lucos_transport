@@ -1,7 +1,7 @@
-var Class = require('./class');
-var Event = require('./event');
-var Stop = require('./stop');
-var boatnames = require('../../data/boatnames.json');
+import Class from './class.js';
+import Event from './event.js';
+import Stop from './stop.js';
+import boatnames from '../../data/boatnames.json' with { type: "json" };
 var Vehicle = Class("Vehicle", ["route", "code"], function () {
 	this.addRelation({
 		singular: 'event',
@@ -87,4 +87,4 @@ Vehicle.prototype.getData = function getData() {
 Vehicle.prototype.refresh = function refresh(callback) {
 	this.getRoute().attemptRefresh(callback);
 }
-module.exports = Vehicle;
+export default Vehicle;

@@ -6,7 +6,7 @@ COPY package*.json ./
 RUN npm install
 
 COPY . ./
-RUN npm run-script build
+RUN npm run build
 
 ENV NODE_ENV production
 ENV PORT 3000

@@ -1,8 +1,10 @@
-var Stop = require('../classes/stop');
-var Route = require('../classes/route');
-var Network = require('../classes/network');
-function loadLocalData() {
-	var interchanges = require('../../data/interchanges.json');
+import Network from '../classes/network.js'
+import Route from '../classes/route.js'
+import Stop from '../classes/stop.js'
+import interchanges from '../../data/interchanges.json' with { type: "json" }
+
+// Only load data once, because it comes from static files
+export function start() {
 	interchanges.forEach(function(interchange) {
 		var stops = [];
 		interchange.forEach(function (stopdata) {
@@ -40,8 +42,4 @@ function loadLocalData() {
 }
 
 
-module.exports = {
-
-	// Only load data once, because it comes from static files
-	start: loadLocalData,
-}
+export default { start }

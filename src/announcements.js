@@ -1,41 +1,41 @@
-const Pubsub = require('lucos_pubsub');
+import { listen, unlisten } from 'lucos_pubsub';
 
 // Keep track of the announcment listeners, so we can easily remove them
 var listeners = [];
-function listen(type, callback) {
+function listenAll(type, callback) {
 	listeners.push({
 		type: type,
 		callback: callback,
 	});
-	Pubsub.listen(type, callback);
+	listen(type, callback);
 }
 function unlistenAll() {
 	listeners.forEach(listener => {
-		Pubsub.unlisten(listener.type, listener.callback);
+		unlisten(listener.type, listener.callback);
 	});
 	listeners = [];
 }
-function init(type, extraData, callback) {
+export function init(type, extraData, callback) {
 	unlistenAll();
 
-	listen('refreshComplete', function () {
+	listenAll('refreshComplete', function () {
 		callback("Updated.");
 	});
 
 	switch(type) {
 		case "Stop":
-			listen('eventApproaching', function (data) {
+			listenAll('eventApproaching', function (data) {
 				callback(getStopAnnouncement(data, false));
 			});
-			listen('eventArrived', function (data) {
+			listenAll('eventArrived', function (data) {
 				callback(getStopAnnouncement(data, true));
 			});
 			break;
 		case "Vehicle":
-			listen('eventApproaching', function (data) {
+			listenAll('eventApproaching', function (data) {
 				callback("The next stop is "+fixStationName(data.stop.simpleName));
 			});
-			listen('eventArrived', function (data) {
+			listenAll('eventArrived', function (data) {
 				callback("This is "+fixStationName(data.stop.simpleName));
 			});
 			break;
@@ -263,5 +263,3 @@ function init(type, extraData, callback) {
 			.replace('Bakerloo', "Baykerloo");
 	}
 }
-
-module.exports = init;
