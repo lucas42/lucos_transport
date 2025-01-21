@@ -20,6 +20,7 @@ Route.prototype.getData = function getData() {
 	output.symbol = this.getSymbol();
 	output.code = this.getCode();
 	output.mode = this.getField("mode");
+	output.title = this.getQualifiedName();
 	return output;
 }
 Route.prototype.getLiteData = function getLiteData() {
@@ -46,7 +47,7 @@ Route.prototype.getQualifiedName = function getQualifiedName() {
 	var name = this.getField("title") || "";
 	if (name) name = name.charAt(0).toUpperCase() + name.slice(1);
 	var network = this.getNetwork().getCode();
-	if (this.getField("mode") == "tube" || this.getField("mode") == "elizabeth-line") {
+	if (this.getField("mode") == "tube" || this.getField("mode") == "overground" || this.getField("mode") == "elizabeth-line") {
 		name += " Line";
 	}
 	if (this.getField("mode") == "river-bus" && name.match(/^RB\d/)) {

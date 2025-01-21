@@ -72,7 +72,7 @@ test('Route Render', async test => {
 	}
 	const result = await Controller(getTemplate, dataFetcher).process('/route/net1/route1');
 	test.is(result.action, 'response');
-	test.is(result.body, 'StartPage route EndPage TFLuke - route1/route1');
+	test.is(result.body, 'StartPage route EndPage TFLuke - Route1/Route1');
 	test.deepEqual(result.headers, {
 		'Cache-Control': 'public, max-age=0',
 		'Content-Type': 'text/html; charset=utf-8',
