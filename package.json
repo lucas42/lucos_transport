@@ -25,15 +25,14 @@
   "devDependencies": {
     "ava": "^6.2.0",
     "folder-hash": "^4.1.0",
+    "tap-xunit": "^2.4.1",
     "terser-webpack-plugin": "^5.3.11",
-    "webpack-cli": "^6.0.1",
-    "tap-xunit": "^2.4.1"
+    "webpack-cli": "^6.0.1"
   },
   "dependencies": {
     "express": "^4.21.2",
     "fs-readfile-promise": "^3.0.1",
     "lucos_pubsub": "^1.0.2",
-    "mespeak": "^2.0.2",
     "mustache": "^4.2.0"
   },
   "ava": {
