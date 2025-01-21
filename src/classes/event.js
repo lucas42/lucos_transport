@@ -71,7 +71,7 @@ Event.prototype.getData = function getData(source) {
 			// If an interchange is to a different station and the mode has a symbol
 			// then give prominance to the station name.
 			if (interchange['symbol'] && interchange['stopname']) {
-				interchange['title'] = interchange['stopname'];
+				interchange['name'] = interchange['stopname'];
 				delete interchange['stopname'];
 			}
 			if (!interchange['ignore']) output['isinterchange'] = true;
