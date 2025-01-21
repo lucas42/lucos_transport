@@ -41,7 +41,7 @@ export function init(type, extraData, callback) {
 			break;
 
 		case 'RouteList':
-			if (!extraData || !('routes' in extraData) || !extraData.routes.length) break;
+			if (!extraData || !('routes' in extraData) || !(extraData.routes) || !extraData.routes.length) break;
 			callback(getStatusSummary(extraData.routes));
 			break;
 	}
