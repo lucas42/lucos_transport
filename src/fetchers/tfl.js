@@ -19,7 +19,7 @@ function tflapireq(path) {
 	if (process.env.TFL_KEY) url += encodeURIComponent(process.env.TFL_KEY);
 	return fetch(url, {timeout: 5000}).then(response => {
 		if (response.status == 429) throw new Error(`TFL API Rate Limited`);
-		if (response.status != 200) throw new Error(`Unexpected status code ${response.status}`);
+		if (response.status != 200) throw new Error(`Unexpected status code ${response.status}, ${path}`);
 		return response.json().then(data => {
 			return {
 				data: data, 
