@@ -98,7 +98,7 @@ app.get('/_info', function (req, res) {
 		title: "Transport",
 		show_on_homepage: true,
 	};
-	TFLFetcher.fetch('route', 'victoria').then(() => {
+	TFLFetcher.fetchData('route', 'victoria').then(() => {
 		output.checks['tfl-api'].ok = true;
 	}).catch(error => {
 
