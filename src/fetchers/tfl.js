@@ -1,4 +1,3 @@
-import fetch from 'node-fetch'
 import Route from '../classes/route.js'
 import Stop from '../classes/stop.js'
 import Vehicle from '../classes/vehicle.js'
