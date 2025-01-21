@@ -15,7 +15,7 @@ export default function Controller (getTemplate, dataFetcher, isServiceWorker) {
 			case '':
 				return Promise.all([
 					dataFetcher('tfl', 'routes'),
-					dataFetcher('nr', 'routes')
+					dataFetcher('national-rail', 'routes')
 				]).then(sources => {
 					let data = {
 						routes: [],
@@ -81,7 +81,7 @@ export default function Controller (getTemplate, dataFetcher, isServiceWorker) {
 					'refresh': '0.01',
 				});
 			case 'tfl':
-			case 'nr':
+			case 'national-rail':
 				let source = tokens[1];
 				let type = tokens[2] || 'routes';
 				let id = tokens[3];

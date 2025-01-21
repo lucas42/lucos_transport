@@ -2,7 +2,7 @@ import express from 'express';
 
 import readFile from 'fs-readfile-promise'
 import TFLFetcher from './fetchers/tfl.js'
-import NRFetcher from './fetchers/nr.js'
+import NRFetcher from './fetchers/national-rail.js'
 import ControllerClass from './controller.js'
 
 import Route from './classes/route.js'
@@ -23,7 +23,7 @@ const Controller = ControllerClass(templateid => {
 	switch(source) {
 		case 'tfl':
 			return TFLFetcher.fetchData(type, id, params);
-		case 'nr':
+		case 'national-rail':
 			return NRFetcher.fetchData(type, id, params);
 	}
 });
